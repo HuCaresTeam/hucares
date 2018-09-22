@@ -1,6 +1,5 @@
 ﻿using HucaresServer.Storage;
 using HucaresServer.Storage.Models;
-using Newtonsoft.Json;
 using System;
 using System.Web.Http;
 
@@ -15,6 +14,14 @@ namespace HucaresServer.Controllers
             return Json($"Hello world {id}");
         }
 
+        /// <summary>
+        /// Example use case of accessing the DB using EntityFramework.
+        /// Takes the given paramaters and stores them in the db.
+        /// </summary>
+        /// <param name="mlpParams"> 
+        /// Contains the plate number of the missing license plate as well as DateTime of when it went missing.
+        /// </param>
+        /// <returns> Json representation of the value stored in the DB </returns>
         [HttpPost]
         [Route("api/test")]
         public IHttpActionResult Post([FromBody] MLPPostParams mlpParams)
@@ -30,7 +37,6 @@ namespace HucaresServer.Controllers
                 ctx.MissingLicensePlates.Add(mlp);
                 ctx.SaveChanges();
 
-                var generatedJson = JsonConvert.SerializeObject(mlp);
                 return Json(mlp);
             }
         }

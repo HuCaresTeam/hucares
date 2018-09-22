@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HucaresServer", "HucaresServer\HucaresServer.csproj", "{DDFC0698-2677-403C-A6BD-C85CEB48E77C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HucaresServer.Storage", "HucaresServer.Storage\HucaresServer.Storage.csproj", "{825695A4-3E4B-4F60-A69D-07D6D3AE3A1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DDFC0698-2677-403C-A6BD-C85CEB48E77C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDFC0698-2677-403C-A6BD-C85CEB48E77C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDFC0698-2677-403C-A6BD-C85CEB48E77C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{825695A4-3E4B-4F60-A69D-07D6D3AE3A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{825695A4-3E4B-4F60-A69D-07D6D3AE3A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{825695A4-3E4B-4F60-A69D-07D6D3AE3A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{825695A4-3E4B-4F60-A69D-07D6D3AE3A1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

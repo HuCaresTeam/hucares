@@ -64,5 +64,12 @@ namespace HucaresServer.Storage.Helpers
         /// </summary>
         /// <returns>IEnumerable of CameraInfo from the query result.</returns>
         IEnumerable<CameraInfo> GetInactiveCameras();
+
+        /// <summary>
+        /// Gets a camera instance by id from DB CameraInfo table.
+        /// </summary>
+        /// <param name="id">Id of the record in the DB CameraInfo table</param>
+        /// <returns>CameraInfo instance matching the queried record</returns>
+        CameraInfo GetCameraById(int id);
     }
 }

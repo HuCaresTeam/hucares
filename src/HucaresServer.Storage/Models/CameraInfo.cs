@@ -27,5 +27,11 @@
         /// Used only as an indentifier for the FrontEnd.
         /// </summary>
         public bool TrustedSource { get; set; }
+
+        /// <summary>
+        /// Determines whether this source should still be used for parsing images.
+        /// When cameras are unneeded they cannot be deleted until all records referencing the camera are deleted.
+        /// </summary>
+        public bool Inactive { get; set; }
     }
 }

@@ -11,8 +11,8 @@ namespace HucaresServer.Storage.Helpers
         /// <summary>
         /// Insert new record
         /// </summary>
-        /// <returns> bool </returns>
-        bool InsertRecord()
+        /// <returns> void </returns>
+        void InsertRecord(string plateNumber, DateTime searchStartDatetime)
         {
 
         }
@@ -21,16 +21,17 @@ namespace HucaresServer.Storage.Helpers
         /// Get all records from DB
         /// </summary>
         /// <returns> void </returns>
-        void GetAllRecords()
+        IEnumerable<MissingLicensePlate> GetAllRecords()
         {
 
+            return IEnumerable<MissingLicensePlate>;
         }
 
         /// <summary>
         /// Update record
         /// </summary>
-        /// <returns> bool </returns>
-        bool UpdateRecord()
+        /// <returns> void </returns>
+        void UpdateRecord(string plateNumber, DateTime searchStartDatetime)
         {
 
         }
@@ -39,7 +40,16 @@ namespace HucaresServer.Storage.Helpers
         /// If plate was found, mark as found plate
         /// </summary>
         /// <returns> bool </returns>
-        bool MarkFoundPlate()
+        bool MarkFoundPlate(string plateNumber, DateTime requestDateTime)
+        {
+
+        }
+
+        /// <summary>
+        /// If plate was not found, mark as not found plate
+        /// </summary>
+        /// <returns> bool </returns>
+        bool MarkNotFoundPlate(string plateNumber, DateTime requestDateTime)
         {
 
         }
@@ -48,7 +58,7 @@ namespace HucaresServer.Storage.Helpers
         /// Delete plate from DB by ID
         /// </summary>
         /// <returns> void </returns>
-        void DeleteById()
+        void DeleteById(int plateId)
         {
 
         }

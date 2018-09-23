@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="Helpers\CameraInfoHelper.cs" />
+    <Compile Include="Helpers\CameraInfoHelper.cs" />
     <Compile Include="Helpers\DetectedPlateHelper.cs" />
     <Compile Include="Helpers\ICameraInfoHelper.cs" />
     <Compile Include="Helpers\IDetectedPlateHelper.cs" />

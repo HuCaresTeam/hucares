@@ -12,55 +12,36 @@ namespace HucaresServer.Storage.Helpers
         /// Insert new record
         /// </summary>
         /// <returns> void </returns>
-        void InsertRecord(string plateNumber, DateTime searchStartDatetime)
-        {
-
-        }
+        void InsertRecord(string plateNumber, DateTime searchStartDatetime);
 
         /// <summary>
         /// Get all records from DB
         /// </summary>
         /// <returns> void </returns>
-        IEnumerable<MissingLicensePlate> GetAllRecords()
-        {
-
-            return IEnumerable<MissingLicensePlate>;
-        }
+        IEnumerable<MissingLicensePlate> GetAllRecords();
 
         /// <summary>
         /// Update record
         /// </summary>
         /// <returns> void </returns>
-        void UpdateRecord(string plateNumber, DateTime searchStartDatetime)
-        {
-
-        }
+        void UpdateRecord(int plateId, string plateNumber, DateTime searchStartDatetime);
 
         /// <summary>
         /// If plate was found, mark as found plate
         /// </summary>
         /// <returns> bool </returns>
-        bool MarkFoundPlate(string plateNumber, DateTime requestDateTime)
-        {
-
-        }
+        bool MarkFoundPlate(int plateId, DateTime requestDateTime);
 
         /// <summary>
         /// If plate was not found, mark as not found plate
         /// </summary>
         /// <returns> bool </returns>
-        bool MarkNotFoundPlate(string plateNumber, DateTime requestDateTime)
-        {
-
-        }
+        bool MarkNotFoundPlate(int plateId, DateTime requestDateTime);
 
         /// <summary>
         /// Delete plate from DB by ID
         /// </summary>
         /// <returns> void </returns>
-        void DeleteById(int plateId)
-        {
-
-        }
+        void DeleteById(int plateId);
     }
 }

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using FakeItEasy;
 using HucaresServer.Storage.Helpers;
+using FakeItEasy;
 using HucaresServer.Storage.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 
 namespace HucaresServer.Storage.UnitTests
 {
+    
     [TestClass]
     public class CameraInfoHelperTests
     {

@@ -52,7 +52,7 @@ namespace HucaresServer.Storage.Helpers
         /// <returns> The stored CameraInfo instance </returns>
         public CameraInfo InsertCamera(string hostUrl, double latitude, double longitude, bool isTrustedSource = false)
         {
-            if (!Uri.TryCreate(hostUrl, UriKind.Absolute, out Uri parsedUri))
+            if (!Uri.IsWellFormedUriString(hostUrl, UriKind.Absolute))
             {
                 throw new UriFormatException(string.Format(Resources.Error_AbsoluteUriInvalid, nameof(hostUrl)));
             }

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbContextFactory.cs" />
     <Compile Include="Helpers\CameraInfoHelper.cs" />
     <Compile Include="Helpers\DetectedPlateHelper.cs" />
     <Compile Include="Helpers\ICameraInfoHelper.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Helpers\IMissingPlateHelper.cs" />
     <Compile Include="Helpers\MissingPlateHelper.cs" />
     <Compile Include="HucaresContext.cs" />
+    <Compile Include="IDbContextFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CameraInfo.cs" />
     <Compile Include="Models\DetectedLicensePlate.cs" />

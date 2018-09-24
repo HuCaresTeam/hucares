@@ -18,16 +18,16 @@ namespace HucaresServer.Storage
         /// <summary>
         /// Stores information about past and present Missing License Plates.
         /// </summary>
-        public DbSet<MissingLicensePlate> MissingLicensePlates { get; set; }
+        public virtual DbSet<MissingLicensePlate> MissingLicensePlates { get; set; }
 
         /// <summary>
         /// Stores information about all parsed license plate numbers from images.
         /// </summary>
-        public DbSet<DetectedLicensePlate> DetectedLicensePlates { get; set; }
+        public virtual DbSet<DetectedLicensePlate> DetectedLicensePlates { get; set; }
 
         /// <summary>
         /// Stores information about all of the cameras used to retrieve images for processing.
         /// </summary>
-        public DbSet<CameraInfo> CameraInfo { get; set; }
+        public virtual DbSet<CameraInfo> CameraInfo { get; set; }
     }
 }

@@ -7,6 +7,8 @@ namespace HucaresServer.Controllers
 {
     public class TestController : ApiController
     {
+        public IDbContextFactory DbContextFactory { get; set; } = new DbContextFactory();
+
         [HttpGet]
         [Route("api/test/{id}")]
         public IHttpActionResult Get(int id)
@@ -26,19 +28,17 @@ namespace HucaresServer.Controllers
         [Route("api/test")]
         public IHttpActionResult Post([FromBody] MLPPostParams mlpParams)
         {
-            using (var ctx = new HucaresContext())
+            var mlp = new MissingLicensePlate()
             {
-                var mlp = new MissingLicensePlate()
-                {
-                    PlateNumber = mlpParams.PlateNumber,
-                    SearchStartDateTime = mlpParams.SearchStartDateTime
-                };
-
+                PlateNumber = mlpParams.PlateNumber,
+                SearchStartDateTime = mlpParams.SearchStartDateTime
+            };
+            using (var ctx = DbContextFactory.BuildHucaresContext())
+            {
                 ctx.MissingLicensePlates.Add(mlp);
                 ctx.SaveChanges();
-
-                return Json(mlp);
             }
+            return Json(mlp);
         }
     }
 

@@ -27,6 +27,11 @@ namespace HucaresServer.Storage.Helpers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets all camera records from the DB CameraInfoTable. Optionally, this request may be filtered by TrustedSource field.
+        /// </summary>
+        /// <param name="isTrustedSource">Optional paramater to filter by the TrustedSource field. Not filtered if null.</param>
+        /// <returns>IEnumerable of CameraInfo from the query result.</returns>
         public IEnumerable<CameraInfo> GetAllCameras(bool? isTrustedSource = null)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())

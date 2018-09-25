@@ -223,7 +223,7 @@ namespace HucaresServer.Storage.UnitTests
         }
 
         [TestMethod]
-        public void GetInactiveCameras_WhenRecordWithIdExists_ShouldReturnExpected()
+        public void GetInactiveCameras_WhenInactiveCameraExists_ShouldReturnExpected()
         {
             //Arrange
             var camInfoObj = new CameraInfo() { Id = 0, IsActive = false };

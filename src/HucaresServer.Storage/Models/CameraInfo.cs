@@ -1,5 +1,8 @@
-﻿namespace HucaresServer.Storage.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HucaresServer.Storage.Models
 {
+    [Table("CameraInfo")]
     public class CameraInfo
     {
         /// <summary>

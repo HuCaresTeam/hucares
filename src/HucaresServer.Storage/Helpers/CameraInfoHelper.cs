@@ -74,9 +74,25 @@ namespace HucaresServer.Storage.Helpers
             return camInfoObj;
         }
 
+        /// <summary>
+        /// Sets whether the camera is still used for processing (IsActive) or not.
+        /// This is done because DLP records depend on camera locations.
+        /// </summary>
+        /// <param name="id"> Id of the record in the DB CameraInfo table </param>
+        /// <param name="isActive"> Sets whether the camera is active or not </param>
+        /// <returns> The updated CameraInfo instance </returns>
         public CameraInfo UpdateCameraActivity(int id, bool isActive)
         {
-            throw new NotImplementedException();
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var recordToUpdate = ctx.CameraInfo.Where(c => c.Id == id).FirstOrDefault() ?? 
+                    throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, id));
+
+                recordToUpdate.IsActive = isActive;
+                ctx.SaveChanges();
+
+                return recordToUpdate;
+            }
         }
 
         public CameraInfo UpdateCameraSource(int id, string newHostUrl, bool newIsTrustedSource)

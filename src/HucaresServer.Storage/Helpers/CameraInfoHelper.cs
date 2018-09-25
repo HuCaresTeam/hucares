@@ -32,9 +32,17 @@ namespace HucaresServer.Storage.Helpers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets a camera instance by id from DB CameraInfo table.
+        /// </summary>
+        /// <param name="id">Id of the record in the DB CameraInfo table</param>
+        /// <returns>CameraInfo instance matching the queried record</returns>
         public CameraInfo GetCameraById(int id)
         {
-            throw new NotImplementedException();
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                return ctx.CameraInfo.Where(c => c.Id == id).FirstOrDefault();
+            }
         }
 
         public IEnumerable<CameraInfo> GetInactiveCameras()

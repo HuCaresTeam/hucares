@@ -122,7 +122,7 @@ namespace HucaresServer.Storage.UnitTests
         }
 
         [TestMethod]
-        public void UpdateCameraActivity_WhenRecordWithIdExists_ShouldSucceedAndReturnExpected()
+        public void UpdateCameraActivity_WhenRecordWithIdExists_ShouldUpdateAndReturnExpected()
         {
             //Arrange
             var camInfoObj = new CameraInfo() { Id = 0, IsActive = false };
@@ -156,6 +156,70 @@ namespace HucaresServer.Storage.UnitTests
 
             result.ShouldBe(camInfoObj);
             camInfoObj.IsActive.ShouldBe(expectedActivity);
+        }
+
+        [TestMethod]
+        public void GetCameraById_WhenRecordWithIdExists_ShouldSucceedAndReturnExpected()
+        {
+            //Arrange
+            var camInfoObj = new CameraInfo() { Id = 0, IsActive = false };
+            var fakeIQueryable = new List<CameraInfo>()
+            {
+                camInfoObj,
+                new CameraInfo() { Id = 1 }
+            }.AsQueryable();
+
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.CameraInfo)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+
+            //Act
+            var result = cameraInfoHelper.GetCameraById(camInfoObj.Id);
+
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+
+            result.ShouldBe(camInfoObj);
+        }
+
+        [TestMethod]
+        public void GetCameraById_WhenRecordWithIdDoesNotExist_ShouldSucceedAndReturnNull()
+        {
+            //Arrange
+            var fakeIQueryable = new List<CameraInfo>()
+            {
+                new CameraInfo() { Id = 1 }
+            }.AsQueryable();
+
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.CameraInfo)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+
+            //Act
+            var result = cameraInfoHelper.GetCameraById(0);
+
+            //Assert
+            result.ShouldBe(null);
         }
     }
 }

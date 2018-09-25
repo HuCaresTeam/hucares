@@ -45,9 +45,16 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
+        /// <summary>
+        /// Get all inactive camera records from the DB CameraInfoTable.
+        /// </summary>
+        /// <returns>IEnumerable of CameraInfo from the query result.</returns>
         public IEnumerable<CameraInfo> GetInactiveCameras()
         {
-            throw new NotImplementedException();
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                return ctx.CameraInfo.Where(c => !c.IsActive).ToList();
+            }
         }
 
         /// <summary>

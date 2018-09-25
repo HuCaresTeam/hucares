@@ -221,5 +221,42 @@ namespace HucaresServer.Storage.UnitTests
             //Assert
             result.ShouldBe(null);
         }
+
+        [TestMethod]
+        public void GetInactiveCameras_WhenRecordWithIdExists_ShouldReturnExpected()
+        {
+            //Arrange
+            var camInfoObj = new CameraInfo() { Id = 0, IsActive = false };
+            var fakeIQueryable = new List<CameraInfo>()
+            {
+                camInfoObj,
+                new CameraInfo() { Id = 1, IsActive = true }
+            }.AsQueryable();
+
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.CameraInfo)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+
+            //Act
+            var result = cameraInfoHelper.GetInactiveCameras();
+
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+
+            result.Count().ShouldBe(1);
+            result.FirstOrDefault().ShouldBe(camInfoObj);
+        }
     }
 }

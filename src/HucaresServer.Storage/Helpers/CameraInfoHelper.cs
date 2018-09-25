@@ -53,7 +53,7 @@ namespace HucaresServer.Storage.Helpers
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                return ctx.CameraInfo.Where(c => !c.IsActive);
+                return ctx.CameraInfo.Where(c => !c.IsActive).ToList();
             }
         }
 

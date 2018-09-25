@@ -29,7 +29,15 @@ namespace HucaresServer.Storage.Helpers
 
         public IEnumerable<CameraInfo> GetAllCameras(bool? isTrustedSource = null)
         {
-            throw new NotImplementedException();
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var query = ctx.CameraInfo.Select(c => c);
+                if (null != isTrustedSource)
+                {
+                    query = query.Where(c => c.IsTrustedSource == isTrustedSource);
+                }
+                return query.ToList();
+            }
         }
 
         /// <summary>

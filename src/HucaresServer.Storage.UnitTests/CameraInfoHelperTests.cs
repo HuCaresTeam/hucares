@@ -125,11 +125,9 @@ namespace HucaresServer.Storage.UnitTests
         public void UpdateCameraActivity_WhenRecordWithIdExists_ShouldSucceedAndReturnExpected()
         {
             //Arrange
-            var expectedId = 0;
-            var fakeIQueryable = new List<CameraInfo>()
-                {
-                    new CameraInfo() { Id = expectedId, IsActive = false }
-                }.AsQueryable();
+            var camInfoObj = new CameraInfo() { Id = 0, IsActive = false };
+            var fakeIQueryable = new List<CameraInfo>(){ camInfoObj }.AsQueryable();
+
             var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
 
             var fakeHucaresContext = A.Fake<HucaresContext>();
@@ -144,7 +142,7 @@ namespace HucaresServer.Storage.UnitTests
 
             //Act
             var expectedActivity = true;
-            var result = cameraInfoHelper.UpdateCameraActivity(0, expectedActivity);
+            var result = cameraInfoHelper.UpdateCameraActivity(camInfoObj.Id, expectedActivity);
 
             //Assert
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
@@ -156,8 +154,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustHaveHappenedOnceExactly();
 
-            result.Id.ShouldBe(expectedId);
-            result.IsActive.ShouldBe(expectedActivity);
+            result.ShouldBe(camInfoObj);
+            camInfoObj.IsActive.ShouldBe(expectedActivity);
         }
     }
 }

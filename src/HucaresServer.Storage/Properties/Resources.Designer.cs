@@ -68,5 +68,14 @@ namespace HucaresServer.Storage.Properties {
                 return ResourceManager.GetString("Error_AbsoluteUriInvalid", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find record with id: {0}.
+        /// </summary>
+        internal static string Error_BadIdProvided {
+            get {
+                return ResourceManager.GetString("Error_BadIdProvided", resourceCulture);
+            }
+        }
     }
 }

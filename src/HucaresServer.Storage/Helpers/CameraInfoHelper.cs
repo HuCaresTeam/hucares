@@ -34,7 +34,7 @@ namespace HucaresServer.Storage.Helpers
 
                 if(ctx.DetectedLicensePlates.Where(d => d.CamId == id).Any())
                 {
-                    throw new AccessViolationException("Cannot delete cameras which are depended on by DLP");
+                    throw new AccessViolationException(Resources.Error_CannotDeleteCamera);
                 }
 
                 ctx.CameraInfo.Remove(recordToDelete);

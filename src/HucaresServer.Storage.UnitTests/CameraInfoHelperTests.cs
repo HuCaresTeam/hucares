@@ -500,5 +500,106 @@ namespace HucaresServer.Storage.UnitTests
             result.Count().ShouldBe(1);
             result.FirstOrDefault().ShouldBe(camInfoObj);
         }
+
+        [TestMethod]
+        public void DeleteCameraById_WhenRecordWithIdDoesNotExist_ShouldThrow()
+        {
+            //Arrange
+            var fakeIQueryable = new List<CameraInfo>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.CameraInfo)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
+
+            //Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => cameraInfoHelper.DeleteCameraById(0));
+
+            A.CallTo(() => fakeDlpHelper.GetAllDetectedPlatesByCamera(A<int>.Ignored, A<DateTime?>.Ignored, A<DateTime?>.Ignored))
+                .MustHaveHappened();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+        }
+
+        [TestMethod]
+        public void DeleteCameraById_WhenDLPDependsOnCamera_ShouldThrow()
+        {
+            //Arrange
+            var fakeIQueryable = new List<CameraInfo>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.CameraInfo)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+
+            var expectedId = 0;
+            A.CallTo(() => fakeDlpHelper.GetAllDetectedPlatesByCamera(expectedId, A<DateTime?>.Ignored, A<DateTime?>.Ignored))
+                .Returns(new List<DetectedLicensePlate>() { new DetectedLicensePlate() });
+
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
+
+            //Act & Assert
+            Assert.ThrowsException<AccessViolationException>(() => cameraInfoHelper.DeleteCameraById(expectedId));
+
+            A.CallTo(() => fakeDlpHelper.GetAllDetectedPlatesByCamera(A<int>.Ignored, A<DateTime?>.Ignored, A<DateTime?>.Ignored))
+                .MustHaveHappened();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+        }
+
+        [TestMethod]
+        public void DeleteCameraById_WhenRecordWithIdExistsAndDlpHasNoDependency_ShouldAndReturnExpected()
+        {
+            //Arrange
+            var camInfoObj = new CameraInfo() { Id = 1 };
+            var fakeIQueryable = new List<CameraInfo>()
+            {
+                new CameraInfo() { Id = 0 },
+                camInfoObj 
+                }.AsQueryable();
+
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.CameraInfo)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
+
+            //Act
+            var result = cameraInfoHelper.DeleteCameraById(camInfoObj.Id);
+
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeDbSet.Remove(camInfoObj))
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustHaveHappenedOnceExactly();
+
+            result.ShouldBe(camInfoObj);
+        }
     }
 }

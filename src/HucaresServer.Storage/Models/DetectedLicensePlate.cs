@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HucaresServer.Storage.Models
 {
+    [Table("DetectedLicensePlates")]
     public class DetectedLicensePlate
     {
         /// <summary>

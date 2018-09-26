@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HucaresServer.Storage.Models;
 using HucaresServer.Storage.Properties;
 
@@ -27,15 +25,15 @@ namespace HucaresServer.Storage.Helpers
         /// <returns> The deleted CameraInfo instance </returns>
         public CameraInfo DeleteCameraById(int id)
         {
+            if(_detectedPlateHelper.GetAllDetectedPlatesByCamera(id).Any())
+            {
+                throw new AccessViolationException(Resources.Error_CannotDeleteCamera);
+            }
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 var recordToDelete = ctx.CameraInfo.Where(c => c.Id == id).FirstOrDefault() ??
                     throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, id));
 
-                if(ctx.DetectedLicensePlates.Where(d => d.CamId == id).Any())
-                {
-                    throw new AccessViolationException(Resources.Error_CannotDeleteCamera);
-                }
 
                 ctx.CameraInfo.Remove(recordToDelete);
                 ctx.SaveChanges();

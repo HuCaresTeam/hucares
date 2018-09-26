@@ -19,9 +19,29 @@ namespace HucaresServer.Storage.Helpers
             _detectedPlateHelper = detectedPlateHelper ?? new DetectedPlateHelper();
         }
 
+        /// <summary>
+        /// Deletes the camera record from the DB CameraInfo table. 
+        /// This should only succeed if no dependencies exist in DetectedLicensePlates DB table.
+        /// </summary>
+        /// <param name="id"> Id of the record in the DB CameraInfo table </param>
+        /// <returns> The deleted CameraInfo instance </returns>
         public CameraInfo DeleteCameraById(int id)
         {
-            throw new NotImplementedException();
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var recordToDelete = ctx.CameraInfo.Where(c => c.Id == id).FirstOrDefault() ??
+                    throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, id));
+
+                if(ctx.DetectedLicensePlates.Where(d => d.CamId == id).Any())
+                {
+                    throw new AccessViolationException("Cannot delete cameras which are depended on by DLP");
+                }
+
+                ctx.CameraInfo.Remove(recordToDelete);
+                ctx.SaveChanges();
+
+                return recordToDelete;
+            }
         }
 
         /// <summary>

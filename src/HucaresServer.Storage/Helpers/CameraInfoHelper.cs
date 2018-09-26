@@ -11,10 +11,12 @@ namespace HucaresServer.Storage.Helpers
     public class CameraInfoHelper : ICameraInfoHelper
     {
         private IDbContextFactory _dbContextFactory;
+        private IDetectedPlateHelper _detectedPlateHelper;
 
-        public CameraInfoHelper(IDbContextFactory dbContextFactory = null)
+        public CameraInfoHelper(IDbContextFactory dbContextFactory = null, IDetectedPlateHelper detectedPlateHelper = null)
         {
             _dbContextFactory = dbContextFactory ?? new DbContextFactory();
+            _detectedPlateHelper = detectedPlateHelper ?? new DetectedPlateHelper();
         }
 
         public CameraInfo DeleteCameraById(int id)

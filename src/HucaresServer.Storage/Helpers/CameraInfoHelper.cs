@@ -136,9 +136,31 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
+        /// <summary>
+        /// Updates the camera record in the DB CameraInfo table. 
+        /// </summary>
+        /// <param name="id"> Id of the record in the DB CameraInfo table </param>
+        /// <param name="newHostUrl">New host url for the camera</param>
+        /// <param name="newIsTrustedSource">New trusted source value for the camera</param>
+        /// <returns> The updated CameraInfo instance</returns>
         public CameraInfo UpdateCameraSource(int id, string newHostUrl, bool newIsTrustedSource)
         {
-            throw new NotImplementedException();
+            if (!Uri.IsWellFormedUriString(newHostUrl, UriKind.Absolute))
+            {
+                throw new UriFormatException(string.Format(Resources.Error_AbsoluteUriInvalid, nameof(newHostUrl)));
+            }
+
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var recordToUpdate = ctx.CameraInfo.Where(c => c.Id == id).FirstOrDefault() ??
+                    throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, id));
+
+                recordToUpdate.HostUrl = newHostUrl;
+                recordToUpdate.IsTrustedSource = newIsTrustedSource;
+                ctx.SaveChanges();
+
+                return recordToUpdate;
+            }
         }
     }
 }

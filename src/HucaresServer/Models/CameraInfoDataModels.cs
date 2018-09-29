@@ -20,5 +20,10 @@ namespace HucaresServer.Models
             public string HostUrl { get; set; }
             public bool IsTrustedSource { get; set; }
         }
+
+        public struct UpdateCameraActivityDataModel
+        {
+            public bool IsActive { get; set; }
+        }
     }
 }

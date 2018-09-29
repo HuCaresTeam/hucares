@@ -24,9 +24,9 @@ namespace HucaresServer.Controllers
 
         [HttpPost]
         [Route("api/camera/update/activity/{id}")]
-        public IHttpActionResult UpdateCameraActivity(int id, [FromBody] bool isActive)
+        public IHttpActionResult UpdateCameraActivity(int id, [FromBody] UpdateCameraActivityDataModel data)
         {
-            return Json(CameraInfoHelper.UpdateCameraActivity(id, isActive));
+            return Json(CameraInfoHelper.UpdateCameraActivity(id, data.IsActive));
         }
 
         [HttpPost]

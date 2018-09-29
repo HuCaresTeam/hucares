@@ -115,5 +115,42 @@ namespace HucaresServer.Storage.UnitTests
                 .MustNotHaveHappened();
 
         }
+
+        [TestMethod]
+        public void GetAllDetectedPlates_ShouldReturn()
+        {
+            //Arrange
+            var fakeList = new List<DetectedLicensePlate>(){
+                new DetectedLicensePlate()
+                {
+                    Id = 0, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 09, 29), 
+                    CamId = 1, ImgUrl = "http://localhost:6969/images", Confidence = 0.75
+                },
+                new DetectedLicensePlate()
+                {
+                    Id = 1, PlateNumber = "ABC002", DetectedDateTime = new DateTime(2018, 09, 30), 
+                    CamId = 2, ImgUrl = "http://localhost:6969/images", Confidence = 0.80
+                }
+            };
+            
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeList.AsQueryable());
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+            
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory);
+            
+            //Act
+            var result = detectedPlateHelper.GetAllDetectedPlates();
+            
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            result.ShouldBe(fakeList);
+        }
     }
 }

@@ -77,5 +77,14 @@ namespace HucaresServer.Storage.Properties {
                 return ResourceManager.GetString("Error_BadIdProvided", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot delete camera with {0} because there are DLP records that depended on it..
+        /// </summary>
+        internal static string Error_CannotDeleteCamera {
+            get {
+                return ResourceManager.GetString("Error_CannotDeleteCamera", resourceCulture);
+            }
+        }
     }
 }

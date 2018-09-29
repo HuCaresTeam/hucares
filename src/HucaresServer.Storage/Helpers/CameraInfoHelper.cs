@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HucaresServer.Storage.Models;
 using HucaresServer.Storage.Properties;
 
@@ -11,15 +9,37 @@ namespace HucaresServer.Storage.Helpers
     public class CameraInfoHelper : ICameraInfoHelper
     {
         private IDbContextFactory _dbContextFactory;
+        private IDetectedPlateHelper _detectedPlateHelper;
 
-        public CameraInfoHelper(IDbContextFactory dbContextFactory = null)
+        public CameraInfoHelper(IDbContextFactory dbContextFactory = null, IDetectedPlateHelper detectedPlateHelper = null)
         {
             _dbContextFactory = dbContextFactory ?? new DbContextFactory();
+            _detectedPlateHelper = detectedPlateHelper ?? new DetectedPlateHelper();
         }
 
+        /// <summary>
+        /// Deletes the camera record from the DB CameraInfo table. 
+        /// This should only succeed if no dependencies exist in DetectedLicensePlates DB table.
+        /// </summary>
+        /// <param name="id"> Id of the record in the DB CameraInfo table </param>
+        /// <returns> The deleted CameraInfo instance </returns>
         public CameraInfo DeleteCameraById(int id)
         {
-            throw new NotImplementedException();
+            if(_detectedPlateHelper.GetAllDetectedPlatesByCamera(id).Any())
+            {
+                throw new AccessViolationException(Resources.Error_CannotDeleteCamera);
+            }
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var recordToDelete = ctx.CameraInfo.Where(c => c.Id == id).FirstOrDefault() ??
+                    throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, id));
+
+
+                ctx.CameraInfo.Remove(recordToDelete);
+                ctx.SaveChanges();
+
+                return recordToDelete;
+            }
         }
 
         /// <summary>

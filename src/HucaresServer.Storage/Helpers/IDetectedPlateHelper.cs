@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HucaresServer.Storage.Helpers
 {
-    interface IDetectedPlateHelper
+    public interface IDetectedPlateHelper
     {
         
         /// <summary>

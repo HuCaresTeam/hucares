@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HucaresServer.Storage.Helpers
 {
-    interface IMissingPlateHelper
+    public interface IMissingPlateHelper
     {
         /// <summary>
         /// Insert new record

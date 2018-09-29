@@ -28,7 +28,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var expectedHost = "http://localhost:5051/some/cam";
@@ -67,7 +68,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
             Assert.ThrowsException<UriFormatException>(() => cameraInfoHelper.InsertCamera("someInvalidHost", 53.124, 27.375));
@@ -90,7 +92,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var result = cameraInfoHelper.InsertCamera("http://localhost:5051/some/cam", 53.124, 27.375);
@@ -115,7 +118,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
             Assert.ThrowsException<ArgumentException>(() => cameraInfoHelper.UpdateCameraActivity(0, true));
@@ -141,7 +145,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var expectedActivity = true;
@@ -175,7 +180,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
             Assert.ThrowsException<UriFormatException>(() => cameraInfoHelper.UpdateCameraSource(0, "someInvalidHost", true));
@@ -199,7 +205,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
             Assert.ThrowsException<ArgumentException>(() => cameraInfoHelper.UpdateCameraSource(0, "http://localhost:5051/some/cam", true));
@@ -225,7 +232,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var expectedHost = "http://localhost:5051/some/cam";
@@ -268,7 +276,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var result = cameraInfoHelper.GetCameraById(camInfoObj.Id);
@@ -302,7 +311,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var result = cameraInfoHelper.GetCameraById(0);
@@ -332,7 +342,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var result = cameraInfoHelper.GetInactiveCameras();
@@ -368,7 +379,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var result = cameraInfoHelper.GetAllCameras();
@@ -405,7 +417,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var result = cameraInfoHelper.GetAllCameras(true);
@@ -436,7 +449,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var result = cameraInfoHelper.GetActiveCameras();
@@ -476,7 +490,8 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory);
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
             var result = cameraInfoHelper.GetActiveCameras(true);
@@ -484,6 +499,107 @@ namespace HucaresServer.Storage.UnitTests
             //Assert
             result.Count().ShouldBe(1);
             result.FirstOrDefault().ShouldBe(camInfoObj);
+        }
+
+        [TestMethod]
+        public void DeleteCameraById_WhenRecordWithIdDoesNotExist_ShouldThrow()
+        {
+            //Arrange
+            var fakeIQueryable = new List<CameraInfo>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.CameraInfo)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
+
+            //Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => cameraInfoHelper.DeleteCameraById(0));
+
+            A.CallTo(() => fakeDlpHelper.GetAllDetectedPlatesByCamera(A<int>.Ignored, A<DateTime?>.Ignored, A<DateTime?>.Ignored))
+                .MustHaveHappened();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+        }
+
+        [TestMethod]
+        public void DeleteCameraById_WhenDLPDependsOnCamera_ShouldThrow()
+        {
+            //Arrange
+            var fakeIQueryable = new List<CameraInfo>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.CameraInfo)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+
+            var expectedId = 0;
+            A.CallTo(() => fakeDlpHelper.GetAllDetectedPlatesByCamera(expectedId, A<DateTime?>.Ignored, A<DateTime?>.Ignored))
+                .Returns(new List<DetectedLicensePlate>() { new DetectedLicensePlate() });
+
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
+
+            //Act & Assert
+            Assert.ThrowsException<AccessViolationException>(() => cameraInfoHelper.DeleteCameraById(expectedId));
+
+            A.CallTo(() => fakeDlpHelper.GetAllDetectedPlatesByCamera(A<int>.Ignored, A<DateTime?>.Ignored, A<DateTime?>.Ignored))
+                .MustHaveHappened();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+        }
+
+        [TestMethod]
+        public void DeleteCameraById_WhenRecordWithIdExistsAndDlpHasNoDependency_ShouldAndReturnExpected()
+        {
+            //Arrange
+            var camInfoObj = new CameraInfo() { Id = 1 };
+            var fakeIQueryable = new List<CameraInfo>()
+            {
+                new CameraInfo() { Id = 0 },
+                camInfoObj 
+                }.AsQueryable();
+
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.CameraInfo)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
+            var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
+
+            //Act
+            var result = cameraInfoHelper.DeleteCameraById(camInfoObj.Id);
+
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeDbSet.Remove(camInfoObj))
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustHaveHappenedOnceExactly();
+
+            result.ShouldBe(camInfoObj);
         }
     }
 }

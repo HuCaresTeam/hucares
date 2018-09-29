@@ -149,6 +149,7 @@ namespace HucaresServer.Storage.UnitTests
             var result = detectedPlateHelper.GetAllDetectedPlates();
             
             //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
             result.ShouldBe(fakeList);
         }
     }

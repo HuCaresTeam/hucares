@@ -61,14 +61,13 @@ namespace HucaresServer.Storage.Helpers
         ///<inheritdoc/>
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlates()
         {
-            var results = new List<DetectedLicensePlate>();
             
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                results.AddRange(ctx.DetectedLicensePlates.Select(s => s));
-            }
+                var results = ctx.DetectedLicensePlates.Select(s => s);
 
-            return results;
+                return results.ToList();
+            }
         }
 
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByPlateNumber(String plateNumber,

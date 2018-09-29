@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="CameraInfoHelperTests.cs" />
     <Compile Include="MissingLicensePlateTests.cs" />
+    <Compile Include="DetectedPlateHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StorageTestsUtil.cs" />
   </ItemGroup>

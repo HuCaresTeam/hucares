@@ -109,10 +109,7 @@ namespace HucaresServer.Storage.UnitTests
             //Act and Assert
             Assert.ThrowsException<UriFormatException>(() => detectedPlateHelper.InsertNewDetectedPlate(
                 "ABC001", new DateTime(2018, 09, 29),
-                1, "We choose to go to the moon in this decade and do the other things, not because they are easy, " +
-                   "but because they are hard, because that goal will serve to organize and measure the best of our energies and skills, " +
-                   "because that challenge is one that we are willing to accept, one we are unwilling to postpone, " +
-                   "and one which we intend to win, and the others, too.", 0.75));
+                1, "notValidUri", 0.75));
             
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .MustNotHaveHappened();

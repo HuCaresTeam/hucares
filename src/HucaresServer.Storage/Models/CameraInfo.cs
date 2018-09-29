@@ -1,5 +1,8 @@
-﻿namespace HucaresServer.Storage.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HucaresServer.Storage.Models
 {
+    [Table("CameraInfo")]
     public class CameraInfo
     {
         /// <summary>
@@ -32,6 +35,6 @@
         /// Determines whether this source should still be used for parsing images.
         /// When cameras are unneeded they cannot be deleted until all records referencing the camera are deleted.
         /// </summary>
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

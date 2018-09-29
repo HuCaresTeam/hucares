@@ -115,5 +115,29 @@ namespace HucaresServer.Storage.UnitTests
                 .MustNotHaveHappened();
 
         }
+
+        [TestMethod]
+        public void GetAllDetectedPlatesByPlateNumber_WhenNoPlateNumberNoDates_ShouldReturnExpected()
+        {
+            throw new NotImplementedException();
+        }
+        
+        [TestMethod]
+        public void GetAllDetectedPlatesByPlateNumber_WithPlateNumberNoDates_ShouldReturnExpected()
+        {
+            throw new NotImplementedException();
+        }
+        
+        [TestMethod]
+        public void GetAllDetectedPlatesByPlateNumber_WithPlateNumberWithDates_ShouldReturnExpected()
+        {
+            throw new NotImplementedException();
+        }
+        
+        [TestMethod]
+        public void GetAllDetectedPlatesByPlateNumber_WithStartDateEarlierThanEndDate_ShouldThrowError()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

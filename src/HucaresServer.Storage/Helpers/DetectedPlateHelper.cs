@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HucaresServer.Storage.Models;
+using HucaresServer.Storage.Properties;
 
 namespace HucaresServer.Storage.Helpers
 {
@@ -17,21 +18,38 @@ namespace HucaresServer.Storage.Helpers
             _dbContextFactory = dbContextFactory ?? new DbContextFactory();
         }
         
-        /// <summary>
-        /// Inserts DetectedLicensePlate object into the database.
-        /// </summary>
-        /// <param name="licensePlateToInsert"> DetectedLicensePlate object to insert. </param>
-        /// <returns> Inserted object. </returns>
-        public DetectedLicensePlate InsertNewDetectedPlate(DetectedLicensePlate licensePlateToInsert)
+        ///<inheritdoc/>
+        public DetectedLicensePlate InsertNewDetectedPlate(string plateNumber, DateTime detectedDateTime, int camId, 
+            string imgUrl, double confidence)
         {
+            
+            if (!Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute))
+            {
+                throw new UriFormatException(string.Format(Resources.Error_AbsoluteUriInvalid, nameof(imgUrl)));
+            }
+
+            if (confidence < 0 || confidence > 1)
+            {
+                // It seems like I can't edit resource file on Rider
+                throw new ArgumentException(string.Format($"The confidence parameter must be between 0 and 1, is: {confidence}"));
+            }
+            
+            var detectedPlateToInsert = new DetectedLicensePlate()
+            {
+                PlateNumber = plateNumber,
+                DetectedDateTime = detectedDateTime,
+                CamId = camId,
+                ImgUrl = imgUrl,
+                Confidence = confidence
+            };
             
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                ctx.DetectedLicensePlates.Add(licensePlateToInsert);
+                ctx.DetectedLicensePlates.Add(detectedPlateToInsert);
                 ctx.SaveChanges();
             }
 
-            return licensePlateToInsert;    
+            return detectedPlateToInsert;    
         }
 
 

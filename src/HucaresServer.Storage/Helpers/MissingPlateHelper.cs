@@ -15,7 +15,6 @@ namespace HucaresServer.Storage.Helpers
             _dbContextFactory = dbContextFactory ?? new DbContextFactory();
         }
 
-        /// <inheritdoc />
         public MissingLicensePlate InsertPlateRecord(string plateNumber, DateTime searchStartDatetime)
         {
             var missingPlateObj = new MissingLicensePlate()
@@ -34,7 +33,6 @@ namespace HucaresServer.Storage.Helpers
             return missingPlateObj;
         }
 
-        /// <inheritdoc />
         public IEnumerable<MissingLicensePlate> GetAllPlateRecords()
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
@@ -45,7 +43,6 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        /// <inheritdoc />
         public MissingLicensePlate UpdatePlateRecord(int plateId, string plateNumber, DateTime searchStartDatetime)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
@@ -61,7 +58,6 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        /// <inheritdoc />
         public MissingLicensePlate MarkFoundPlate(int plateId, DateTime requestDateTime)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
@@ -77,7 +73,6 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        /// <inheritdoc />
         public MissingLicensePlate MarkNotFoundPlate(int plateId, DateTime requestDateTime)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
@@ -93,7 +88,6 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        /// <inheritdoc />
         public MissingLicensePlate DeletePlateById(int plateId)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
@@ -109,7 +103,6 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        /// <inheritdoc />
         public MissingLicensePlate DeletePlateByNumber(string plateNumber)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())

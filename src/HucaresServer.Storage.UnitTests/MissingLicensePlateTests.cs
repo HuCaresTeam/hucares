@@ -51,7 +51,7 @@ namespace HucaresServer.Storage.UnitTests
         }
 
         [TestMethod]
-        public void InsertMissingPlate_WhenPlateNumberIsNotValid_ShouldThrowAnError()
+        public void InsertPlateRecord_WhenPlateNumberIsNotValid_ShouldThrowAnError()
         {
             //Arrange
             var fakeDbSet = A.Fake<DbSet<MissingLicensePlate>>();
@@ -70,22 +70,17 @@ namespace HucaresServer.Storage.UnitTests
             DateTime expectedDate = DateTime.Parse(dateInput);
             
             //Act & Assert
-            Assert.ThrowsException<UriFormatException>(() => missingPlateHelper.InsertPlateRecord("5555555", expectedDate));
+            Assert.ThrowsException<FormatException>(() => missingPlateHelper.InsertPlateRecord("5555555", expectedDate));
 
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .MustNotHaveHappened();
         }
 
         [TestMethod]
-        public void GetAllPlates_WhenDbIsEmpty_ShouldThrowEmptyDB()
+        public void GetAllPlateRecords_WhenDbIsEmpty_ShouldThrowEmptyDB()
         {
             //Arrange
-            var missingPlateObj = new MissingLicensePlate();
-            var fakeIQueryable = new List<MissingLicensePlate>()
-            {
-                missingPlateObj,
-                new MissingLicensePlate()
-            }.AsQueryable();
+            var fakeIQueryable = new List<MissingLicensePlate>().AsQueryable();
 
             var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
 
@@ -110,7 +105,6 @@ namespace HucaresServer.Storage.UnitTests
                 .MustNotHaveHappened();
 
             result.Count().ShouldBe(0);
-            result.FirstOrDefault().ShouldBe(missingPlateObj);
         }
         
         [TestMethod]

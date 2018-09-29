@@ -57,10 +57,18 @@ namespace HucaresServer.Storage.Helpers
         {
             throw new NotImplementedException();
         }
-
+        
+        ///<inheritdoc/>
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlates()
         {
-            throw new NotImplementedException();
+            var results = new List<DetectedLicensePlate>();
+            
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                results.AddRange(ctx.DetectedLicensePlates.Select(s => s));
+            }
+
+            return results;
         }
 
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByPlateNumber(String plateNumber,

@@ -11,7 +11,7 @@ using Shouldly;
 namespace HucaresServer.Storage.UnitTests
 {
     [TestClass]
-    public class DetecteedPlateHelperTests
+    public class DetectedPlateHelperTests
     {
 
         [TestMethod]
@@ -82,6 +82,37 @@ namespace HucaresServer.Storage.UnitTests
             Assert.ThrowsException<ArgumentException>(() => detectedPlateHelper.InsertNewDetectedPlate(
                 "ABC001", new DateTime(2018, 09, 29),
                 1, "http://localhost:6969/images/cam01_21080929_235959", 1.1));
+            
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustNotHaveHappened();
+
+        }
+        
+        [TestMethod]
+        public void InsertNewDetectedPlate_WhenUriNotCorrect_ShouldThrowError()
+        {
+
+            //Arrange
+            var fakeIQueryable = new List<DetectedLicensePlate>().AsQueryable();
+            var fakeDbSet = A.Fake<DbSet<DetectedLicensePlate>>();
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory);
+
+            //Act and Assert
+            Assert.ThrowsException<UriFormatException>(() => detectedPlateHelper.InsertNewDetectedPlate(
+                "ABC001", new DateTime(2018, 09, 29),
+                1, "We choose to go to the moon in this decade and do the other things, not because they are easy, " +
+                   "but because they are hard, because that goal will serve to organize and measure the best of our energies and skills, " +
+                   "because that challenge is one that we are willing to accept, one we are unwilling to postpone, " +
+                   "and one which we intend to win, and the others, too.", 0.75));
             
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .MustNotHaveHappened();

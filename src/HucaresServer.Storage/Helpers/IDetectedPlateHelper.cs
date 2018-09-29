@@ -9,13 +9,18 @@ namespace HucaresServer.Storage.Helpers
 {
     interface IDetectedPlateHelper
     {
-
+        
         /// <summary>
-        /// Inserts DetectedLicensePlate object into DetectedLicensePlate table in DB.
+        /// Creates and inserts DetectedLicensePlate object into DetectedLicensePlate table in DB.
         /// </summary>
-        /// <param name="licensePlateToInsert"> DetectedLicensePlate object to be inserted into DB. </param>
-        /// <returns> The inserted object instance </returns>
-        DetectedLicensePlate InsertNewDetectedPlate(DetectedLicensePlate licensePlateToInsert);
+        /// <param name="PlateNumber"> The number plate that was detected. </param>
+        /// <param name="DetectedDateTime"> The datetime of when the picture was taken, from which the plate was detected. </param>
+        /// <param name="CamId"> The id of the camera, that took the picture. </param>
+        /// <param name="ImgUrl"> Url to the image, from which number was detected. </param>
+        /// <param name="Confidence"> Number from 0 to 1 (100%) that defines how confident the algorithm was when detecting the numberplate. </param>
+        /// <returns> The inserted object instance. </returns>
+        DetectedLicensePlate InsertNewDetectedPlate(string PlateNumber, DateTime DetectedDateTime, int CamId, 
+            string ImgUrl, double Confidence);
 
         /// <summary>
         /// Deletes all detected plates from DB that are older than provided datetime.

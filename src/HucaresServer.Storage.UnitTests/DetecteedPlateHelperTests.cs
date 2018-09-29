@@ -11,7 +11,7 @@ using Shouldly;
 namespace HucaresServer.Storage.UnitTests
 {
     [TestClass]
-    class DetecteedPlateHelperTests
+    public class DetecteedPlateHelperTests
     {
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace HucaresServer.Storage.UnitTests
 
             //Act
             var expectedPlateNumber = "ABC001";
-            var expectedDetectedDateTime = DateTime.FromOADate(1538217623);
+            var expectedDetectedDateTime = new DateTime(2018, 09, 29);
             var expectedCamId = 1;
             var expectedImgUrl = "http://localhost:6969/images/cam01_21080929_235959";
             var expectedConfidence = 0.75;
@@ -80,7 +80,7 @@ namespace HucaresServer.Storage.UnitTests
 
             //Act and Assert
             Assert.ThrowsException<ArgumentException>(() => detectedPlateHelper.InsertNewDetectedPlate(
-                "ABC001", DateTime.FromOADate(1538217623),
+                "ABC001", new DateTime(2018, 09, 29),
                 1, "http://localhost:6969/images/cam01_21080929_235959", 1.1));
             
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())

@@ -4,6 +4,10 @@ using static HucaresServer.Models.CameraInfoDataModels;
 
 namespace HucaresServer.Controllers
 {
+    /// <summary>
+    /// Responsible for managing the CameraInfo database table via http requests.
+    /// </summary>
+    /// <seealso cref="CameraInfoHelper"/>
     public class CameraInfoController : ApiController
     {
         public ICameraInfoHelper CameraInfoHelper { get; set; } = new CameraInfoHelper();

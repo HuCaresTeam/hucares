@@ -77,7 +77,7 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        public IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByPlateNumber(String plateNumber,
+        public IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumber(String plateNumber,
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
             throw new NotImplementedException();

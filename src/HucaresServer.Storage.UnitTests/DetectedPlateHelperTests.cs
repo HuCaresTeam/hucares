@@ -29,8 +29,9 @@ namespace HucaresServer.Storage.UnitTests
             var fakeDbContextFactory = A.Fake<IDbContextFactory>();
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
-
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory);
+            
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
 
             //Act
             var expectedPlateNumber = "ABC001";
@@ -75,8 +76,9 @@ namespace HucaresServer.Storage.UnitTests
             var fakeDbContextFactory = A.Fake<IDbContextFactory>();
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
-
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory);
+            
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
 
             //Act and Assert
             Assert.ThrowsException<ArgumentException>(() => detectedPlateHelper.InsertNewDetectedPlate(
@@ -103,8 +105,9 @@ namespace HucaresServer.Storage.UnitTests
             var fakeDbContextFactory = A.Fake<IDbContextFactory>();
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
-
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory);
+            
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
 
             //Act and Assert
             Assert.ThrowsException<UriFormatException>(() => detectedPlateHelper.InsertNewDetectedPlate(
@@ -117,7 +120,7 @@ namespace HucaresServer.Storage.UnitTests
         }
 
         [TestMethod]
-        public void GetAllDetectedPlates_ShouldReturn()
+        public void GetAllDetectedMissingPlates_ShouldReturn()
         {
             //Arrange
             
@@ -153,28 +156,28 @@ namespace HucaresServer.Storage.UnitTests
                 }
             };
 
-            var fakeDbSetMissingPlates = StorageTestsUtil.SetupFakeDbSet((fakeMissingPlateList.AsQueryable()));
             var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlateList.AsQueryable());
             var fakeHucaresContext = A.Fake<HucaresContext>();
             
             A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
                 .Returns(fakeDbSetDetectedPlates);
-
-            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
-                .Returns(fakeDbSetMissingPlates);
             
             var fakeDbContextFactory = A.Fake<IDbContextFactory>();
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
+                .Returns(fakeMissingPlateList);
             
-            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, missingPlateHelper);
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
             
             //Act
-            var result = detectedPlateHelper.GetAllDetectedPlates();
+            var result = detectedPlateHelper.GetAllDetectedMissingPlates();
             
             //Assert
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords()).MustHaveHappened();
             result.Count().ShouldBe(1);
             result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }

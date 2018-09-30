@@ -12,10 +12,12 @@ namespace HucaresServer.Storage.Helpers
     {
         
         private IDbContextFactory _dbContextFactory;
+        private IMissingPlateHelper _missingPlateHelper;
 
-        public DetectedPlateHelper(IDbContextFactory dbContextFactory = null)
+        public DetectedPlateHelper(IDbContextFactory dbContextFactory = null, IMissingPlateHelper missingPlateHelper = null)
         {
             _dbContextFactory = dbContextFactory ?? new DbContextFactory();
+            _missingPlateHelper = missingPlateHelper ?? new MissingPlateHelper();
         }
         
         ///<inheritdoc/>

@@ -30,10 +30,10 @@ namespace HucaresServer.Storage.Helpers
         IEnumerable<DetectedLicensePlate> DeletePlatesOlderThanDatetime(DateTime olderThanDatetime);
 
         /// <summary>
-        /// Gets all detected license plates from DB.
+        /// Gets all detected license plates from DB that exist in MissingLicensePlates table.
         /// </summary>
         /// <returns> All detected license plates. </returns>
-        IEnumerable<DetectedLicensePlate> GetAllDetectedPlates();
+        IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates();
 
         /// <summary>
         /// Gets all detected plates that have the specified PlateNumber predicted

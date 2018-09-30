@@ -61,7 +61,7 @@ namespace HucaresServer.Storage.Helpers
         }
         
         ///<inheritdoc/>
-        public IEnumerable<DetectedLicensePlate> GetAllDetectedPlates()
+        public IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates()
         {
 
             var missingPlateNumbers = _missingPlateHelper.GetAllPlateRecords()

@@ -29,8 +29,9 @@ namespace HucaresServer.Storage.UnitTests
             var fakeDbContextFactory = A.Fake<IDbContextFactory>();
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
-
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory);
+            
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
 
             //Act
             var expectedPlateNumber = "ABC001";
@@ -75,8 +76,9 @@ namespace HucaresServer.Storage.UnitTests
             var fakeDbContextFactory = A.Fake<IDbContextFactory>();
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
-
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory);
+            
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
 
             //Act and Assert
             Assert.ThrowsException<ArgumentException>(() => detectedPlateHelper.InsertNewDetectedPlate(
@@ -103,8 +105,9 @@ namespace HucaresServer.Storage.UnitTests
             var fakeDbContextFactory = A.Fake<IDbContextFactory>();
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
-
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory);
+            
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
 
             //Act and Assert
             Assert.ThrowsException<UriFormatException>(() => detectedPlateHelper.InsertNewDetectedPlate(
@@ -117,7 +120,7 @@ namespace HucaresServer.Storage.UnitTests
         }
 
         [TestMethod]
-        public void GetAllDetectedPlates_ShouldReturn()
+        public void GetAllDetectedMissingPlates_ShouldReturn()
         {
             //Arrange
             
@@ -174,7 +177,7 @@ namespace HucaresServer.Storage.UnitTests
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
             
             //Act
-            var result = detectedPlateHelper.GetAllDetectedPlates();
+            var result = detectedPlateHelper.GetAllDetectedMissingPlates();
             
             //Assert
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();

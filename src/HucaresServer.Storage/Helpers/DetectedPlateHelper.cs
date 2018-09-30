@@ -17,7 +17,7 @@ namespace HucaresServer.Storage.Helpers
         public DetectedPlateHelper(IDbContextFactory dbContextFactory = null, IMissingPlateHelper missingPlateHelper = null)
         {
             _dbContextFactory = dbContextFactory ?? new DbContextFactory();
-            _missingPlateHelper = missingPlateHelper ?? new MissingPlateHelper();
+            _missingPlateHelper = missingPlateHelper ?? new MissingPlateHelper(dbContextFactory);
         }
         
         ///<inheritdoc/>
@@ -63,10 +63,15 @@ namespace HucaresServer.Storage.Helpers
         ///<inheritdoc/>
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlates()
         {
+
+            var missingPlateNumbers = _missingPlateHelper.GetAllPlateRecords()
+                .Select(s => s.PlateNumber);
             
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                var results = ctx.DetectedLicensePlates.Select(s => s);
+                var results = ctx.DetectedLicensePlates
+                    .Select(s => s)
+                    .Where(s => missingPlateNumbers.Contains(s.PlateNumber));
 
                 return results.ToList();
             }

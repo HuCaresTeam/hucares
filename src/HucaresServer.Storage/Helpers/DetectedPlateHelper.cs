@@ -12,10 +12,12 @@ namespace HucaresServer.Storage.Helpers
     {
         
         private IDbContextFactory _dbContextFactory;
+        private IMissingPlateHelper _missingPlateHelper;
 
-        public DetectedPlateHelper(IDbContextFactory dbContextFactory = null)
+        public DetectedPlateHelper(IDbContextFactory dbContextFactory = null, IMissingPlateHelper missingPlateHelper = null)
         {
             _dbContextFactory = dbContextFactory ?? new DbContextFactory();
+            _missingPlateHelper = missingPlateHelper ?? new MissingPlateHelper(dbContextFactory);
         }
         
         ///<inheritdoc/>
@@ -57,10 +59,22 @@ namespace HucaresServer.Storage.Helpers
         {
             throw new NotImplementedException();
         }
-
+        
+        ///<inheritdoc/>
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlates()
         {
-            throw new NotImplementedException();
+
+            var missingPlateNumbers = _missingPlateHelper.GetAllPlateRecords()
+                .Select(s => s.PlateNumber);
+            
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var results = ctx.DetectedLicensePlates
+                    .Select(s => s)
+                    .Where(s => missingPlateNumbers.Contains(s.PlateNumber));
+
+                return results.ToList();
+            }
         }
 
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByPlateNumber(String plateNumber,

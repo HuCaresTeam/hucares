@@ -181,8 +181,69 @@ namespace HucaresServer.Storage.UnitTests
         
         [TestMethod]
         public void GetAllDetectedPlatesByPlateNumber_WithPlateNumberNoDates_ShouldReturnExpected()
-        {
-            throw new NotImplementedException();
+        {       
+            //Arrange         
+            var expectedDetectedPlate = new DetectedLicensePlate()
+            {
+                Id = 1, PlateNumber = "ABC002", DetectedDateTime = new DateTime(2018, 09, 30), 
+                CamId = 2, ImgUrl = "http://localhost:6969/images", Confidence = 0.80
+            };
+            
+            var fakeDetectedPlateList = new List<DetectedLicensePlate>(){
+                expectedDetectedPlate,
+                new DetectedLicensePlate()
+                {
+                    Id = 0, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 09, 29), 
+                    CamId = 1, ImgUrl = "http://localhost:6969/images", Confidence = 0.75
+                },
+                new DetectedLicensePlate()
+                {
+                    Id = 2, PlateNumber = "ABC003", DetectedDateTime = new DateTime(2018, 09, 30), 
+                    CamId = 2, ImgUrl = "http://localhost:6969/images", Confidence = 0.80
+                }
+            };
+            
+            var fakeMissingPlateList = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate()
+                {
+                    Id = 0, 
+                    PlateNumber = expectedDetectedPlate.PlateNumber,
+                    SearchStartDateTime = new DateTime(2018, 09, 29),
+                    SearchEndDateTime = null, 
+                    LicensePlateFound = false
+                },
+                new MissingLicensePlate()
+                {
+                    Id = 1, PlateNumber = "ABC001", SearchStartDateTime = new DateTime(2018, 04, 15),
+                    SearchEndDateTime = null, LicensePlateFound = false
+                }
+            };
+
+            var fakeDbSetMissingPlates = StorageTestsUtil.SetupFakeDbSet((fakeMissingPlateList.AsQueryable()));
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlateList.AsQueryable());
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSetDetectedPlates);
+
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSetMissingPlates);
+            
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+            
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, missingPlateHelper);
+            
+            //Act
+            var result = detectedPlateHelper.GetAllDetectedPlatesByPlateNumber(plateNumber: expectedDetectedPlate.PlateNumber);
+            
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            result.Count().ShouldBe(1);
+            result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
         
         [TestMethod]

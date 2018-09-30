@@ -6,7 +6,7 @@ namespace HucaresServer.Controllers
 {
     public class CameraInfoController : ApiController
     {
-        public CameraInfoHelper CameraInfoHelper { get; set; } = new CameraInfoHelper();
+        public ICameraInfoHelper CameraInfoHelper { get; set; } = new CameraInfoHelper();
 
         [HttpPost]
         [Route("api/camera/insert")]

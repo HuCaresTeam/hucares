@@ -166,15 +166,19 @@ namespace HucaresServer.Storage.UnitTests
             var fakeDbContextFactory = A.Fake<IDbContextFactory>();
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
+                .Returns(fakeMissingPlateList.AsQueryable());
             
-            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, missingPlateHelper);
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
             
             //Act
             var result = detectedPlateHelper.GetAllDetectedPlates();
             
             //Assert
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords()).MustHaveHappened();
             result.Count().ShouldBe(1);
             result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }

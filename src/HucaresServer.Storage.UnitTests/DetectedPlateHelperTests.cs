@@ -120,7 +120,15 @@ namespace HucaresServer.Storage.UnitTests
         public void GetAllDetectedPlates_ShouldReturn()
         {
             //Arrange
-            var fakeList = new List<DetectedLicensePlate>(){
+            
+            var expectedDetectedPlate = new DetectedLicensePlate()
+            {
+                Id = 1, PlateNumber = "ABC002", DetectedDateTime = new DateTime(2018, 09, 30), 
+                CamId = 2, ImgUrl = "http://localhost:6969/images", Confidence = 0.80
+            };
+            
+            var fakeDetectedPlateList = new List<DetectedLicensePlate>(){
+                expectedDetectedPlate,
                 new DetectedLicensePlate()
                 {
                     Id = 0, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 09, 29), 
@@ -128,29 +136,47 @@ namespace HucaresServer.Storage.UnitTests
                 },
                 new DetectedLicensePlate()
                 {
-                    Id = 1, PlateNumber = "ABC002", DetectedDateTime = new DateTime(2018, 09, 30), 
+                    Id = 2, PlateNumber = "ABC003", DetectedDateTime = new DateTime(2018, 09, 30), 
                     CamId = 2, ImgUrl = "http://localhost:6969/images", Confidence = 0.80
                 }
             };
             
-            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeList.AsQueryable());
+            var fakeMissingPlateList = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate()
+                {
+                    Id = 0, 
+                    PlateNumber = expectedDetectedPlate.PlateNumber,
+                    SearchStartDateTime = new DateTime(2018, 09, 29),
+                    SearchEndDateTime = null, 
+                    LicensePlateFound = false
+                }
+            };
 
+            var fakeDbSetMissingPlates = StorageTestsUtil.SetupFakeDbSet((fakeMissingPlateList.AsQueryable()));
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlateList.AsQueryable());
             var fakeHucaresContext = A.Fake<HucaresContext>();
+            
             A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
-                .Returns(fakeDbSet);
+                .Returns(fakeDbSetDetectedPlates);
 
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSetMissingPlates);
+            
             var fakeDbContextFactory = A.Fake<IDbContextFactory>();
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
             
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory);
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, missingPlateHelper);
             
             //Act
             var result = detectedPlateHelper.GetAllDetectedPlates();
             
             //Assert
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
-            result.ShouldBe(fakeList);
+            result.Count().ShouldBe(1);
+            result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
     }
 }

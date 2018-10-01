@@ -319,7 +319,13 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
+            var fakeMissingPlatesRecords = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate() { PlateNumber = "ABC001" }
+            };
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
+                .Returns(fakeMissingPlatesRecords);
             
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
             

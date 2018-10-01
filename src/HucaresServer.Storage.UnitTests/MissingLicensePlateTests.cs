@@ -149,11 +149,11 @@ namespace HucaresServer.Storage.UnitTests
         public void GetPlateRecordByPlateNumber_WhenPlateNumberExist_ShouldReturnExpected()
         {
             //Arrange
-            var missingPlateObj = new MissingLicensePlate() { PlateNumber = "BZA:854" };
             var fakeIQueryable = new List<MissingLicensePlate>()
             {
-                missingPlateObj,
-                new MissingLicensePlate() { PlateNumber = "TRO:547" }
+                new MissingLicensePlate() { PlateNumber = "ZOA:555", SearchStartDateTime = new DateTime(2018, 11, 04)},
+                new MissingLicensePlate() { PlateNumber = "DAD:123", SearchStartDateTime = new DateTime(2018, 10, 04) },
+                new MissingLicensePlate() { PlateNumber = "FEF:144", SearchStartDateTime = new DateTime(2018, 12, 04) }
             }.AsQueryable();
 
             var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
@@ -166,11 +166,11 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
+            var expectedPlateNumber = "ZOA:555";
             //Act
-            var result = missingPlateHelper.GetPlateRecordByPlateNumber(missingPlateObj.PlateNumber);
+            var result = missingPlateHelper.GetPlateRecordByPlateNumber(expectedPlateNumber);
 
             //Assert
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
@@ -179,7 +179,9 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustNotHaveHappened();
 
-            result.ShouldBe(missingPlateObj);
+            var expectedResult = fakeIQueryable.Where(c => c.PlateNumber == expectedPlateNumber);
+            result.Count().ShouldBe(expectedResult.Count());
+            Assert.IsTrue(result.SequenceEqual(expectedResult.ToList()), "Lists are not equal");
         }
         
         [TestMethod]

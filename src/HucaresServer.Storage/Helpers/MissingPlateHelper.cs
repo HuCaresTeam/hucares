@@ -43,11 +43,11 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        public MissingLicensePlate GetPlateRecordByPlateNumber(string plateNumber)
+        public IEnumerable<MissingLicensePlate> GetPlateRecordByPlateNumber(string plateNumber)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                return ctx.MissingLicensePlates.FirstOrDefault(c => c.PlateNumber == plateNumber);
+                return ctx.MissingLicensePlates.Where(c => c.PlateNumber == plateNumber).ToList();
             }
         }
 

@@ -215,11 +215,6 @@ namespace HucaresServer.Storage.UnitTests
                     SearchStartDateTime = new DateTime(2018, 09, 29),
                     SearchEndDateTime = null, 
                     LicensePlateFound = false
-                },
-                new MissingLicensePlate()
-                {
-                    Id = 1, PlateNumber = "ABC001", SearchStartDateTime = new DateTime(2018, 04, 15),
-                    SearchEndDateTime = null, LicensePlateFound = false
                 }
             };
 
@@ -234,7 +229,7 @@ namespace HucaresServer.Storage.UnitTests
                 .Returns(fakeHucaresContext);
 
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
-            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
+            A.CallTo(() => fakeMissingPlateHelper.GetPlateRecordByPlateNumber(expectedDetectedPlate.PlateNumber))
                 .Returns(fakeMissingPlateList);
             
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
@@ -295,7 +290,7 @@ namespace HucaresServer.Storage.UnitTests
                 .Returns(fakeHucaresContext);
 
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
-            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
+            A.CallTo(() => fakeMissingPlateHelper.GetPlateRecordByPlateNumber(expectedDetectedPlate.PlateNumber))
                 .Returns(fakeMissingPlateList);
             
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
@@ -323,8 +318,9 @@ namespace HucaresServer.Storage.UnitTests
             {
                 new MissingLicensePlate() { PlateNumber = "ABC001" }
             };
+
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
-            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
+            A.CallTo(() => fakeMissingPlateHelper.GetPlateRecordByPlateNumber("ABC001"))
                 .Returns(fakeMissingPlatesRecords);
             
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);

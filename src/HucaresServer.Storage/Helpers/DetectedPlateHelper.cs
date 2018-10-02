@@ -81,11 +81,8 @@ namespace HucaresServer.Storage.Helpers
         public IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumber(String plateNumber,
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
-            var missingPlateInfo = _missingPlateHelper.GetAllPlateRecords()
-                .Where(s => !(s.LicensePlateFound ?? false)
-                && s.PlateNumber == plateNumber)
-                .Select(s => s)
-                .First();
+            var missingPlateInfo = _missingPlateHelper.GetPlateRecordByPlateNumber(plateNumber)
+                .First(s => !(s.LicensePlateFound ?? false));
 
             if (missingPlateInfo == null)
             {

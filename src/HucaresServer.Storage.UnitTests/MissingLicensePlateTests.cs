@@ -209,7 +209,7 @@ namespace HucaresServer.Storage.UnitTests
             var result = missingPlateHelper.GetPlateRecordByPlateNumber("QQQ:333");
 
             //Assert
-            result.ShouldBe(null);
+            result.ShouldBeEmpty();
         }
 
         [TestMethod]

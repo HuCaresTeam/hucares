@@ -24,6 +24,13 @@ namespace HucaresServer.Storage.Helpers
         IEnumerable<MissingLicensePlate> GetAllPlateRecords();
 
         /// <summary>
+        /// Get all information about plate by passing plate number
+        /// </summary>
+        /// <param name="plateNumber">The string representation of the searched license plate number.</param>
+        /// <returns>The stored MissingLicensePlate instance</returns>
+        IEnumerable<MissingLicensePlate> GetPlateRecordByPlateNumber(string plateNumber);
+        
+        /// <summary>
         /// Update record
         /// </summary>
         /// <param name="plateId">Plate id in the DB</param>

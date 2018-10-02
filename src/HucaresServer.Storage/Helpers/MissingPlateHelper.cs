@@ -43,6 +43,14 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
+        public IEnumerable<MissingLicensePlate> GetPlateRecordByPlateNumber(string plateNumber)
+        {
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                return ctx.MissingLicensePlates.Where(c => c.PlateNumber == plateNumber).ToList();
+            }
+        }
+
         public MissingLicensePlate UpdatePlateRecord(int plateId, string plateNumber, DateTime searchStartDatetime)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
@@ -95,7 +103,6 @@ namespace HucaresServer.Storage.Helpers
                 var recordToDelete = ctx.MissingLicensePlates.FirstOrDefault(c => c.Id == plateId) ?? 
                                      throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, plateId));
 
-                ctx.MissingLicensePlates.Attach(recordToDelete);
                 ctx.MissingLicensePlates.Remove(recordToDelete);
                 ctx.SaveChanges();
 
@@ -110,7 +117,6 @@ namespace HucaresServer.Storage.Helpers
                 var recordToDelete = ctx.MissingLicensePlates.FirstOrDefault(c => c.PlateNumber == plateNumber) ?? 
                                      throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, plateNumber));
 
-                ctx.MissingLicensePlates.Attach(recordToDelete);
                 ctx.MissingLicensePlates.Remove(recordToDelete);
                 ctx.SaveChanges();
 

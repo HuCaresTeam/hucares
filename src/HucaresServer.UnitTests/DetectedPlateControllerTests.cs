@@ -30,10 +30,10 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedMissingPlates())
                 .Returns(expectedDLPList);
 
-            var cameraController = new DetectedPlateController() { DetectedPlateHelper = fakeDetectedPlateHelper, Request = new HttpRequestMessage() };
+            var detectedPlateController = new DetectedPlateController() { DetectedPlateHelper = fakeDetectedPlateHelper, Request = new HttpRequestMessage() };
 
             //Act
-            var result = cameraController.GetAllDetectedMissingPlates();
+            var result = detectedPlateController.GetAllDetectedMissingPlates();
 
             //Assert
             A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedMissingPlates())
@@ -60,10 +60,10 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd))
                 .Returns(expectedDLPList);
 
-            var cameraController = new DetectedPlateController() { DetectedPlateHelper = fakeDetectedPlateHelper, Request = new HttpRequestMessage() };
+            var detectedPlateController = new DetectedPlateController() { DetectedPlateHelper = fakeDetectedPlateHelper, Request = new HttpRequestMessage() };
 
             //Act
-            var result = cameraController.GetAllDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd);
+            var result = detectedPlateController.GetAllDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd);
 
             //Assert
             A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd))
@@ -90,10 +90,10 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedPlatesByCamera(expectedCamId, expectedDateStart, expectedDateEnd))
                 .Returns(expectedDLPList);
 
-            var cameraController = new DetectedPlateController() { DetectedPlateHelper = fakeDetectedPlateHelper, Request = new HttpRequestMessage() };
+            var detectedPlateController = new DetectedPlateController() { DetectedPlateHelper = fakeDetectedPlateHelper, Request = new HttpRequestMessage() };
 
             //Act
-            var result = cameraController.GetAllDetectedPlatesByCamera(expectedCamId, expectedDateStart, expectedDateEnd);
+            var result = detectedPlateController.GetAllDetectedPlatesByCamera(expectedCamId, expectedDateStart, expectedDateEnd);
 
             //Assert
             A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedPlatesByCamera(expectedCamId, expectedDateStart, expectedDateEnd))

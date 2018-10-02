@@ -32,8 +32,7 @@ namespace HucaresServer.Storage.UnitTests
 
             //Act
             var expectedPlate = "JBA:555";
-            var dateInput = "Jan 1, 2018";
-            DateTime expectedDate = DateTime.Parse(dateInput);
+            var expectedDate = new DateTime(2017, 08, 15);
             var result = missingLicensePlateHelper.InsertPlateRecord(expectedPlate, expectedDate);
 
             //Assert
@@ -111,8 +110,7 @@ namespace HucaresServer.Storage.UnitTests
         [TestMethod]
         public void GetAllPlates_WhenDbIsNotEmpty_ShouldReturnExpected()
         {
-            var dateInput = "Jan 1, 2018";
-            DateTime expectedDate = DateTime.Parse(dateInput);
+            var expectedDate = new DateTime(2018, 05, 15);
             
             //Arrange
             var fakeIQueryable = new List<MissingLicensePlate>()
@@ -145,6 +143,73 @@ namespace HucaresServer.Storage.UnitTests
 
             result.Count().ShouldBe(fakeIQueryable.Count());
             Assert.IsTrue(result.SequenceEqual(fakeIQueryable.ToList()), "Lists are not equal");
+        }
+
+        [TestMethod]
+        public void GetPlateRecordByPlateNumber_WhenPlateNumberExist_ShouldReturnExpected()
+        {
+            //Arrange
+            var fakeIQueryable = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate() { PlateNumber = "ZOA:555", SearchStartDateTime = new DateTime(2018, 11, 04)},
+                new MissingLicensePlate() { PlateNumber = "DAD:123", SearchStartDateTime = new DateTime(2018, 10, 04) },
+                new MissingLicensePlate() { PlateNumber = "FEF:144", SearchStartDateTime = new DateTime(2018, 12, 04) }
+            }.AsQueryable();
+
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+
+            var expectedPlateNumber = "ZOA:555";
+            //Act
+            var result = missingPlateHelper.GetPlateRecordByPlateNumber(expectedPlateNumber);
+
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+
+            var expectedResult = fakeIQueryable.Where(c => c.PlateNumber == expectedPlateNumber);
+            result.Count().ShouldBe(expectedResult.Count());
+            Assert.IsTrue(result.SequenceEqual(expectedResult.ToList()), "Lists are not equal");
+        }
+        
+        [TestMethod]
+        public void GetPlateRecordByPlateNumber_WhenPlateNumberNotExist_ShouldSucceedAndReturnNull()
+        {
+            //Arrange
+            var fakeIQueryable = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate() { PlateNumber = "OOO:111"}
+            }.AsQueryable();
+
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+
+            //Act
+            var result = missingPlateHelper.GetPlateRecordByPlateNumber("QQQ:333");
+
+            //Assert
+            result.ShouldBeEmpty();
         }
 
         [TestMethod]
@@ -203,6 +268,54 @@ namespace HucaresServer.Storage.UnitTests
 
             result.ShouldBe(missingPlateObj);
             missingPlateObj.PlateNumber.ShouldBe(expectedPlateNumber);
+        }
+        
+        [TestMethod]
+        public void DeletePlateById_WhenPlateWithIdDoesNotExist_ShouldThrow()
+        {
+            //Arrange
+            var fakeIQueryable = new List<MissingLicensePlate>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+
+            //Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.DeletePlateById(0));
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+        }
+        
+        [TestMethod]
+        public void DeletePlateByNumber_WhenPlateWithNumberDoesNotExist_ShouldThrow()
+        {
+            //Arrange
+            var fakeIQueryable = new List<MissingLicensePlate>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+
+            //Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.DeletePlateByNumber("TRO:555"));
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
         }
     }
 }

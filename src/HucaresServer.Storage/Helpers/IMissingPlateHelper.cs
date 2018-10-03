@@ -44,6 +44,7 @@ namespace HucaresServer.Storage.Helpers
         /// </summary>
         /// <param name="plateId">Plate id in the DB</param>
         /// <param name="requestDateTime">Optional parameter, from what datetime to start querying detected license plates</param>
+        /// <param name="isFound">True/false parameter of missing license plate</param>
         /// <returns> The stored MissingLicensePlate instance </returns>
         MissingLicensePlate MarkFoundPlate(int plateId, DateTime requestDateTime, bool isFound);
 

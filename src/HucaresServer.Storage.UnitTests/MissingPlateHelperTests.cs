@@ -271,7 +271,7 @@ namespace HucaresServer.Storage.UnitTests
         }
         
         [TestMethod]
-        public void MarkFoundPlate_WhenPlateIdExist_ShouldSuccess()
+        public void MarkFoundPlate_WhenPlateIdExist_ShouldSucceed()
         {
             var missingPlateObj = new MissingLicensePlate() { Id = 1, SearchStartDateTime = new DateTime(2018, 05, 08), LicensePlateFound = false};
             //Arrange
@@ -286,15 +286,23 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
-
             var expectedSearch = true;
+            
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+            var result = missingPlateHelper.MarkFoundPlate(missingPlateObj.Id, DateTime.Now, expectedSearch);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.MarkFoundPlate(missingPlateObj.Id, missingPlateObj.SearchStartDateTime, expectedSearch));
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeDbSet.Add(A<MissingLicensePlate>.Ignored))
+                .MustNotHaveHappened();
 
             A.CallTo(() => fakeHucaresContext.SaveChanges())
-                .MustNotHaveHappened();
+                .MustHaveHappenedOnceExactly();
+
+            result.ShouldBe(missingPlateObj);
+            missingPlateObj.LicensePlateFound.ShouldBe(true);
         }
         
         [TestMethod]
@@ -326,7 +334,7 @@ namespace HucaresServer.Storage.UnitTests
         }
         
         [TestMethod]
-        public void DeletePlateById_WhenPlateIdExist_ShouldSuccess()
+        public void DeletePlateById_WhenPlateIdExist_ShouldSucceed()
         {
             //Arrange
             var missingPlateObj = new MissingLicensePlate() { Id = 1 };
@@ -389,7 +397,7 @@ namespace HucaresServer.Storage.UnitTests
         }
         
         [TestMethod]
-        public void DeletePlateByNumber_WhenPlateNumberExist_ShouldSuccess()
+        public void DeletePlateByNumber_WhenPlateNumberExist_ShouldSucceed()
         {
             //Arrange
             var missingPlateObj = new MissingLicensePlate() { PlateNumber = "ZOO:555" };

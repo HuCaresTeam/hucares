@@ -42,7 +42,7 @@ namespace HucaresServer.Storage.Helpers
         /// <param name="startDateTime"> Optional parameter, from what datetime to start querying detected license plates. </param>
         /// <param name="endDateTime"> Optional parameter, until what datetime to query detected license plates. </param>
         /// <returns> All license plates that meet the parameters. </returns>
-        IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByPlateNumber(String plateNumber, 
+        IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumber(String plateNumber, 
             DateTime? startDateTime = null, DateTime? endDateTime = null);
 
         /// <summary>

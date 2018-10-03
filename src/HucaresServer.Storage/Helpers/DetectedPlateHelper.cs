@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -77,10 +78,51 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        public IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByPlateNumber(String plateNumber,
+        public IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumber(String plateNumber,
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
-            throw new NotImplementedException();
+            var missingPlateInfo = _missingPlateHelper.GetPlateRecordByPlateNumber(plateNumber)
+                .FirstOrDefault(s => s.LicensePlateFound == null);
+
+            if (missingPlateInfo == null)
+            {
+                return new List<DetectedLicensePlate>();
+            }
+
+            var searchStartDateTime = startDateTime ?? missingPlateInfo.SearchStartDateTime;
+            
+            if (searchStartDateTime < missingPlateInfo.SearchStartDateTime)
+            {
+                searchStartDateTime = missingPlateInfo.SearchStartDateTime;
+            }
+
+            var searchEndDateTime = endDateTime ?? missingPlateInfo.SearchEndDateTime;
+
+            if (searchEndDateTime > missingPlateInfo.SearchEndDateTime)
+            {
+                searchEndDateTime = missingPlateInfo.SearchEndDateTime;
+            }
+
+            if (searchEndDateTime != null && searchEndDateTime < searchStartDateTime)
+            {
+                // Need to move to Resources, but don't know if possible on Rider
+                throw new ArgumentException("Search endDateTime cannot be before startDateTime");
+            }
+
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var results = ctx.DetectedLicensePlates
+                     .Where(s => s.PlateNumber == missingPlateInfo.PlateNumber 
+                                 && s.DetectedDateTime >= searchStartDateTime);
+
+                if (searchEndDateTime != null)
+                {
+                    results = results.Where(s => s.DetectedDateTime <= searchEndDateTime);
+                }
+
+                return results.ToList();
+            }
+            
         }
 
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByCamera(int cameraId,

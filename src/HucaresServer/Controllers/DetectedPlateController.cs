@@ -25,7 +25,7 @@ namespace HucaresServer.Controllers
         public IHttpActionResult GetAllDetectedPlatesByPlateNumber(string plateNumber, DateTime? startDateTime = null,
             DateTime? endDateTime = null)
         {
-            return Json(DetectedPlateHelper.GetAllDetectedPlatesByPlateNumber(plateNumber, startDateTime, endDateTime));
+            return Json(DetectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber, startDateTime, endDateTime));
         }
 
         [HttpGet]

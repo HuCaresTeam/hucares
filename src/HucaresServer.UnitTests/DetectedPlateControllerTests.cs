@@ -57,7 +57,7 @@ namespace HucaresServer.Storage.UnitTests
             var expectedPlateNumber = "123456";
             var expectedDateStart = new DateTime(2016, 02, 02);
             var expectedDateEnd = new DateTime(2017, 02, 05);
-            A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd))
+            A.CallTo(() => fakeDetectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd))
                 .Returns(expectedDLPList);
 
             var detectedPlateController = new DetectedPlateController() { DetectedPlateHelper = fakeDetectedPlateHelper, Request = new HttpRequestMessage() };
@@ -66,7 +66,7 @@ namespace HucaresServer.Storage.UnitTests
             var result = detectedPlateController.GetAllDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd);
 
             //Assert
-            A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd))
+            A.CallTo(() => fakeDetectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd))
                 .MustHaveHappenedOnceExactly();
 
             var httpResponse = await result.ExecuteAsync(new CancellationToken());

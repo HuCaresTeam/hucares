@@ -82,7 +82,7 @@ namespace HucaresServer.Storage.Helpers
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
             var missingPlateInfo = _missingPlateHelper.GetPlateRecordByPlateNumber(plateNumber)
-                .FirstOrDefault(s => s.LicensePlateFound != null);
+                .FirstOrDefault(s => s.LicensePlateFound == null);
 
             if (missingPlateInfo == null)
             {
@@ -98,7 +98,12 @@ namespace HucaresServer.Storage.Helpers
 
             var searchEndDateTime = endDateTime ?? missingPlateInfo.SearchEndDateTime;
 
-            if (endDateTime != null && endDateTime < searchStartDateTime)
+            if (searchEndDateTime < missingPlateInfo.SearchEndDateTime)
+            {
+                searchEndDateTime = missingPlateInfo.SearchEndDateTime;
+            }
+
+            if (searchEndDateTime != null && searchEndDateTime < searchStartDateTime)
             {
                 // Need to move to Resources, but don't know if possible on Rider
                 throw new ArgumentException("Search endDateTime cannot be before startDateTime");
@@ -112,7 +117,7 @@ namespace HucaresServer.Storage.Helpers
 
                 if (searchEndDateTime != null)
                 {
-                    results = results.Where(s => s.DetectedDateTime <= endDateTime);
+                    results = results.Where(s => s.DetectedDateTime <= searchEndDateTime);
                 }
 
                 return results.ToList();

@@ -330,5 +330,24 @@ namespace HucaresServer.Storage.UnitTests
                 startDateTime: new DateTime(2018, 10, 05), endDateTime: new DateTime(2018, 09, 05)));
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustNotHaveHappened();
         }
+
+        [TestMethod]
+        public void GetAllActiveDetectedPlatesByPlateNumber_WithEndDateNoStartDate_ShouldReturn()
+        {
+            throw new NotImplementedException();
+        }
+        
+        [TestMethod]
+        public void GetAllActiveDetectedPlatesByPlateNumber_WithStartDateBeforeMLP_ShouldReturn()
+        {
+            throw new NotImplementedException();
+        }
+        
+        [TestMethod]
+        public void GetAllActiveDetectedPlatesByPlateNumber_WithEndDateAfterMLP_ShouldReturn()
+        {
+            throw new NotImplementedException();
+        }
+        
     }
 }

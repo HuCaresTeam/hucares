@@ -243,7 +243,7 @@ namespace HucaresServer.Storage.UnitTests
         }
         
         [TestMethod]
-        public void GetAllActiveDetectedPlatesByPlateNumber_WithDates_ShouldReturnExpected()
+        public void GetAllActiveDetectedPlatesByPlateNumber_WithPlateNumberWithDates_ShouldReturnExpected()
         {
              //Arrange         
             var expectedDetectedPlate = new DetectedLicensePlate()
@@ -507,5 +507,110 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
         
+
+        [TestMethod]
+        public void GetAllDetectedPlatesByCamera_WithoutDates_ShouldReturn()
+        {
+            //Arrange      
+            var expectedDetectedPlate = new DetectedLicensePlate()
+            {
+                Id = 0, CamId = 0
+            };
+            
+            var fakeDetectedPlateList = new List<DetectedLicensePlate>(){
+                expectedDetectedPlate,
+                new DetectedLicensePlate()
+                {
+                    Id = 1,  CamId = 1
+                }
+            };
+
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlateList.AsQueryable());
+            
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSetDetectedPlates);
+            
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();          
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act
+            var result = detectedPlateHelper.GetAllDetectedPlatesByCamera(cameraId: expectedDetectedPlate.CamId).ToList();
+            
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            result.Count().ShouldBe(1);
+            result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
+        }
+        
+        [TestMethod]
+        public void GetAllDetectedPlatesByCamera_WithDates_ShouldReturn()
+        {
+            //Arrange      
+            var expectedDetectedPlate = new DetectedLicensePlate()
+            {
+                Id = 0, CamId = 0, DetectedDateTime = new DateTime(2018, 10, 10)
+            };
+            
+            var fakeDetectedPlateList = new List<DetectedLicensePlate>(){
+                expectedDetectedPlate,
+                new DetectedLicensePlate()
+                {
+                    Id = 1, CamId = 0, DetectedDateTime = new DateTime(2018, 09, 10)
+                }, 
+                new DetectedLicensePlate()
+                {
+                    Id = 2, CamId = 0, DetectedDateTime = new DateTime(2018, 11, 30)
+                },
+                new DetectedLicensePlate()
+                {
+                    Id = 3, CamId = 1, DetectedDateTime = new DateTime(2018, 10, 10)
+                }
+            };
+
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlateList.AsQueryable());
+            
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSetDetectedPlates);
+            
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act
+            var result = detectedPlateHelper.GetAllDetectedPlatesByCamera(cameraId: expectedDetectedPlate.CamId,
+                startDateTime: new DateTime(2018, 10, 05), endDateTime: new DateTime(2018, 10, 15)).ToList();
+            
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            result.Count().ShouldBe(1);
+            result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
+        }
+
+        [TestMethod]
+        public void GetAllDetectedPlatesByCamera_WithStartLaterThanEnd_ShouldThrow()
+        {
+            //Arrange         
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act & assert
+            Assert.ThrowsException<ArgumentException>(() => detectedPlateHelper.GetAllDetectedPlatesByCamera(cameraId: 0,
+                startDateTime: new DateTime(2018, 10, 05), endDateTime: new DateTime(2018, 09, 05)));
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustNotHaveHappened();
+        }
     }
 }

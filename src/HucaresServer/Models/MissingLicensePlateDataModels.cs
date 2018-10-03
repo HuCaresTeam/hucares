@@ -7,13 +7,7 @@ namespace HucaresServer.Models
     /// </summary>
     public class MissingLicensePlateDataModels
     {
-        public struct InsertMlpDataModel
-        {
-            public string PlateNumber { get; set; }
-            public DateTime SearchStartDateTime { get; set; }
-        }
-
-        public struct UpdatePlateRecordDataModel
+        public struct PostPlateRecordDataModel
         {
             public string PlateNumber { get; set; }
             public DateTime SearchStartDateTime { get; set; }

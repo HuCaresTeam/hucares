@@ -30,30 +30,23 @@ namespace HucaresServer.Controllers
 
         [HttpPost]
         [Route("api/mlp/insert/{plateNumber}")]
-        public IHttpActionResult InsertMissingPlateByNumber([FromBody] InsertMlpDataModel data)
+        public IHttpActionResult InsertMissingPlateByNumber([FromBody] PostPlateRecordDataModel data)
         {
             return Json(MissingPlateHelper.InsertPlateRecord(data.PlateNumber, data.SearchStartDateTime));
         }
         
         [HttpPost]
         [Route("api/mlp/update/{plateId}")]
-        public IHttpActionResult UpdatePlateRecordById(int id, [FromBody] UpdatePlateRecordDataModel data)
+        public IHttpActionResult UpdatePlateRecordById(int id, [FromBody] PostPlateRecordDataModel data)
         {
             return Json(MissingPlateHelper.UpdatePlateRecord(id, data.PlateNumber, data.SearchStartDateTime));
         }
         
         [HttpPost]
-        [Route("api/mlp/markfound/{plateId}")]
-        public IHttpActionResult MarkFoundMissingPlate(int plateId, DateTime startDateTime)
+        [Route("api/mlp/found/{plateId}/{isFound}")]
+        public IHttpActionResult MarkFoundMissingPlate(int plateId, DateTime startDateTime, bool isFound)
         {
-            return Json(MissingPlateHelper.MarkFoundPlate(plateId, startDateTime));
-        }
-        
-        [HttpPost]
-        [Route("api/mlp/marknotfound/{plateId}")]
-        public IHttpActionResult MarkNotFoundMissingPlate(int plateId, DateTime startDateTime)
-        {
-            return Json(MissingPlateHelper.MarkNotFoundPlate(plateId, startDateTime));
+            return Json(MissingPlateHelper.MarkFoundPlate(plateId, startDateTime, isFound));
         }
         
         [HttpDelete]

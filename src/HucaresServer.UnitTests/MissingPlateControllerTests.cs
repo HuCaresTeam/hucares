@@ -23,9 +23,9 @@ namespace HucaresServer.UnitTests
             //Arrange
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
 
-            var expectedMLPList = new List<MissingLicensePlate>() { new MissingLicensePlate() { PlateNumber = "ZOA:555" } };
+            var expectedMlpList = new List<MissingLicensePlate>() { new MissingLicensePlate() { PlateNumber = "ZOA:555" } };
             A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
-                .Returns(expectedMLPList);
+                .Returns(expectedMlpList);
 
             var missingPlateController = new MissingPlateController() { MissingPlateHelper = fakeMissingPlateHelper, Request = new HttpRequestMessage() };
 
@@ -39,7 +39,7 @@ namespace HucaresServer.UnitTests
             var httpResponse = await result.ExecuteAsync(new CancellationToken());
             var jsonContent = await httpResponse.Content.ReadAsStringAsync();
 
-            var expectedJson = JsonConvert.SerializeObject(expectedMLPList);
+            var expectedJson = JsonConvert.SerializeObject(expectedMlpList);
 
             jsonContent.ShouldBe(expectedJson);
         }
@@ -50,11 +50,11 @@ namespace HucaresServer.UnitTests
             //Arrange
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
 
-            var expectedMLPList = new List<MissingLicensePlate>() { new MissingLicensePlate() { Id = 0 } };
+            var expectedMlpList = new List<MissingLicensePlate>() { new MissingLicensePlate() { Id = 0 } };
             var expectedPlateNumber = "ZOA:111";
             A.CallTo(() => fakeMissingPlateHelper
                 .GetPlateRecordByPlateNumber(expectedPlateNumber))
-                .Returns(expectedMLPList);
+                .Returns(expectedMlpList);
 
             var missingPlateController = new MissingPlateController() { MissingPlateHelper = fakeMissingPlateHelper, Request = new HttpRequestMessage() };
 
@@ -68,7 +68,7 @@ namespace HucaresServer.UnitTests
             var httpResponse = await result.ExecuteAsync(new CancellationToken());
             var jsonContent = await httpResponse.Content.ReadAsStringAsync();
 
-            var expectedJson = JsonConvert.SerializeObject(expectedMLPList);
+            var expectedJson = JsonConvert.SerializeObject(expectedMlpList);
 
             jsonContent.ShouldBe(expectedJson);
         }
@@ -79,7 +79,7 @@ namespace HucaresServer.UnitTests
             //Arrange
             var expectedPlateNumber = "PZU:555";
             var expectedStartDateTime = new DateTime(2018, 05, 04);
-            var expectedDataModel = new InsertMlpDataModel()
+            var expectedDataModel = new PostPlateRecordDataModel()
             {
                 PlateNumber = expectedPlateNumber,
                 SearchStartDateTime = expectedStartDateTime,
@@ -114,8 +114,7 @@ namespace HucaresServer.UnitTests
             //Arrange
             var expectedPlateNumber = "BAA:254";
             var expectedSearchDateTime = new DateTime(2018, 05, 17);
-            var expectedPlateId = 5;
-            var expectedDataModel = new UpdatePlateRecordDataModel()
+            var expectedDataModel = new PostPlateRecordDataModel()
             {
                 PlateNumber = expectedPlateNumber,
                 SearchStartDateTime = expectedSearchDateTime,
@@ -153,45 +152,18 @@ namespace HucaresServer.UnitTests
 
             var expectedId = 5;
             var requestedDateTime = new DateTime(2018, 06, 22);
+            var expectedSearch = true;
             var expectedMissingPlateInfo = new MissingLicensePlate() {Id = expectedId};
-            A.CallTo(() => fakeMissingPlateHelper.MarkFoundPlate(expectedId, requestedDateTime))
+            A.CallTo(() => fakeMissingPlateHelper.MarkFoundPlate(expectedId, requestedDateTime, expectedSearch))
                 .Returns(expectedMissingPlateInfo);
 
             var mlpController = new MissingPlateController()
                 {MissingPlateHelper = fakeMissingPlateHelper, Request = new HttpRequestMessage()};
             //Act
-            var result = mlpController.MarkFoundMissingPlate(expectedId, requestedDateTime);
+            var result = mlpController.MarkFoundMissingPlate(expectedId, requestedDateTime, expectedSearch);
 
             //Assert
-            A.CallTo(() => fakeMissingPlateHelper.MarkFoundPlate(expectedId, requestedDateTime))
-                .MustHaveHappenedOnceExactly();
-
-            var httpResponse = await result.ExecuteAsync(new CancellationToken());
-            var jsonContent = await httpResponse.Content.ReadAsStringAsync();
-
-            var expectedJson = JsonConvert.SerializeObject(expectedMissingPlateInfo);
-
-            jsonContent.ShouldBe(expectedJson);
-        }
-        
-        [TestMethod]
-        public async Task MarkNotFoundMissingPlate_WhenCalled_ShouldCallHelper()
-        {
-            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
-
-            var expectedId = 9;
-            var requestedDateTime = new DateTime(2018, 08, 12);
-            var expectedMissingPlateInfo = new MissingLicensePlate() {Id = expectedId};
-            A.CallTo(() => fakeMissingPlateHelper.MarkNotFoundPlate(expectedId, requestedDateTime))
-                .Returns(expectedMissingPlateInfo);
-
-            var mlpController = new MissingPlateController()
-                {MissingPlateHelper = fakeMissingPlateHelper, Request = new HttpRequestMessage()};
-            //Act
-            var result = mlpController.MarkNotFoundMissingPlate(expectedId, requestedDateTime);
-
-            //Assert
-            A.CallTo(() => fakeMissingPlateHelper.MarkNotFoundPlate(expectedId, requestedDateTime))
+            A.CallTo(() => fakeMissingPlateHelper.MarkFoundPlate(expectedId, requestedDateTime, expectedSearch))
                 .MustHaveHappenedOnceExactly();
 
             var httpResponse = await result.ExecuteAsync(new CancellationToken());
@@ -208,18 +180,18 @@ namespace HucaresServer.UnitTests
             //Arrange
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
 
-            var exptectedPlateId = 0;
-            var expectedMissingPlateInfo = new MissingLicensePlate() { Id = exptectedPlateId};
-            A.CallTo(() => fakeMissingPlateHelper.DeletePlateById(exptectedPlateId))
+            var expectedPlateId = 0;
+            var expectedMissingPlateInfo = new MissingLicensePlate() { Id = expectedPlateId};
+            A.CallTo(() => fakeMissingPlateHelper.DeletePlateById(expectedPlateId))
                 .Returns(expectedMissingPlateInfo);
 
             var mlpController = new MissingPlateController() { MissingPlateHelper = fakeMissingPlateHelper, Request = new HttpRequestMessage() };
 
             //Act
-            var result = mlpController.DeletePlateRecordById(exptectedPlateId);
+            var result = mlpController.DeletePlateRecordById(expectedPlateId);
 
             //Assert
-            A.CallTo(() => fakeMissingPlateHelper.DeletePlateById(exptectedPlateId))
+            A.CallTo(() => fakeMissingPlateHelper.DeletePlateById(expectedPlateId))
                 .MustHaveHappenedOnceExactly();
 
             var httpResponse = await result.ExecuteAsync(new CancellationToken());
@@ -236,18 +208,18 @@ namespace HucaresServer.UnitTests
             //Arrange
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
 
-            var exptectedPlateNumber = "RRR:587";
-            var expectedMissingPlateInfo = new MissingLicensePlate() { PlateNumber = exptectedPlateNumber};
-            A.CallTo(() => fakeMissingPlateHelper.DeletePlateByNumber(exptectedPlateNumber))
+            var expectedPlateNumber = "RRR:587";
+            var expectedMissingPlateInfo = new MissingLicensePlate() { PlateNumber = expectedPlateNumber};
+            A.CallTo(() => fakeMissingPlateHelper.DeletePlateByNumber(expectedPlateNumber))
                 .Returns(expectedMissingPlateInfo);
 
             var mlpController = new MissingPlateController() { MissingPlateHelper = fakeMissingPlateHelper, Request = new HttpRequestMessage() };
 
             //Act
-            var result = mlpController.DeletePlateRecordByNumber(exptectedPlateNumber);
+            var result = mlpController.DeletePlateRecordByNumber(expectedPlateNumber);
 
             //Assert
-            A.CallTo(() => fakeMissingPlateHelper.DeletePlateByNumber(exptectedPlateNumber))
+            A.CallTo(() => fakeMissingPlateHelper.DeletePlateByNumber(expectedPlateNumber))
                 .MustHaveHappenedOnceExactly();
 
             var httpResponse = await result.ExecuteAsync(new CancellationToken());

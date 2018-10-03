@@ -28,42 +28,42 @@ namespace HucaresServer.Controllers
             return Json(MissingPlateHelper.GetPlateRecordByPlateNumber(plateNumber));
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/mlp/insert/{plateNumber}")]
         public IHttpActionResult InsertMissingPlateByNumber([FromBody] InsertMlpDataModel data)
         {
             return Json(MissingPlateHelper.InsertPlateRecord(data.PlateNumber, data.SearchStartDateTime));
         }
         
-        [HttpGet]
+        [HttpPost]
         [Route("api/mlp/update/{plateId}")]
         public IHttpActionResult UpdatePlateRecordById(int id, [FromBody] UpdatePlateRecordDataModel data)
         {
             return Json(MissingPlateHelper.UpdatePlateRecord(id, data.PlateNumber, data.SearchStartDateTime));
         }
         
-        [HttpGet]
+        [HttpPost]
         [Route("api/mlp/markfound/{plateId}")]
         public IHttpActionResult MarkFoundMissingPlate(int plateId, DateTime startDateTime)
         {
             return Json(MissingPlateHelper.MarkFoundPlate(plateId, startDateTime));
         }
         
-        [HttpGet]
+        [HttpPost]
         [Route("api/mlp/marknotfound/{plateId}")]
         public IHttpActionResult MarkNotFoundMissingPlate(int plateId, DateTime startDateTime)
         {
             return Json(MissingPlateHelper.MarkNotFoundPlate(plateId, startDateTime));
         }
         
-        [HttpGet]
+        [HttpDelete]
         [Route("api/mlp/delete/{plateId}")]
         public IHttpActionResult DeletePlateRecordById(int plateId)
         {
             return Json(MissingPlateHelper.DeletePlateById(plateId));
         }
         
-        [HttpGet]
+        [HttpDelete]
         [Route("api/mlp/delete/{plateNumber}")]
         public IHttpActionResult DeletePlateRecordByNumber(string plateNumber)
         {

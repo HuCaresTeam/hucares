@@ -271,6 +271,60 @@ namespace HucaresServer.Storage.UnitTests
         }
         
         [TestMethod]
+        public void MarkFoundPlate_WhenPlateIdDoesNotExist_ShouldThrow()
+        {
+            //Arrange
+            var fakeIQueryable = new List<MissingLicensePlate>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+
+            var expectedId = 5;
+            var expectedStartSearchDateTime = new DateTime(2018, 08, 17);
+
+            //Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.MarkFoundPlate(expectedId, expectedStartSearchDateTime));
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+        }
+        
+        [TestMethod]
+        public void MarkNotFoundPlate_WhenPlateIdDoesNotExist_ShouldThrow()
+        {
+            //Arrange
+            var fakeIQueryable = new List<MissingLicensePlate>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+
+            var expectedId = 5;
+            var expectedStartSearchDateTime = new DateTime(2018, 08, 17);
+
+            //Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.MarkNotFoundPlate(expectedId, expectedStartSearchDateTime));
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+        }
+        
+        [TestMethod]
         public void DeletePlateById_WhenPlateWithIdDoesNotExist_ShouldThrow()
         {
             //Arrange

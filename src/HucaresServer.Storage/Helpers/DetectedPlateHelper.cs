@@ -98,7 +98,7 @@ namespace HucaresServer.Storage.Helpers
 
             var searchEndDateTime = endDateTime ?? missingPlateInfo.SearchEndDateTime;
 
-            if (searchEndDateTime < missingPlateInfo.SearchEndDateTime)
+            if (searchEndDateTime > missingPlateInfo.SearchEndDateTime)
             {
                 searchEndDateTime = missingPlateInfo.SearchEndDateTime;
             }

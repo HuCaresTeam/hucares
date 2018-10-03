@@ -452,7 +452,59 @@ namespace HucaresServer.Storage.UnitTests
         [TestMethod]
         public void GetAllActiveDetectedPlatesByPlateNumber_WithEndDateAfterMLP_ShouldReturn()
         {
-            throw new NotImplementedException();
+            //Arrange         
+            var expectedDetectedPlate = new DetectedLicensePlate()
+            {
+                Id = 0, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 10, 10)
+            };
+            
+            var fakeDetectedPlateList = new List<DetectedLicensePlate>(){
+                expectedDetectedPlate,
+                new DetectedLicensePlate()
+                {
+                    Id = 2, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 09, 10)
+                },
+                new DetectedLicensePlate()
+                {
+                    Id = 3, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 11, 10)
+                }
+            };
+            
+            var fakeMissingPlateList = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate()
+                {
+                    Id = 0, 
+                    PlateNumber = expectedDetectedPlate.PlateNumber,
+                    SearchStartDateTime = new DateTime(2018, 10, 05),
+                    SearchEndDateTime = new DateTime(2018, 10, 15)
+                }
+            };
+
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlateList.AsQueryable());
+            
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSetDetectedPlates);
+            
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetPlateRecordByPlateNumber(expectedDetectedPlate.PlateNumber))
+                .Returns(fakeMissingPlateList);
+            
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act
+            var result = detectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber: expectedDetectedPlate.PlateNumber,
+                endDateTime: new DateTime(2018, 11, 25)).ToList();
+            
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            result.Count().ShouldBe(1);
+            result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
         
     }

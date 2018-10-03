@@ -183,7 +183,7 @@ namespace HucaresServer.Storage.UnitTests
         }
         
         [TestMethod]
-        public void GetAllActiveDetectedPlatesByPlateNumber_WithPlateNumberNoDates_ShouldReturnExpected()
+        public void GetAllActiveDetectedPlatesByPlateNumber_NoDates_ShouldReturnExpected()
         {       
             //Arrange         
             var expectedDetectedPlate = new DetectedLicensePlate()
@@ -243,7 +243,7 @@ namespace HucaresServer.Storage.UnitTests
         }
         
         [TestMethod]
-        public void GetAllActiveDetectedPlatesByPlateNumber_WithPlateNumberWithDates_ShouldReturnExpected()
+        public void GetAllActiveDetectedPlatesByPlateNumber_WithDates_ShouldReturnExpected()
         {
              //Arrange         
             var expectedDetectedPlate = new DetectedLicensePlate()

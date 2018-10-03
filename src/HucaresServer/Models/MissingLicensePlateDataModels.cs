@@ -12,5 +12,11 @@ namespace HucaresServer.Models
             public string PlateNumber { get; set; }
             public DateTime SearchStartDateTime { get; set; }
         }
+        
+        public struct MarkFoundRecordDataModel
+        {
+            public DateTime EndDateTime { get; set; }
+            public bool IsFound { get; set; }
+        }
     }
 }

@@ -44,9 +44,9 @@ namespace HucaresServer.Controllers
         
         [HttpPost]
         [Route("api/mlp/found/{plateId}/{isFound}")]
-        public IHttpActionResult MarkFoundMissingPlate(int plateId, DateTime startDateTime, bool isFound)
+        public IHttpActionResult MarkFoundMissingPlate(int plateId, [FromBody] MarkFoundRecordDataModel data)
         {
-            return Json(MissingPlateHelper.MarkFoundPlate(plateId, startDateTime, isFound));
+            return Json(MissingPlateHelper.MarkFoundPlate(plateId, data.EndDateTime, data.IsFound));
         }
         
         [HttpDelete]

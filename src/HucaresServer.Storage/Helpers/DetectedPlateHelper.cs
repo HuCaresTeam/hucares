@@ -82,7 +82,7 @@ namespace HucaresServer.Storage.Helpers
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
             var missingPlateInfo = _missingPlateHelper.GetPlateRecordByPlateNumber(plateNumber)
-                .First(s => !(s.LicensePlateFound ?? false));
+                .FirstOrDefault(s => s.LicensePlateFound != null);
 
             if (missingPlateInfo == null)
             {
@@ -96,6 +96,8 @@ namespace HucaresServer.Storage.Helpers
                 searchStartDateTime = missingPlateInfo.SearchStartDateTime;
             }
 
+            var searchEndDateTime = endDateTime ?? missingPlateInfo.SearchEndDateTime;
+
             if (endDateTime != null && endDateTime < searchStartDateTime)
             {
                 // Need to move to Resources, but don't know if possible on Rider
@@ -104,28 +106,16 @@ namespace HucaresServer.Storage.Helpers
 
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                List<DetectedLicensePlate> results;
-                
-                if (endDateTime == null)
-                {
-                    results = ctx.DetectedLicensePlates
-                        .Where(s => s.PlateNumber == missingPlateInfo.PlateNumber
-                                    && s.DetectedDateTime >= searchStartDateTime)
-                        .Select(s => s)
-                        .ToList();
+                var results = ctx.DetectedLicensePlates
+                     .Where(s => s.PlateNumber == missingPlateInfo.PlateNumber 
+                                 && s.DetectedDateTime >= searchStartDateTime);
 
-                }
-                else
+                if (searchEndDateTime != null)
                 {
-                    results = ctx.DetectedLicensePlates
-                        .Where(s => s.PlateNumber == missingPlateInfo.PlateNumber
-                                    && s.DetectedDateTime >= searchStartDateTime
-                                    && s.DetectedDateTime <= endDateTime)
-                        .Select(s => s)
-                        .ToList();  
+                    results = results.Where(s => s.DetectedDateTime <= endDateTime);
                 }
 
-                return results;
+                return results.ToList();
             }
             
         }

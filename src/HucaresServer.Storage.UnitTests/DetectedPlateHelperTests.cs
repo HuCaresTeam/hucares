@@ -183,7 +183,7 @@ namespace HucaresServer.Storage.UnitTests
         }
         
         [TestMethod]
-        public void GetAllActiveDetectedPlatesByPlateNumber_WithPlateNumberNoDates_ShouldReturnExpected()
+        public void GetAllActiveDetectedPlatesByPlateNumber_NoDates_ShouldReturnExpected()
         {       
             //Arrange         
             var expectedDetectedPlate = new DetectedLicensePlate()
@@ -213,8 +213,7 @@ namespace HucaresServer.Storage.UnitTests
                     Id = 0, 
                     PlateNumber = expectedDetectedPlate.PlateNumber,
                     SearchStartDateTime = new DateTime(2018, 09, 29),
-                    SearchEndDateTime = null, 
-                    LicensePlateFound = false
+                    SearchEndDateTime = null
                 }
             };
 
@@ -274,8 +273,7 @@ namespace HucaresServer.Storage.UnitTests
                     Id = 0, 
                     PlateNumber = expectedDetectedPlate.PlateNumber,
                     SearchStartDateTime = new DateTime(2018, 09, 25),
-                    SearchEndDateTime = null, 
-                    LicensePlateFound = false
+                    SearchEndDateTime = null
                 }
             };
 
@@ -330,6 +328,185 @@ namespace HucaresServer.Storage.UnitTests
                 startDateTime: new DateTime(2018, 10, 05), endDateTime: new DateTime(2018, 09, 05)));
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustNotHaveHappened();
         }
+
+        [TestMethod]
+        public void GetAllActiveDetectedPlatesByPlateNumber_WithEndDateNoStartDate_ShouldReturn()
+        {
+            //Arrange         
+            var expectedDetectedPlate = new DetectedLicensePlate()
+            {
+                Id = 0, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 10, 10)
+            };
+            
+            var fakeDetectedPlateList = new List<DetectedLicensePlate>(){
+                expectedDetectedPlate,
+                new DetectedLicensePlate()
+                {
+                    Id = 1, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 09, 10)
+                },
+                new DetectedLicensePlate()
+                {
+                    Id = 2, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 11, 10)
+                }
+            };
+            
+            var fakeMissingPlateList = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate()
+                {
+                    Id = 0, 
+                    PlateNumber = expectedDetectedPlate.PlateNumber,
+                    SearchStartDateTime = new DateTime(2018, 10, 05)
+                }
+            };
+
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlateList.AsQueryable());
+            
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSetDetectedPlates);
+            
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetPlateRecordByPlateNumber(expectedDetectedPlate.PlateNumber))
+                .Returns(fakeMissingPlateList);
+            
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act
+            var result = detectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber: expectedDetectedPlate.PlateNumber,
+                endDateTime: new DateTime(2018, 10, 15)).ToList();
+            
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            result.Count().ShouldBe(1);
+            result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
+        }
+        
+        [TestMethod]
+        public void GetAllActiveDetectedPlatesByPlateNumber_WithStartDateBeforeMLP_ShouldReturn()
+        {
+            //Arrange         
+            var expectedDetectedPlate1 = new DetectedLicensePlate()
+            {
+                Id = 0, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 10, 13)
+            };
+            
+            var expectedDetectedPlate2 = new DetectedLicensePlate()
+            {
+                Id = 1, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 10, 06)
+            };
+            
+            var fakeDetectedPlateList = new List<DetectedLicensePlate>(){
+                expectedDetectedPlate1,
+                expectedDetectedPlate2,
+                new DetectedLicensePlate()
+                {
+                    Id = 2, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 09, 10)
+                },
+                new DetectedLicensePlate()
+                {
+                    Id = 3, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 11, 10)
+                }
+            };
+            
+            var fakeMissingPlateList = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate()
+                {
+                    Id = 0, 
+                    PlateNumber = expectedDetectedPlate1.PlateNumber,
+                    SearchStartDateTime = new DateTime(2018, 10, 05)
+                }
+            };
+
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlateList.AsQueryable());
+            
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSetDetectedPlates);
+            
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetPlateRecordByPlateNumber(expectedDetectedPlate1.PlateNumber))
+                .Returns(fakeMissingPlateList);
+            
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act
+            var result = detectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber: expectedDetectedPlate1.PlateNumber,
+                startDateTime: new DateTime(2018, 09, 01), endDateTime: new DateTime(2018, 10, 15)).ToList();
+            
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            result.Count().ShouldBe(2);
+            result.ShouldBe(new List<DetectedLicensePlate>() { expectedDetectedPlate1, expectedDetectedPlate2 });
+        }
+        
+        [TestMethod]
+        public void GetAllActiveDetectedPlatesByPlateNumber_WithEndDateAfterMLP_ShouldReturn()
+        {
+            //Arrange         
+            var expectedDetectedPlate = new DetectedLicensePlate()
+            {
+                Id = 0, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 10, 10)
+            };
+            
+            var fakeDetectedPlateList = new List<DetectedLicensePlate>(){
+                expectedDetectedPlate,
+                new DetectedLicensePlate()
+                {
+                    Id = 2, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 09, 10)
+                },
+                new DetectedLicensePlate()
+                {
+                    Id = 3, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 11, 10)
+                }
+            };
+            
+            var fakeMissingPlateList = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate()
+                {
+                    Id = 0, 
+                    PlateNumber = expectedDetectedPlate.PlateNumber,
+                    SearchStartDateTime = new DateTime(2018, 10, 05),
+                    SearchEndDateTime = new DateTime(2018, 10, 15)
+                }
+            };
+
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlateList.AsQueryable());
+            
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSetDetectedPlates);
+            
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetPlateRecordByPlateNumber(expectedDetectedPlate.PlateNumber))
+                .Returns(fakeMissingPlateList);
+            
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act
+            var result = detectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber: expectedDetectedPlate.PlateNumber,
+                endDateTime: new DateTime(2018, 11, 25)).ToList();
+            
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustHaveHappened();
+            result.Count().ShouldBe(1);
+            result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
+        }
+        
 
         [TestMethod]
         public void GetAllDetectedPlatesByCamera_WithoutDates_ShouldReturn()

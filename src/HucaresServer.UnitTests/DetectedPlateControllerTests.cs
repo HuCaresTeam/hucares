@@ -14,7 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static HucaresServer.Models.CameraInfoDataModels;
 
-namespace HucaresServer.Storage.UnitTests
+namespace HucaresServer.UnitTests
 {
     [TestClass]
     public class DetectedPlateControllerTests

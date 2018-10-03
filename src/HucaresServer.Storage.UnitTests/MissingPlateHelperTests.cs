@@ -271,6 +271,108 @@ namespace HucaresServer.Storage.UnitTests
         }
         
         [TestMethod]
+        public void MarkFoundPlate_WhenPlateIdExist_ShouldSucceed()
+        {
+            var missingPlateObj = new MissingLicensePlate() { Id = 1, SearchStartDateTime = new DateTime(2018, 05, 08), LicensePlateFound = false};
+            //Arrange
+            var fakeIQueryable = new List<MissingLicensePlate>() { missingPlateObj }.AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var expectedSearch = true;
+            
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+            var result = missingPlateHelper.MarkFoundPlate(missingPlateObj.Id, DateTime.Now, expectedSearch);
+
+            //Act & Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeDbSet.Add(A<MissingLicensePlate>.Ignored))
+                .MustNotHaveHappened();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustHaveHappenedOnceExactly();
+
+            result.ShouldBe(missingPlateObj);
+            missingPlateObj.LicensePlateFound.ShouldBe(true);
+        }
+        
+        [TestMethod]
+        public void MarkFoundPlate_WhenPlateIdDoesNotExist_ShouldThrow()
+        {
+            //Arrange
+            var fakeIQueryable = new List<MissingLicensePlate>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+
+            var expectedId = 5;
+            var expectedStartSearchDateTime = new DateTime(2018, 08, 17);
+            var expectedSearch = true;
+
+            //Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.MarkFoundPlate(expectedId, expectedStartSearchDateTime, expectedSearch));
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustNotHaveHappened();
+        }
+        
+        [TestMethod]
+        public void DeletePlateById_WhenPlateIdExist_ShouldSucceed()
+        {
+            //Arrange
+            var missingPlateObj = new MissingLicensePlate() { Id = 1 };
+            var fakeIQueryable = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate() { Id = 0 },
+                missingPlateObj 
+            }.AsQueryable();
+
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+
+            //Act
+            var result = missingPlateHelper.DeletePlateById(missingPlateObj.Id);
+
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeDbSet.Remove(missingPlateObj))
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustHaveHappenedOnceExactly();
+
+            result.ShouldBe(missingPlateObj);  
+        }
+        
+        [TestMethod]
         public void DeletePlateById_WhenPlateWithIdDoesNotExist_ShouldThrow()
         {
             //Arrange
@@ -292,6 +394,45 @@ namespace HucaresServer.Storage.UnitTests
 
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustNotHaveHappened();
+        }
+        
+        [TestMethod]
+        public void DeletePlateByNumber_WhenPlateNumberExist_ShouldSucceed()
+        {
+            //Arrange
+            var missingPlateObj = new MissingLicensePlate() { PlateNumber = "ZOO:555" };
+            var fakeIQueryable = new List<MissingLicensePlate>()
+            {
+                new MissingLicensePlate() { PlateNumber = "ZZZ:123"},
+                missingPlateObj 
+            }.AsQueryable();
+
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
+
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            A.CallTo(() => fakeHucaresContext.MissingLicensePlates)
+                .Returns(fakeDbSet);
+
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
+
+            //Act
+            var result = missingPlateHelper.DeletePlateByNumber(missingPlateObj.PlateNumber);
+
+            //Assert
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeDbSet.Remove(missingPlateObj))
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeHucaresContext.SaveChanges())
+                .MustHaveHappenedOnceExactly();
+
+            result.ShouldBe(missingPlateObj);  
         }
         
         [TestMethod]

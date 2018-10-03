@@ -66,36 +66,21 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        public MissingLicensePlate MarkFoundPlate(int plateId, DateTime requestDateTime)
+        public MissingLicensePlate MarkFoundPlate(int plateId, DateTime requestDateTime, bool isFound)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 var recordToUpdate = ctx.MissingLicensePlates.FirstOrDefault(c => c.Id == plateId) ?? 
                                      throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, plateId));
 
-                recordToUpdate.LicensePlateFound = true;
+                recordToUpdate.LicensePlateFound = isFound;
                 recordToUpdate.SearchStartDateTime = requestDateTime;
                 ctx.SaveChanges();
 
                 return recordToUpdate;
             }
         }
-
-        public MissingLicensePlate MarkNotFoundPlate(int plateId, DateTime requestDateTime)
-        {
-            using (var ctx = _dbContextFactory.BuildHucaresContext())
-            {
-                var recordToUpdate = ctx.MissingLicensePlates.FirstOrDefault(c => c.Id == plateId) ?? 
-                                     throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, plateId));
-
-                recordToUpdate.LicensePlateFound = false;
-                recordToUpdate.SearchStartDateTime = requestDateTime;
-                ctx.SaveChanges();
-
-                return recordToUpdate;
-            }
-        }
-
+        
         public MissingLicensePlate DeletePlateById(int plateId)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())

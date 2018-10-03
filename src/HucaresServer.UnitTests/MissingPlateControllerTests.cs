@@ -151,8 +151,13 @@ namespace HucaresServer.UnitTests
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
 
             var expectedId = 5;
-            var requestedDateTime = new DateTime(2018, 06, 22);
+            var requestedDateTime = new DateTime(2018, 05, 15);
             var expectedSearch = true;
+            var expectedDataModel = new MarkFoundRecordDataModel()
+            {
+                EndDateTime = new DateTime(2018, 05, 15),
+                IsFound = true,
+            };
             var expectedMissingPlateInfo = new MissingLicensePlate() {Id = expectedId};
             A.CallTo(() => fakeMissingPlateHelper.MarkFoundPlate(expectedId, requestedDateTime, expectedSearch))
                 .Returns(expectedMissingPlateInfo);
@@ -160,7 +165,7 @@ namespace HucaresServer.UnitTests
             var mlpController = new MissingPlateController()
                 {MissingPlateHelper = fakeMissingPlateHelper, Request = new HttpRequestMessage()};
             //Act
-            var result = mlpController.MarkFoundMissingPlate(expectedId, requestedDateTime, expectedSearch);
+            var result = mlpController.MarkFoundMissingPlate(expectedId, expectedDataModel);
 
             //Assert
             A.CallTo(() => fakeMissingPlateHelper.MarkFoundPlate(expectedId, requestedDateTime, expectedSearch))

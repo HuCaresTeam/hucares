@@ -128,7 +128,29 @@ namespace HucaresServer.Storage.Helpers
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByCamera(int cameraId,
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
-            throw new NotImplementedException();
+            if (startDateTime != null && endDateTime != null && endDateTime < startDateTime)
+            {
+                // Need to move to Resources, but don't know if possible on Rider
+                throw new ArgumentException("Search endDateTime cannot be before startDateTime");
+            }
+
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var results = ctx.DetectedLicensePlates
+                    .Where(s => s.CamId == cameraId);
+
+                if (startDateTime != null)
+                {
+                    results = results.Where(s => s.DetectedDateTime >= startDateTime);
+                }
+
+                if (endDateTime != null)
+                {
+                    results = results.Where(s => s.DetectedDateTime <= endDateTime);
+                }
+
+                return results.ToList();
+            }
         }
     }
 }

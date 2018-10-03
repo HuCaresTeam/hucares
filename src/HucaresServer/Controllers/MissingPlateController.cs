@@ -1,6 +1,8 @@
 using System;
 using System.Web.Http;
+using HucaresServer.Models;
 using HucaresServer.Storage.Helpers;
+using static HucaresServer.Models.MissingLicensePlateDataModels;
 
 namespace HucaresServer.Controllers
 {
@@ -28,16 +30,16 @@ namespace HucaresServer.Controllers
 
         [HttpGet]
         [Route("api/mlp/insert/{plateNumber}")]
-        public IHttpActionResult InsertMissingPlateByNumber(string plateNumber, DateTime startDateTime)
+        public IHttpActionResult InsertMissingPlateByNumber([FromBody] InsertMlpDataModel data)
         {
-            return Json(MissingPlateHelper.InsertPlateRecord(plateNumber, startDateTime));
+            return Json(MissingPlateHelper.InsertPlateRecord(data.PlateNumber, data.SearchStartDateTime));
         }
         
         [HttpGet]
         [Route("api/mlp/update/{plateId}")]
-        public IHttpActionResult UpdatePlateRecordById(int plateId, DateTime startDateTime)
+        public IHttpActionResult UpdatePlateRecordById(int id, [FromBody] UpdatePlateRecordDataModel data)
         {
-            return Json(MissingPlateHelper.UpdatePlateRecord(plateId, "5555", startDateTime));
+            return Json(MissingPlateHelper.UpdatePlateRecord(id, data.PlateNumber, data.SearchStartDateTime));
         }
         
         [HttpGet]

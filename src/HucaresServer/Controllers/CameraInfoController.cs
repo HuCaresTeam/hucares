@@ -33,7 +33,7 @@ namespace HucaresServer.Controllers
             return Json(CameraInfoHelper.UpdateCameraActivity(id, data.IsActive));
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("api/camera/delete/{id}")]
         public IHttpActionResult DeleteCameraById(int id)
         {

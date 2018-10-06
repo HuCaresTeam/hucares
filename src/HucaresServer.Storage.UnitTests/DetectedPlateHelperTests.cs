@@ -5,16 +5,15 @@ using System.Linq;
 using FakeItEasy;
 using HucaresServer.Storage.Helpers;
 using HucaresServer.Storage.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Shouldly;
 
 namespace HucaresServer.Storage.UnitTests
 {
-    [TestClass]
     public class DetectedPlateHelperTests
     {
 
-        [TestMethod]
+        [Test]
         public void InsertNewDetectedPlate_WhenAllInfoCorrect_ShouldSucceedAndReturn()
         {
 
@@ -61,7 +60,7 @@ namespace HucaresServer.Storage.UnitTests
 
         }
         
-        [TestMethod]
+        [Test]
         public void InsertNewDetectedPlate_WhenConfidenceNotCorrect_ShouldThrowError()
         {
 
@@ -81,7 +80,7 @@ namespace HucaresServer.Storage.UnitTests
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
 
             //Act and Assert
-            Assert.ThrowsException<ArgumentException>(() => detectedPlateHelper.InsertNewDetectedPlate(
+            Assert.Throws<ArgumentException>(() => detectedPlateHelper.InsertNewDetectedPlate(
                 "ABC001", new DateTime(2018, 09, 29),
                 1, "http://localhost:6969/images/cam01_21080929_235959", 1.1));
             
@@ -90,7 +89,7 @@ namespace HucaresServer.Storage.UnitTests
 
         }
         
-        [TestMethod]
+        [Test]
         public void InsertNewDetectedPlate_WhenUriNotCorrect_ShouldThrowError()
         {
 
@@ -110,7 +109,7 @@ namespace HucaresServer.Storage.UnitTests
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
 
             //Act and Assert
-            Assert.ThrowsException<UriFormatException>(() => detectedPlateHelper.InsertNewDetectedPlate(
+            Assert.Throws<UriFormatException>(() => detectedPlateHelper.InsertNewDetectedPlate(
                 "ABC001", new DateTime(2018, 09, 29),
                 1, "notValidUri", 0.75));
             
@@ -119,7 +118,7 @@ namespace HucaresServer.Storage.UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void GetAllDetectedMissingPlates_ShouldReturn()
         {
             //Arrange
@@ -182,7 +181,7 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
         
-        [TestMethod]
+        [Test]
         public void GetAllActiveDetectedPlatesByPlateNumber_NoDates_ShouldReturnExpected()
         {       
             //Arrange         
@@ -242,7 +241,7 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
         
-        [TestMethod]
+        [Test]
         public void GetAllActiveDetectedPlatesByPlateNumber_WithPlateNumberWithDates_ShouldReturnExpected()
         {
              //Arrange         
@@ -303,7 +302,7 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
         
-        [TestMethod]
+        [Test]
         public void GetAllActiveDetectedPlatesByPlateNumber_WithStartDateEarlierThanEndDate_ShouldThrowError()
         {
             //Arrange         
@@ -324,12 +323,12 @@ namespace HucaresServer.Storage.UnitTests
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
             
             //Act
-            Assert.ThrowsException<ArgumentException>(() => detectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber: "ABC001",
+            Assert.Throws<ArgumentException>(() => detectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber: "ABC001",
                 startDateTime: new DateTime(2018, 10, 05), endDateTime: new DateTime(2018, 09, 05)));
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustNotHaveHappened();
         }
 
-        [TestMethod]
+        [Test]
         public void GetAllActiveDetectedPlatesByPlateNumber_WithEndDateNoStartDate_ShouldReturn()
         {
             //Arrange         
@@ -386,7 +385,7 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
         
-        [TestMethod]
+        [Test]
         public void GetAllActiveDetectedPlatesByPlateNumber_WithStartDateBeforeMLP_ShouldReturn()
         {
             //Arrange         
@@ -449,7 +448,7 @@ namespace HucaresServer.Storage.UnitTests
             result.ShouldBe(new List<DetectedLicensePlate>() { expectedDetectedPlate1, expectedDetectedPlate2 });
         }
         
-        [TestMethod]
+        [Test]
         public void GetAllActiveDetectedPlatesByPlateNumber_WithEndDateAfterMLP_ShouldReturn()
         {
             //Arrange         
@@ -508,7 +507,7 @@ namespace HucaresServer.Storage.UnitTests
         }
         
 
-        [TestMethod]
+        [Test]
         public void GetAllDetectedPlatesByCamera_WithoutDates_ShouldReturn()
         {
             //Arrange      
@@ -547,7 +546,7 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
         
-        [TestMethod]
+        [Test]
         public void GetAllDetectedPlatesByCamera_WithDates_ShouldReturn()
         {
             //Arrange      
@@ -595,7 +594,7 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(expectedDetectedPlate);
         }
 
-        [TestMethod]
+        [Test]
         public void GetAllDetectedPlatesByCamera_WithStartLaterThanEnd_ShouldThrow()
         {
             //Arrange         
@@ -608,7 +607,7 @@ namespace HucaresServer.Storage.UnitTests
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
             
             //Act & assert
-            Assert.ThrowsException<ArgumentException>(() => detectedPlateHelper.GetAllDetectedPlatesByCamera(cameraId: 0,
+            Assert.Throws<ArgumentException>(() => detectedPlateHelper.GetAllDetectedPlatesByCamera(cameraId: 0,
                 startDateTime: new DateTime(2018, 10, 05), endDateTime: new DateTime(2018, 09, 05)));
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustNotHaveHappened();
         }

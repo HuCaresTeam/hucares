@@ -5,15 +5,14 @@ using System.Linq;
 using HucaresServer.Storage.Helpers;
 using FakeItEasy;
 using HucaresServer.Storage.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Shouldly;
 
 namespace HucaresServer.Storage.UnitTests
 {
-    [TestClass]
     public class MissingLicensePlateTests
     {
-        [TestMethod]
+        [Test]
         public void InsertMissingPlate_WhenPlateNumberIsValid_ShouldSucceedAndReturnExpected()
         {
             //Arrange
@@ -49,7 +48,7 @@ namespace HucaresServer.Storage.UnitTests
             result.SearchStartDateTime.ShouldBe(expectedDate);
         }
 
-        [TestMethod]
+        [Test]
         public void InsertPlateRecord_WhenPlateNumberIsNotValid_ShouldThrowAnError()
         {
             //Arrange
@@ -76,7 +75,7 @@ namespace HucaresServer.Storage.UnitTests
                 .MustNotHaveHappened();
         }
 
-        [TestMethod]
+        [Test]
         public void GetAllPlateRecords_WhenDbIsEmpty_ShouldThrowEmptyDB()
         {
             //Arrange
@@ -107,7 +106,7 @@ namespace HucaresServer.Storage.UnitTests
             result.Count().ShouldBe(0);
         }
         
-        [TestMethod]
+        [Test]
         public void GetAllPlates_WhenDbIsNotEmpty_ShouldReturnExpected()
         {
             var expectedDate = new DateTime(2018, 05, 15);
@@ -145,7 +144,7 @@ namespace HucaresServer.Storage.UnitTests
             Assert.IsTrue(result.SequenceEqual(fakeIQueryable.ToList()), "Lists are not equal");
         }
 
-        [TestMethod]
+        [Test]
         public void GetPlateRecordByPlateNumber_WhenPlateNumberExist_ShouldReturnExpected()
         {
             //Arrange
@@ -184,7 +183,7 @@ namespace HucaresServer.Storage.UnitTests
             Assert.IsTrue(result.SequenceEqual(expectedResult.ToList()), "Lists are not equal");
         }
         
-        [TestMethod]
+        [Test]
         public void GetPlateRecordByPlateNumber_WhenPlateNumberNotExist_ShouldSucceedAndReturnNull()
         {
             //Arrange
@@ -212,7 +211,7 @@ namespace HucaresServer.Storage.UnitTests
             result.ShouldBeEmpty();
         }
 
-        [TestMethod]
+        [Test]
         public void UpdatePlateRecord_WhenRecordWithIdDoesNotExist_ShouldThrow()
         {
             //Arrange
@@ -230,10 +229,10 @@ namespace HucaresServer.Storage.UnitTests
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.UpdatePlateRecord(0, "JBA:514", DateTime.Today));
+            Assert.Throws<ArgumentException>(() => missingPlateHelper.UpdatePlateRecord(0, "JBA:514", DateTime.Today));
         }
 
-        [TestMethod]
+        [Test]
         public void UpdatePlateRecord_WhenRecordWithIdExist_ShouldUpdateRecord()
         {
             //Arrange
@@ -270,7 +269,7 @@ namespace HucaresServer.Storage.UnitTests
             missingPlateObj.PlateNumber.ShouldBe(expectedPlateNumber);
         }
         
-        [TestMethod]
+        [Test]
         public void MarkFoundPlate_WhenPlateIdExist_ShouldSucceed()
         {
             var missingPlateObj = new MissingLicensePlate() { Id = 1, SearchStartDateTime = new DateTime(2018, 05, 08), LicensePlateFound = false};
@@ -305,7 +304,7 @@ namespace HucaresServer.Storage.UnitTests
             missingPlateObj.LicensePlateFound.ShouldBe(true);
         }
         
-        [TestMethod]
+        [Test]
         public void MarkFoundPlate_WhenPlateIdDoesNotExist_ShouldThrow()
         {
             //Arrange
@@ -327,13 +326,13 @@ namespace HucaresServer.Storage.UnitTests
             var expectedSearch = true;
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.MarkFoundPlate(expectedId, expectedStartSearchDateTime, expectedSearch));
+            Assert.Throws<ArgumentException>(() => missingPlateHelper.MarkFoundPlate(expectedId, expectedStartSearchDateTime, expectedSearch));
 
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustNotHaveHappened();
         }
         
-        [TestMethod]
+        [Test]
         public void DeletePlateById_WhenPlateIdExist_ShouldSucceed()
         {
             //Arrange
@@ -372,7 +371,7 @@ namespace HucaresServer.Storage.UnitTests
             result.ShouldBe(missingPlateObj);  
         }
         
-        [TestMethod]
+        [Test]
         public void DeletePlateById_WhenPlateWithIdDoesNotExist_ShouldThrow()
         {
             //Arrange
@@ -390,13 +389,13 @@ namespace HucaresServer.Storage.UnitTests
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.DeletePlateById(0));
+            Assert.Throws<ArgumentException>(() => missingPlateHelper.DeletePlateById(0));
 
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustNotHaveHappened();
         }
         
-        [TestMethod]
+        [Test]
         public void DeletePlateByNumber_WhenPlateNumberExist_ShouldSucceed()
         {
             //Arrange
@@ -435,7 +434,7 @@ namespace HucaresServer.Storage.UnitTests
             result.ShouldBe(missingPlateObj);  
         }
         
-        [TestMethod]
+        [Test]
         public void DeletePlateByNumber_WhenPlateWithNumberDoesNotExist_ShouldThrow()
         {
             //Arrange
@@ -453,7 +452,7 @@ namespace HucaresServer.Storage.UnitTests
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentException>(() => missingPlateHelper.DeletePlateByNumber("TRO:555"));
+            Assert.Throws<ArgumentException>(() => missingPlateHelper.DeletePlateByNumber("TRO:555"));
 
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustNotHaveHappened();

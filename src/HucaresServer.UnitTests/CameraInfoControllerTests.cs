@@ -2,7 +2,6 @@
 using HucaresServer.Controllers;
 using HucaresServer.Storage.Helpers;
 using HucaresServer.Storage.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Shouldly;
 using System;
@@ -12,14 +11,14 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using static HucaresServer.Models.CameraInfoDataModels;
 
 namespace HucaresServer.UnitTests
 {
-    [TestClass]
     public class CameraInfoControllerTests
     {
-        [TestMethod]
+        [Test]
         public async Task InsertCamera_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -58,7 +57,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task UpdateCameraSource_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -94,7 +93,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task UpdateCameraActivity_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -128,7 +127,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task DeleteCameraById_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -156,7 +155,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetAllCameras_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -184,7 +183,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetActiveCameras_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -212,7 +211,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetInactiveCameras_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -239,7 +238,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetCameraById_WhenCalled_ShouldCallHelper()
         {
             //Arrange

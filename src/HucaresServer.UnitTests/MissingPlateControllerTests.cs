@@ -9,15 +9,14 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using static HucaresServer.Models.MissingLicensePlateDataModels;
 
 namespace HucaresServer.UnitTests
 {
-    [TestClass]
     public class MissingPlateControllerTests
     {
-        [TestMethod]
+        [Test]
         public async Task GetAllMissingPlates_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -44,7 +43,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetAllMissingPlatesByPlateNumber_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -73,7 +72,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
         
-        [TestMethod]
+        [Test]
         public async Task InsertMissingPlate_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -108,7 +107,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task UpdateMissingPlateRecord_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -145,7 +144,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task MarkFoundMissingPlate_WhenCalled_ShouldCallHelper()
         {
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
@@ -179,7 +178,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task DeletePlateById_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -207,7 +206,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
         
-        [TestMethod]
+        [Test]
         public async Task DeletePlateByNumber_WhenCalled_ShouldCallHelper()
         {
             //Arrange

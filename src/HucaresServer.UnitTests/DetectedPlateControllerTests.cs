@@ -2,7 +2,6 @@
 using HucaresServer.Controllers;
 using HucaresServer.Storage.Helpers;
 using HucaresServer.Storage.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Shouldly;
 using System;
@@ -12,15 +11,15 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using static HucaresServer.Models.CameraInfoDataModels;
 
 namespace HucaresServer.UnitTests
 {
-    [TestClass]
     public class DetectedPlateControllerTests
     {
 
-        [TestMethod]
+        [Test]
         public async Task GetAllDetectedMissingPlates_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -47,7 +46,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetAllDetectedPlatesByPlateNumber_WhenCalled_ShouldCallHelper()
         {
             //Arrange
@@ -77,7 +76,7 @@ namespace HucaresServer.UnitTests
             jsonContent.ShouldBe(expectedJson);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetAllDetectedPlatesByCamera_WhenCalled_ShouldCallHelper()
         {
             //Arrange

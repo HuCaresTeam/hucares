@@ -613,7 +613,7 @@ namespace HucaresServer.Storage.UnitTests
         }
 
         [Test]
-        public void DeletePlatesOlderThanDatetime_WithCorrectDate_ShouldReturn()
+        public void DeletePlatesOlderThanDatetime_WithCorrectDateNoMissingNumbers_ShouldReturn()
         {
             //Arrange 
             var expectedRemainingDetectedLicensePlate = new DetectedLicensePlate()
@@ -656,6 +656,54 @@ namespace HucaresServer.Storage.UnitTests
         }
 
         [Test]
+        public void DeletePlatesOlderThanDatetime_WithCorrectDateWithMissingNumber_ShouldReturn()
+        {
+            //Arrange 
+            var expectedRemainingDetectedLicensePlate = new DetectedLicensePlate()
+                {DetectedDateTime = new DateTime(2018, 09, 10), PlateNumber = "FFF999"};
+            var expectedDeletedDetectedLicensePlate = new DetectedLicensePlate()
+                {DetectedDateTime = new DateTime(2018, 09, 10), PlateNumber = "ABC123"};
+            
+            var fakeDetectedPlatesList = new List<DetectedLicensePlate>()
+            {
+                expectedRemainingDetectedLicensePlate,
+                expectedDeletedDetectedLicensePlate
+            };
+            
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlatesList.AsQueryable());
+            
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSetDetectedPlates);
+            
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
+                .Returns(new List<MissingLicensePlate>()
+                {
+                    new MissingLicensePlate() {PlateNumber = expectedRemainingDetectedLicensePlate.PlateNumber}
+                });
+            
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act
+            var deletedPlates = detectedPlateHelper.DeletePlatesOlderThanDatetime(new DateTime(2018, 10, 01)).ToList();
+            
+            //Assert
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates).MustHaveHappened();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords()).MustHaveHappened();
+            
+            deletedPlates.Count.ShouldBe(1);
+            deletedPlates.FirstOrDefault().ShouldBe(expectedDeletedDetectedLicensePlate);
+            
+            fakeHucaresContext.DetectedLicensePlates.FirstOrDefault()
+                .ShouldBe(expectedRemainingDetectedLicensePlate);
+        }
+        
+        [Test]
         public void DeletePlatesOlderThanDatetime_WithDateInFuture_ShouldThrow()
         {
             //Arrange         
@@ -665,11 +713,15 @@ namespace HucaresServer.Storage.UnitTests
                 .Returns(fakeHucaresContext);
 
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
+                .Returns(new List<MissingLicensePlate>());
+            
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
             
             //Act & assert
             Assert.Throws<ArgumentException>(() => detectedPlateHelper.DeletePlatesOlderThanDatetime(DateTime.Today.AddDays(2)));
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustNotHaveHappened();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords()).MustNotHaveHappened();
         }
     }
 }

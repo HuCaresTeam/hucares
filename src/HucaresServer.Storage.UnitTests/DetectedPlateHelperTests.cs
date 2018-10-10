@@ -651,7 +651,18 @@ namespace HucaresServer.Storage.UnitTests
         [Test]
         public void DeletePlatesOlderThanDatetime_WithDateInFuture_ShouldThrow()
         {
-            throw new NotImplementedException();
+            //Arrange         
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act & assert
+            Assert.Throws<ArgumentException>(() => detectedPlateHelper.DeletePlatesOlderThanDatetime(DateTime.Today.AddDays(2)));
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustNotHaveHappened();
         }
     }
 }

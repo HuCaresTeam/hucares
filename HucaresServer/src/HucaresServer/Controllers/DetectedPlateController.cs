@@ -2,6 +2,8 @@
 using System;
 using System.Web.Http;
 using static HucaresServer.Models.CameraInfoDataModels;
+using HucaresServer.Utils;
+using HucaresServer.Properties;
 
 namespace HucaresServer.Controllers
 {
@@ -25,6 +27,9 @@ namespace HucaresServer.Controllers
         public IHttpActionResult GetAllDetectedPlatesByPlateNumber(string plateNumber, DateTime? startDateTime = null,
             DateTime? endDateTime = null)
         {
+            if (!plateNumber.IsValidPlateNumber())
+                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
+
             return Json(DetectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber, startDateTime, endDateTime));
         }
 

@@ -615,7 +615,37 @@ namespace HucaresServer.Storage.UnitTests
         [Test]
         public void DeletePlatesOlderThanDatetime_WithCorrectDate_ShouldReturn()
         {
-            throw new NotImplementedException();
+            //Arrange 
+            var expectedDetectedLicensePlate = new DetectedLicensePlate()
+                {DetectedDateTime = new DateTime(2018, 10, 10)};
+            
+            var fakeDetectedPlatesList = new List<DetectedLicensePlate>()
+            {
+                expectedDetectedLicensePlate,
+                new DetectedLicensePlate() {DetectedDateTime = new DateTime(2018, 09, 10)},
+                new DetectedLicensePlate() {DetectedDateTime = new DateTime(2018, 08, 10)}
+            };
+            
+            var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlatesList.AsQueryable());
+            
+            var fakeHucaresContext = A.Fake<HucaresContext>();
+            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
+            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
+                .Returns(fakeHucaresContext);
+
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
+                .Returns(fakeDbSetDetectedPlates);
+            
+            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
+            
+            //Act
+            var results = detectedPlateHelper.DeletePlatesOlderThanDatetime(new DateTime(2018, 10, 01)).ToList();
+            
+            //Assert
+            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates).MustHaveHappened();
+            results.Count.ShouldBe(1);
+            results.FirstOrDefault().ShouldBe(expectedDetectedLicensePlate);
         }
 
         [Test]

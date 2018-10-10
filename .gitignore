@@ -115,8 +115,8 @@ UpgradeLog*.XML
 UpgradeLog*.htm
 
 # SQL Server files
-src/HucaresServer/App_Data/*.mdf
-src/HucaresServer/App_Data/*.ldf
+HucaresServer/src/HucaresServer/App_Data/*.mdf
+HucaresServer/src/HucaresServer/App_Data/*.ldf
 
 # =========================
 # Windows detritus

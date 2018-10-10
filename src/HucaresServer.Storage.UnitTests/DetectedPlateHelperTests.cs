@@ -617,9 +617,9 @@ namespace HucaresServer.Storage.UnitTests
         {
             //Arrange 
             var expectedRemainingDetectedLicensePlate = new DetectedLicensePlate()
-                {DetectedDateTime = new DateTime(2018, 10, 10)};
+                {DetectedDateTime = new DateTime(2018, 10, 10), PlateNumber = "ABC123"};
             var expectedDeletedDetectedLicensePlate = new DetectedLicensePlate()
-                {DetectedDateTime = new DateTime(2018, 09, 10)};
+                {DetectedDateTime = new DateTime(2018, 09, 10), PlateNumber = "ABC123"};
             
             var fakeDetectedPlatesList = new List<DetectedLicensePlate>()
             {
@@ -638,6 +638,9 @@ namespace HucaresServer.Storage.UnitTests
                 .Returns(fakeDbSetDetectedPlates);
             
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
+            A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
+                .Returns(new List<MissingLicensePlate>());
+            
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
             
             //Act

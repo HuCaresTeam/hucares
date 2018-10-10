@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HucaresServer.Storage.Models
 {
     [Table("DetectedLicensePlates")]
-    public class DetectedLicensePlate
+    public class DetectedLicensePlate : IEquatable<DetectedLicensePlate>
     {
         /// <summary>
         /// The primary key of the DetectedLicensePlates table.
@@ -44,5 +44,19 @@ namespace HucaresServer.Storage.Models
         /// Determines how confident the system is that the parsed license plate number is correct.
         /// </summary>
         public double Confidence { get; set; }
+        
+        public bool Equals(DetectedLicensePlate other)
+        {
+            if (ReferenceEquals(this, other))
+                return true;
+            if (ReferenceEquals(null, other))
+                return false;
+            return (Id == other.Id
+                    && PlateNumber == other.PlateNumber
+                    && DetectedDateTime == other.DetectedDateTime
+                    && CamId == other.CamId
+                    && ImgUrl == other.ImgUrl
+                    && Confidence == other.Confidence);
+        }
     }
 }

@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HucaresServer.Storage.Models
 {
     [Table("CameraInfo")]
-    public class CameraInfo
+    public class CameraInfo : IEquatable<CameraInfo>
     {
         /// <summary>
         /// The primary key of CameraInfo table.
@@ -36,5 +37,19 @@ namespace HucaresServer.Storage.Models
         /// When cameras are unneeded they cannot be deleted until all records referencing the camera are deleted.
         /// </summary>
         public bool IsActive { get; set; } = true;
+        
+        public bool Equals(CameraInfo other)
+        {
+            if (ReferenceEquals(this, other))
+                return true;
+            if (ReferenceEquals(null, other))
+                return false;
+            return (Id == other.Id
+                    && HostUrl == other.HostUrl
+                    && Latitude == other.Latitude
+                    && Longitude == other.Longitude
+                    && IsTrustedSource == other.IsTrustedSource
+                    && IsActive == other.IsActive);
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace HucaresServer.Storage.UnitTests
             var missingLicensePlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
             //Act
-            var expectedPlate = "JBA:555";
+            var expectedPlate = "JBA555";
             var expectedDate = new DateTime(2017, 08, 15);
             var result = missingLicensePlateHelper.InsertPlateRecord(expectedPlate, expectedDate);
 
@@ -114,8 +114,8 @@ namespace HucaresServer.Storage.UnitTests
             //Arrange
             var fakeIQueryable = new List<MissingLicensePlate>()
             {
-                new MissingLicensePlate() {PlateNumber = "JOR:154", SearchStartDateTime = expectedDate},
-                new MissingLicensePlate() {PlateNumber = "JUA:222", SearchStartDateTime = expectedDate}
+                new MissingLicensePlate() {PlateNumber = "JOR154", SearchStartDateTime = expectedDate},
+                new MissingLicensePlate() {PlateNumber = "JUA222", SearchStartDateTime = expectedDate}
             }.AsQueryable();
 
             var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
@@ -150,9 +150,9 @@ namespace HucaresServer.Storage.UnitTests
             //Arrange
             var fakeIQueryable = new List<MissingLicensePlate>()
             {
-                new MissingLicensePlate() { PlateNumber = "ZOA:555", SearchStartDateTime = new DateTime(2018, 11, 04)},
-                new MissingLicensePlate() { PlateNumber = "DAD:123", SearchStartDateTime = new DateTime(2018, 10, 04) },
-                new MissingLicensePlate() { PlateNumber = "FEF:144", SearchStartDateTime = new DateTime(2018, 12, 04) }
+                new MissingLicensePlate() { PlateNumber = "ZOA555", SearchStartDateTime = new DateTime(2018, 11, 04)},
+                new MissingLicensePlate() { PlateNumber = "DAD123", SearchStartDateTime = new DateTime(2018, 10, 04) },
+                new MissingLicensePlate() { PlateNumber = "FEF144", SearchStartDateTime = new DateTime(2018, 12, 04) }
             }.AsQueryable();
 
             var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
@@ -167,7 +167,7 @@ namespace HucaresServer.Storage.UnitTests
 
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
-            var expectedPlateNumber = "ZOA:555";
+            var expectedPlateNumber = "ZOA555";
             //Act
             var result = missingPlateHelper.GetPlateRecordByPlateNumber(expectedPlateNumber);
 
@@ -189,7 +189,7 @@ namespace HucaresServer.Storage.UnitTests
             //Arrange
             var fakeIQueryable = new List<MissingLicensePlate>()
             {
-                new MissingLicensePlate() { PlateNumber = "OOO:111"}
+                new MissingLicensePlate() { PlateNumber = "OOO111"}
             }.AsQueryable();
 
             var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
@@ -205,7 +205,7 @@ namespace HucaresServer.Storage.UnitTests
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
             //Act
-            var result = missingPlateHelper.GetPlateRecordByPlateNumber("QQQ:333");
+            var result = missingPlateHelper.GetPlateRecordByPlateNumber("QQQ333");
 
             //Assert
             result.ShouldBeEmpty();
@@ -229,14 +229,14 @@ namespace HucaresServer.Storage.UnitTests
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
             //Act & Assert
-            Assert.Throws<ArgumentException>(() => missingPlateHelper.UpdatePlateRecord(0, "JBA:514", DateTime.Today));
+            Assert.Throws<ArgumentException>(() => missingPlateHelper.UpdatePlateRecord(0, "JBA514", DateTime.Today));
         }
 
         [Test]
         public void UpdatePlateRecord_WhenRecordWithIdExist_ShouldUpdateRecord()
         {
             //Arrange
-            var missingPlateObj = new MissingLicensePlate() { Id = 1, PlateNumber = "FOF:150"};
+            var missingPlateObj = new MissingLicensePlate() { Id = 1, PlateNumber = "FOF150"};
             var fakeIQueryable = new List<MissingLicensePlate>(){ missingPlateObj }.AsQueryable();
 
             var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
@@ -252,7 +252,7 @@ namespace HucaresServer.Storage.UnitTests
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
             //Act
-            var expectedPlateNumber = "TRE:145";
+            var expectedPlateNumber = "TRE145";
             var result = missingPlateHelper.UpdatePlateRecord(missingPlateObj.Id, expectedPlateNumber, DateTime.Now);
 
             //Assert
@@ -399,10 +399,10 @@ namespace HucaresServer.Storage.UnitTests
         public void DeletePlateByNumber_WhenPlateNumberExist_ShouldSucceed()
         {
             //Arrange
-            var missingPlateObj = new MissingLicensePlate() { PlateNumber = "ZOO:555" };
+            var missingPlateObj = new MissingLicensePlate() { PlateNumber = "ZOO555" };
             var fakeIQueryable = new List<MissingLicensePlate>()
             {
-                new MissingLicensePlate() { PlateNumber = "ZZZ:123"},
+                new MissingLicensePlate() { PlateNumber = "ZZZ123"},
                 missingPlateObj 
             }.AsQueryable();
 
@@ -452,7 +452,7 @@ namespace HucaresServer.Storage.UnitTests
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
 
             //Act & Assert
-            Assert.Throws<ArgumentException>(() => missingPlateHelper.DeletePlateByNumber("TRO:555"));
+            Assert.Throws<ArgumentException>(() => missingPlateHelper.DeletePlateByNumber("TRO555"));
 
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustNotHaveHappened();

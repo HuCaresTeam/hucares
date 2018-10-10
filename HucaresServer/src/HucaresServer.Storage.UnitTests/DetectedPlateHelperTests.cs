@@ -33,14 +33,18 @@ namespace HucaresServer.Storage.UnitTests
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
 
             //Act
-            var expectedPlateNumber = "ABC001";
-            var expectedDetectedDateTime = new DateTime(2018, 09, 29);
-            var expectedCamId = 1;
-            var expectedImgUrl = "http://localhost:6969/images/cam01_21080929_235959";
-            var expectedConfidence = 0.75;
+            var expectedDetectedPlate = new DetectedLicensePlate()
+            {
+                PlateNumber = "ABC001",
+                DetectedDateTime= new DateTime(2018, 09, 29),
+                CamId= 1,
+                ImgUrl= "http://localhost:6969/images/cam01_21080929_235959",
+                Confidence= 0.75
+            };
             
-            var result = detectedPlateHelper.InsertNewDetectedPlate(expectedPlateNumber, expectedDetectedDateTime,
-                expectedCamId, expectedImgUrl, expectedConfidence);
+            var result = detectedPlateHelper.InsertNewDetectedPlate(expectedDetectedPlate.PlateNumber, 
+                expectedDetectedPlate.DetectedDateTime, expectedDetectedPlate.CamId, expectedDetectedPlate.ImgUrl, 
+                expectedDetectedPlate.Confidence);
 
             //Assert
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
@@ -52,12 +56,7 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustHaveHappenedOnceExactly();
             
-            result.PlateNumber.ShouldBe(expectedPlateNumber);
-            result.DetectedDateTime.ShouldBe(expectedDetectedDateTime);
-            result.CamId.ShouldBe(expectedCamId);
-            result.ImgUrl.ShouldBe(expectedImgUrl);
-            result.Confidence.ShouldBe(expectedConfidence);
-
+            result.ShouldBe(expectedDetectedPlate);
         }
         
         [Test]

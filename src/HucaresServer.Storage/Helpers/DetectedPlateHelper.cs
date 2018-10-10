@@ -65,11 +65,11 @@ namespace HucaresServer.Storage.Helpers
 
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                var platesToDelete = ctx.DetectedLicensePlates.Where(s => s.DetectedDateTime < olderThanDatetime);
-                var deletedPlates = ctx.DetectedLicensePlates.RemoveRange(platesToDelete).ToList();
+                var platesToDelete = ctx.DetectedLicensePlates.Where(s => s.DetectedDateTime < olderThanDatetime).ToList();
+                ctx.DetectedLicensePlates.RemoveRange(platesToDelete);
                 ctx.SaveChanges();
 
-                return deletedPlates;
+                return platesToDelete;
             }
         }
         

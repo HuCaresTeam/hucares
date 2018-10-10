@@ -616,14 +616,15 @@ namespace HucaresServer.Storage.UnitTests
         public void DeletePlatesOlderThanDatetime_WithCorrectDate_ShouldReturn()
         {
             //Arrange 
-            var expectedDetectedLicensePlate = new DetectedLicensePlate()
+            var expectedRemainingDetectedLicensePlate = new DetectedLicensePlate()
                 {DetectedDateTime = new DateTime(2018, 10, 10)};
+            var expectedDeletedDetectedLicensePlate = new DetectedLicensePlate()
+                {DetectedDateTime = new DateTime(2018, 09, 10)};
             
             var fakeDetectedPlatesList = new List<DetectedLicensePlate>()
             {
-                expectedDetectedLicensePlate,
-                new DetectedLicensePlate() {DetectedDateTime = new DateTime(2018, 09, 10)},
-                new DetectedLicensePlate() {DetectedDateTime = new DateTime(2018, 08, 10)}
+                expectedRemainingDetectedLicensePlate,
+                expectedDeletedDetectedLicensePlate
             };
             
             var fakeDbSetDetectedPlates = StorageTestsUtil.SetupFakeDbSet(fakeDetectedPlatesList.AsQueryable());
@@ -640,12 +641,15 @@ namespace HucaresServer.Storage.UnitTests
             var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
             
             //Act
-            var results = detectedPlateHelper.DeletePlatesOlderThanDatetime(new DateTime(2018, 10, 01)).ToList();
+            var deletedPlates = detectedPlateHelper.DeletePlatesOlderThanDatetime(new DateTime(2018, 10, 01)).ToList();
             
             //Assert
             A.CallTo(() => fakeHucaresContext.DetectedLicensePlates).MustHaveHappened();
-            results.Count.ShouldBe(1);
-            results.FirstOrDefault().ShouldBe(expectedDetectedLicensePlate);
+            deletedPlates.Count.ShouldBe(1);
+            deletedPlates.FirstOrDefault().ShouldBe(expectedDeletedDetectedLicensePlate);
+            
+            fakeHucaresContext.DetectedLicensePlates.FirstOrDefault()
+                .ShouldBe(expectedRemainingDetectedLicensePlate);
         }
 
         [Test]

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HucaresServer.Storage.Models
 {
     [Table("MissingLicensePlates")]
-    public class MissingLicensePlate
+    public class MissingLicensePlate : IEquatable<MissingLicensePlate>
     {
         /// <summary>
         /// The primary key of MissingLicensePlates table.
@@ -39,5 +39,18 @@ namespace HucaresServer.Storage.Models
         /// Indicates wheter the license plate was found once the search is complete.
         /// </summary>
         public bool? LicensePlateFound { get; set; }
+        
+        public bool Equals(MissingLicensePlate other)
+        {
+            if (ReferenceEquals(this, other))
+                return true;
+            if (ReferenceEquals(null, other))
+                return false;
+            return (Id == other.Id
+                    && PlateNumber == other.PlateNumber
+                    && SearchStartDateTime == other.SearchStartDateTime
+                    && SearchEndDateTime== other.SearchEndDateTime
+                    && LicensePlateFound == other.LicensePlateFound);
+        }
     }
 }

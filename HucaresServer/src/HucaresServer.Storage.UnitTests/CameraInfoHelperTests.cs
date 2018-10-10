@@ -5,16 +5,14 @@ using System.Linq;
 using HucaresServer.Storage.Helpers;
 using FakeItEasy;
 using HucaresServer.Storage.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Shouldly;
 
 namespace HucaresServer.Storage.UnitTests
 {
-    
-    [TestClass]
     public class CameraInfoHelperTests
     {
-        [TestMethod]
+        [Test]
         public void InsertCamera_WhenAllDataValid_ShouldSucceedAndReturnExpected()
         {
             //Arrange
@@ -55,7 +53,7 @@ namespace HucaresServer.Storage.UnitTests
             result.IsTrustedSource.ShouldBe(expectedTrust);
         }
 
-        [TestMethod]
+        [Test]
         public void InsertCamera_WhenHostUrlIsMalformed_ShouldThrow()
         {
             //Arrange
@@ -73,13 +71,13 @@ namespace HucaresServer.Storage.UnitTests
             var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
-            Assert.ThrowsException<UriFormatException>(() => cameraInfoHelper.InsertCamera("someInvalidHost", 53.124, 27.375));
+            Assert.Throws<UriFormatException>(() => cameraInfoHelper.InsertCamera("someInvalidHost", 53.124, 27.375));
 
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .MustNotHaveHappened();
         }
 
-        [TestMethod]
+        [Test]
         public void InsertCamera_WhenTrustedSourceValueNotProvided_IsTrustedSourceShouldBeFalse()
         {
             //Arrange
@@ -104,7 +102,7 @@ namespace HucaresServer.Storage.UnitTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void UpdateCameraActivity_WhenRecordWithIdDoesNotExist_ShouldThrow()
         {
             //Arrange
@@ -123,13 +121,13 @@ namespace HucaresServer.Storage.UnitTests
             var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentException>(() => cameraInfoHelper.UpdateCameraActivity(0, true));
+            Assert.Throws<ArgumentException>(() => cameraInfoHelper.UpdateCameraActivity(0, true));
 
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustNotHaveHappened();
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateCameraActivity_WhenRecordWithIdExists_ShouldUpdateAndReturnExpected()
         {
             //Arrange
@@ -167,7 +165,7 @@ namespace HucaresServer.Storage.UnitTests
             camInfoObj.IsActive.ShouldBe(expectedActivity);
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateCameraSource_WhenHostUrlIsMalformed_ShouldThrow()
         {
             //Arrange
@@ -185,13 +183,13 @@ namespace HucaresServer.Storage.UnitTests
             var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
-            Assert.ThrowsException<UriFormatException>(() => cameraInfoHelper.UpdateCameraSource(0, "someInvalidHost", true));
+            Assert.Throws<UriFormatException>(() => cameraInfoHelper.UpdateCameraSource(0, "someInvalidHost", true));
 
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .MustNotHaveHappened();
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateCameraSource_WhenRecordWithIdDoesNotExist_ShouldThrow()
         {
             //Arrange
@@ -210,13 +208,13 @@ namespace HucaresServer.Storage.UnitTests
             var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentException>(() => cameraInfoHelper.UpdateCameraSource(0, "http://localhost:5051/some/cam", true));
+            Assert.Throws<ArgumentException>(() => cameraInfoHelper.UpdateCameraSource(0, "http://localhost:5051/some/cam", true));
 
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustNotHaveHappened();
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateCameraSource_WhenRecordWithIdExists_ShouldUpdateAndReturnExpected()
         {
             //Arrange
@@ -256,7 +254,7 @@ namespace HucaresServer.Storage.UnitTests
             camInfoObj.IsTrustedSource.ShouldBe(expectedTrust);
         }
 
-        [TestMethod]
+        [Test]
         public void GetCameraById_WhenRecordWithIdExists_ShouldSucceedAndReturnExpected()
         {
             //Arrange
@@ -293,7 +291,7 @@ namespace HucaresServer.Storage.UnitTests
             result.ShouldBe(camInfoObj);
         }
 
-        [TestMethod]
+        [Test]
         public void GetCameraById_WhenRecordWithIdDoesNotExist_ShouldSucceedAndReturnNull()
         {
             //Arrange
@@ -322,7 +320,7 @@ namespace HucaresServer.Storage.UnitTests
             result.ShouldBe(null);
         }
 
-        [TestMethod]
+        [Test]
         public void GetInactiveCameras_WhenInactiveCameraExists_ShouldReturnExpected()
         {
             //Arrange
@@ -360,7 +358,7 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(camInfoObj);
         }
 
-        [TestMethod]
+        [Test]
         public void GetAllCameras_WhenTrustedSourceIsNull_ShouldReturnAll()
         {
             //Arrange
@@ -397,7 +395,7 @@ namespace HucaresServer.Storage.UnitTests
             Assert.IsTrue(result.SequenceEqual(fakeIQueryable.ToList()), "Lists are not equal");
         }
 
-        [TestMethod]
+        [Test]
         public void GetAllCameras_WhenTrustedSourceIsNotNull_ShouldReturnOnlyExpected()
         {
             //Arrange
@@ -429,7 +427,7 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(camInfoObj);
         }
 
-        [TestMethod]
+        [Test]
         public void GetActiveCameras_WhenTrustedSourceIsNull_ShouldReturnActive()
         {
             //Arrange
@@ -468,7 +466,7 @@ namespace HucaresServer.Storage.UnitTests
             Assert.IsTrue(result.SequenceEqual(expectedResult.ToList()), "Lists are not equal");
         }
 
-        [TestMethod]
+        [Test]
         public void GetActiveCameras_WhenTrustedSourceIsNotNull_ShouldReturnOnlyExpected()
         {
             //Arrange
@@ -502,7 +500,7 @@ namespace HucaresServer.Storage.UnitTests
             result.FirstOrDefault().ShouldBe(camInfoObj);
         }
 
-        [TestMethod]
+        [Test]
         public void DeleteCameraById_WhenRecordWithIdDoesNotExist_ShouldThrow()
         {
             //Arrange
@@ -521,7 +519,7 @@ namespace HucaresServer.Storage.UnitTests
             var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentException>(() => cameraInfoHelper.DeleteCameraById(0));
+            Assert.Throws<ArgumentException>(() => cameraInfoHelper.DeleteCameraById(0));
 
             A.CallTo(() => fakeDlpHelper.GetAllDetectedPlatesByCamera(A<int>.Ignored, A<DateTime?>.Ignored, A<DateTime?>.Ignored))
                 .MustHaveHappened();
@@ -530,7 +528,7 @@ namespace HucaresServer.Storage.UnitTests
                 .MustNotHaveHappened();
         }
 
-        [TestMethod]
+        [Test]
         public void DeleteCameraById_WhenDLPDependsOnCamera_ShouldThrow()
         {
             //Arrange
@@ -554,7 +552,7 @@ namespace HucaresServer.Storage.UnitTests
             var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act & Assert
-            Assert.ThrowsException<AccessViolationException>(() => cameraInfoHelper.DeleteCameraById(expectedId));
+            Assert.Throws<AccessViolationException>(() => cameraInfoHelper.DeleteCameraById(expectedId));
 
             A.CallTo(() => fakeDlpHelper.GetAllDetectedPlatesByCamera(A<int>.Ignored, A<DateTime?>.Ignored, A<DateTime?>.Ignored))
                 .MustHaveHappened();
@@ -563,7 +561,7 @@ namespace HucaresServer.Storage.UnitTests
                 .MustNotHaveHappened();
         }
 
-        [TestMethod]
+        [Test]
         public void DeleteCameraById_WhenRecordWithIdExistsAndDlpHasNoDependency_ShouldAndReturnExpected()
         {
             //Arrange

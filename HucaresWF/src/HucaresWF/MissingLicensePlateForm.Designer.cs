@@ -37,9 +37,18 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.digitsBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LicenseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImageUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Confidence = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gMapUri = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // licensePlateImage
@@ -106,7 +115,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(804, 306);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "MLP";
+            this.tabPage1.Text = "MLP Insert";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // digitsBox
@@ -122,13 +131,59 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.dataGridView1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(804, 306);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "DLP";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Id,
+            this.LicenseNumber,
+            this.Date,
+            this.ImageUrl,
+            this.Confidence,
+            this.gMapUri});
+            this.dataGridView1.Location = new System.Drawing.Point(82, 33);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(643, 230);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            // 
+            // LicenseNumber
+            // 
+            this.LicenseNumber.HeaderText = "License Number";
+            this.LicenseNumber.Name = "LicenseNumber";
+            // 
+            // Date
+            // 
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            // 
+            // ImageUrl
+            // 
+            this.ImageUrl.HeaderText = "Image URL";
+            this.ImageUrl.Name = "ImageUrl";
+            // 
+            // Confidence
+            // 
+            this.Confidence.HeaderText = "Confidence";
+            this.Confidence.Name = "Confidence";
+            // 
+            // gMapUri
+            // 
+            this.gMapUri.HeaderText = "GMapsUri";
+            this.gMapUri.Name = "gMapUri";
             // 
             // MissingLicensePlateForm
             // 
@@ -143,6 +198,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -157,6 +214,13 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox digitsBox;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LicenseNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ImageUrl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Confidence;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gMapUri;
     }
 }
 

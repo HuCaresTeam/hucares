@@ -31,11 +31,16 @@ namespace HucaresServer.Storage.UnitTests
             var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
-            var expectedHost = "http://localhost:5051/some/cam";
-            var expectedLat = 53.124;
-            var expectedLong = 27.375;
-            var expectedTrust = true;
-            var result = cameraInfoHelper.InsertCamera(expectedHost, expectedLat, expectedLong, expectedTrust);
+            var expectedCameraInfo = new CameraInfo()
+            {
+                HostUrl = "http://localhost:5051/some/cam",
+                Latitude = 53.124,
+                Longitude = 27.375,
+                IsTrustedSource = true
+            };
+            
+            var result = cameraInfoHelper.InsertCamera(expectedCameraInfo.HostUrl, expectedCameraInfo.Latitude,
+                expectedCameraInfo.Longitude, expectedCameraInfo.IsTrustedSource);
 
             //Assert
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
@@ -47,10 +52,7 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustHaveHappenedOnceExactly();
 
-            result.HostUrl.ShouldBe(expectedHost);
-            result.Latitude.ShouldBe(expectedLat);
-            result.Longitude.ShouldBe(expectedLong);
-            result.IsTrustedSource.ShouldBe(expectedTrust);
+            result.ShouldBe(expectedCameraInfo);
         }
 
         [Test]
@@ -235,9 +237,14 @@ namespace HucaresServer.Storage.UnitTests
             var cameraInfoHelper = new CameraInfoHelper(fakeDbContextFactory, fakeDlpHelper);
 
             //Act
-            var expectedHost = "http://localhost:5051/some/cam";
-            var expectedTrust = true;
-            var result = cameraInfoHelper.UpdateCameraSource(camInfoObj.Id, expectedHost, expectedTrust);
+            var expectedCameraInfo = new CameraInfo()
+            {
+                Id = 0,
+                HostUrl = "http://localhost:5051/some/cam",
+                IsTrustedSource = true
+            };
+            var result = cameraInfoHelper.UpdateCameraSource(expectedCameraInfo.Id, expectedCameraInfo.HostUrl, 
+                expectedCameraInfo.IsActive);
 
             //Assert
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
@@ -249,9 +256,7 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeHucaresContext.SaveChanges())
                 .MustHaveHappenedOnceExactly();
 
-            result.ShouldBe(camInfoObj);
-            camInfoObj.HostUrl.ShouldBe(expectedHost);
-            camInfoObj.IsTrustedSource.ShouldBe(expectedTrust);
+            result.ShouldBe(expectedCameraInfo);
         }
 
         [Test]

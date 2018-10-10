@@ -611,5 +611,17 @@ namespace HucaresServer.Storage.UnitTests
                 startDateTime: new DateTime(2018, 10, 05), endDateTime: new DateTime(2018, 09, 05)));
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext()).MustNotHaveHappened();
         }
+
+        [Test]
+        public void DeletePlatesOlderThanDatetime_WithCorrectDate_ShouldReturn()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Test]
+        public void DeletePlatesOlderThanDatetime_WithDateInFuture_ShouldThrow()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

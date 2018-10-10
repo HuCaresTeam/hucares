@@ -58,7 +58,23 @@ namespace HucaresServer.Storage.Helpers
 
         public IEnumerable<DetectedLicensePlate> DeletePlatesOlderThanDatetime(DateTime olderThanDatetime)
         {
-            throw new NotImplementedException();
+            if (olderThanDatetime > DateTime.Today)
+            {
+                throw new ArgumentException(string.Format($"Provided datetime cannot be in the future ({olderThanDatetime})"));
+            }
+
+            var missingPlates = _missingPlateHelper.GetAllPlateRecords()
+                .Select(s => s.PlateNumber);
+            
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var platesToDelete = ctx.DetectedLicensePlates.Where(s => s.DetectedDateTime < olderThanDatetime &&
+                                                                          !missingPlates.Contains(s.PlateNumber)).ToList();
+                ctx.DetectedLicensePlates.RemoveRange(platesToDelete);
+                ctx.SaveChanges();
+
+                return platesToDelete;
+            }
         }
         
         ///<inheritdoc/>

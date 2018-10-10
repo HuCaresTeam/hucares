@@ -6,13 +6,10 @@ using Newtonsoft.Json;
 using Shouldly;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using static HucaresServer.Models.CameraInfoDataModels;
 
 namespace HucaresServer.UnitTests
 {
@@ -53,7 +50,7 @@ namespace HucaresServer.UnitTests
             var fakeDetectedPlateHelper = A.Fake<IDetectedPlateHelper>();
 
             var expectedDLPList = new List<DetectedLicensePlate>() { new DetectedLicensePlate() { Id = 0 } };
-            var expectedPlateNumber = "123456";
+            var expectedPlateNumber = "TRV456";
             var expectedDateStart = new DateTime(2016, 02, 02);
             var expectedDateEnd = new DateTime(2017, 02, 05);
             A.CallTo(() => fakeDetectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(expectedPlateNumber, expectedDateStart, expectedDateEnd))

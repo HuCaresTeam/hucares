@@ -22,7 +22,7 @@ namespace HucaresServer.UnitTests
             //Arrange
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
 
-            var expectedMlpList = new List<MissingLicensePlate>() { new MissingLicensePlate() { PlateNumber = "ZOA:555" } };
+            var expectedMlpList = new List<MissingLicensePlate>() { new MissingLicensePlate() { PlateNumber = "ZOA555" } };
             A.CallTo(() => fakeMissingPlateHelper.GetAllPlateRecords())
                 .Returns(expectedMlpList);
 
@@ -50,7 +50,7 @@ namespace HucaresServer.UnitTests
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
 
             var expectedMlpList = new List<MissingLicensePlate>() { new MissingLicensePlate() { Id = 0 } };
-            var expectedPlateNumber = "ZOA:111";
+            var expectedPlateNumber = "ZOA111";
             A.CallTo(() => fakeMissingPlateHelper
                 .GetPlateRecordByPlateNumber(expectedPlateNumber))
                 .Returns(expectedMlpList);
@@ -76,7 +76,7 @@ namespace HucaresServer.UnitTests
         public async Task InsertMissingPlate_WhenCalled_ShouldCallHelper()
         {
             //Arrange
-            var expectedPlateNumber = "PZU:555";
+            var expectedPlateNumber = "PZU555";
             var expectedStartDateTime = new DateTime(2018, 05, 04);
             var expectedDataModel = new PostPlateRecordDataModel()
             {
@@ -86,7 +86,7 @@ namespace HucaresServer.UnitTests
 
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
 
-            var expectedMissingPlateInfo = new MissingLicensePlate() { PlateNumber = "WWW:111" };
+            var expectedMissingPlateInfo = new MissingLicensePlate() { PlateNumber = "WWW111" };
             A.CallTo(() => fakeMissingPlateHelper.InsertPlateRecord(expectedPlateNumber, expectedStartDateTime))
                 .Returns(expectedMissingPlateInfo);
 
@@ -111,7 +111,7 @@ namespace HucaresServer.UnitTests
         public async Task UpdateMissingPlateRecord_WhenCalled_ShouldCallHelper()
         {
             //Arrange
-            var expectedPlateNumber = "BAA:254";
+            var expectedPlateNumber = "BAA254";
             var expectedSearchDateTime = new DateTime(2018, 05, 17);
             var expectedDataModel = new PostPlateRecordDataModel()
             {
@@ -212,7 +212,7 @@ namespace HucaresServer.UnitTests
             //Arrange
             var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
 
-            var expectedPlateNumber = "RRR:587";
+            var expectedPlateNumber = "RRR587";
             var expectedMissingPlateInfo = new MissingLicensePlate() { PlateNumber = expectedPlateNumber};
             A.CallTo(() => fakeMissingPlateHelper.DeletePlateByNumber(expectedPlateNumber))
                 .Returns(expectedMissingPlateInfo);

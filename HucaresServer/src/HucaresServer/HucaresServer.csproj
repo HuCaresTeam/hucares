@@ -102,6 +102,11 @@
     <Compile Include="Models\CameraInfoDataModels.cs" />
     <Compile Include="Models\MissingLicensePlateDataModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -120,6 +125,16 @@
       <Project>{825695A4-3E4B-4F60-A69D-07D6D3AE3A1A}</Project>
       <Name>HucaresServer.Storage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HucaresServer.Utils\HucaresServer.Utils.csproj">
+      <Project>{8A79D1D0-A355-4FF9-9269-7EBBC4A615A0}</Project>
+      <Name>HucaresServer.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

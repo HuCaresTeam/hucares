@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using HucaresServer.Utils;
 
 namespace HucaresServer.Utils.UnitTests
 {

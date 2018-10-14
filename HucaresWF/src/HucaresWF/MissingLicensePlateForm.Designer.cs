@@ -45,6 +45,8 @@
             this.Confidence = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gMapUri = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.longField = new System.Windows.Forms.NumericUpDown();
+            this.latField = new System.Windows.Forms.NumericUpDown();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HostUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,8 +56,6 @@
             this.submitCam = new System.Windows.Forms.Button();
             this.isTrustedBox = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.longField = new System.Windows.Forms.TextBox();
-            this.latField = new System.Windows.Forms.TextBox();
             this.hostUrlField = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -66,6 +66,8 @@
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.longField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.latField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -206,12 +208,12 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.longField);
+            this.tabPage3.Controls.Add(this.latField);
             this.tabPage3.Controls.Add(this.dataGridView2);
             this.tabPage3.Controls.Add(this.submitCam);
             this.tabPage3.Controls.Add(this.isTrustedBox);
             this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.longField);
-            this.tabPage3.Controls.Add(this.latField);
             this.tabPage3.Controls.Add(this.hostUrlField);
             this.tabPage3.Controls.Add(this.label3);
             this.tabPage3.Controls.Add(this.label2);
@@ -224,6 +226,42 @@
             this.tabPage3.Text = "Camera";
             this.tabPage3.UseVisualStyleBackColor = true;
             this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
+            // 
+            // longField
+            // 
+            this.longField.DecimalPlaces = 6;
+            this.longField.Location = new System.Drawing.Point(68, 67);
+            this.longField.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
+            this.longField.Minimum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            -2147483648});
+            this.longField.Name = "longField";
+            this.longField.Size = new System.Drawing.Size(98, 20);
+            this.longField.TabIndex = 21;
+            // 
+            // latField
+            // 
+            this.latField.DecimalPlaces = 6;
+            this.latField.Location = new System.Drawing.Point(68, 41);
+            this.latField.Maximum = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+            this.latField.Minimum = new decimal(new int[] {
+            90,
+            0,
+            0,
+            -2147483648});
+            this.latField.Name = "latField";
+            this.latField.Size = new System.Drawing.Size(98, 20);
+            this.latField.TabIndex = 20;
             // 
             // dataGridView2
             // 
@@ -293,23 +331,9 @@
             this.label4.TabIndex = 15;
             this.label4.Text = "IsTrusted";
             // 
-            // longField
-            // 
-            this.longField.Location = new System.Drawing.Point(65, 66);
-            this.longField.Name = "longField";
-            this.longField.Size = new System.Drawing.Size(101, 20);
-            this.longField.TabIndex = 14;
-            // 
-            // latField
-            // 
-            this.latField.Location = new System.Drawing.Point(65, 40);
-            this.latField.Name = "latField";
-            this.latField.Size = new System.Drawing.Size(101, 20);
-            this.latField.TabIndex = 12;
-            // 
             // hostUrlField
             // 
-            this.hostUrlField.Location = new System.Drawing.Point(0, 0);
+            this.hostUrlField.Location = new System.Drawing.Point(66, 15);
             this.hostUrlField.Name = "hostUrlField";
             this.hostUrlField.Size = new System.Drawing.Size(100, 20);
             this.hostUrlField.TabIndex = 19;
@@ -358,6 +382,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.longField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.latField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
 
@@ -385,8 +411,6 @@
         private System.Windows.Forms.Button submitCam;
         private System.Windows.Forms.CheckBox isTrustedBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox longField;
-        private System.Windows.Forms.TextBox latField;
         private System.Windows.Forms.TextBox hostUrlField;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -396,6 +420,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Lat;
         private System.Windows.Forms.DataGridViewTextBoxColumn Long;
         private System.Windows.Forms.DataGridViewTextBoxColumn IsTrustedSource;
+        private System.Windows.Forms.NumericUpDown longField;
+        private System.Windows.Forms.NumericUpDown latField;
     }
 }
 

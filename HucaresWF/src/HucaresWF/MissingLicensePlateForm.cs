@@ -46,5 +46,15 @@ namespace HucaresWF
         {
 
         }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void submitCam_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

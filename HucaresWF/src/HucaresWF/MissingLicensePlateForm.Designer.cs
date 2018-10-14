@@ -45,21 +45,21 @@
             this.Confidence = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gMapUri = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HostUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsTrustedSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.submitCam = new System.Windows.Forms.Button();
+            this.isTrustedBox = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.longField = new System.Windows.Forms.TextBox();
+            this.latField = new System.Windows.Forms.TextBox();
+            this.hostUrlField = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -207,12 +207,12 @@
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.dataGridView2);
-            this.tabPage3.Controls.Add(this.button1);
-            this.tabPage3.Controls.Add(this.checkBox1);
+            this.tabPage3.Controls.Add(this.submitCam);
+            this.tabPage3.Controls.Add(this.isTrustedBox);
             this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.textBox3);
-            this.tabPage3.Controls.Add(this.textBox2);
-            this.tabPage3.Controls.Add(this.textBox1);
+            this.tabPage3.Controls.Add(this.longField);
+            this.tabPage3.Controls.Add(this.latField);
+            this.tabPage3.Controls.Add(this.hostUrlField);
             this.tabPage3.Controls.Add(this.label3);
             this.tabPage3.Controls.Add(this.label2);
             this.tabPage3.Controls.Add(this.label1);
@@ -223,81 +223,7 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Camera";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(65, 127);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Submit";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(65, 95);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 16;
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 95);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(51, 13);
-            this.label4.TabIndex = 15;
-            this.label4.Text = "IsTrusted";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(65, 66);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(85, 20);
-            this.textBox3.TabIndex = 14;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(65, 40);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(85, 20);
-            this.textBox2.TabIndex = 12;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(65, 15);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(85, 20);
-            this.textBox1.TabIndex = 10;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(28, 69);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(31, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Long";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(22, 13);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Lat";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 13);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "HostUrl";
+            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
             // 
             // dataGridView2
             // 
@@ -338,6 +264,82 @@
             // 
             this.IsTrustedSource.HeaderText = "Is Trusted";
             this.IsTrustedSource.Name = "IsTrustedSource";
+            // 
+            // submitCam
+            // 
+            this.submitCam.Location = new System.Drawing.Point(65, 127);
+            this.submitCam.Name = "submitCam";
+            this.submitCam.Size = new System.Drawing.Size(75, 23);
+            this.submitCam.TabIndex = 17;
+            this.submitCam.Text = "Submit";
+            this.submitCam.UseVisualStyleBackColor = true;
+            this.submitCam.Click += new System.EventHandler(this.submitCam_Click);
+            // 
+            // isTrustedBox
+            // 
+            this.isTrustedBox.AutoSize = true;
+            this.isTrustedBox.Location = new System.Drawing.Point(65, 95);
+            this.isTrustedBox.Name = "isTrustedBox";
+            this.isTrustedBox.Size = new System.Drawing.Size(15, 14);
+            this.isTrustedBox.TabIndex = 16;
+            this.isTrustedBox.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(8, 95);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "IsTrusted";
+            // 
+            // longField
+            // 
+            this.longField.Location = new System.Drawing.Point(65, 66);
+            this.longField.Name = "longField";
+            this.longField.Size = new System.Drawing.Size(101, 20);
+            this.longField.TabIndex = 14;
+            // 
+            // latField
+            // 
+            this.latField.Location = new System.Drawing.Point(65, 40);
+            this.latField.Name = "latField";
+            this.latField.Size = new System.Drawing.Size(101, 20);
+            this.latField.TabIndex = 12;
+            // 
+            // hostUrlField
+            // 
+            this.hostUrlField.Location = new System.Drawing.Point(0, 0);
+            this.hostUrlField.Name = "hostUrlField";
+            this.hostUrlField.Size = new System.Drawing.Size(100, 20);
+            this.hostUrlField.TabIndex = 19;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(28, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(31, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Long";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(37, 43);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(22, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Lat";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(42, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "HostUrl";
             // 
             // MissingLicensePlateForm
             // 
@@ -380,12 +382,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn gMapUri;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button submitCam;
+        private System.Windows.Forms.CheckBox isTrustedBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox longField;
+        private System.Windows.Forms.TextBox latField;
+        private System.Windows.Forms.TextBox hostUrlField;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;

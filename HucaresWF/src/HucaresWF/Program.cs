@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hucares.Server.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace HucaresWF
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MissingLicensePlateForm());
+            Application.Run(new MissingLicensePlateForm(new CameraInfoClient()));
         }
     }
 }

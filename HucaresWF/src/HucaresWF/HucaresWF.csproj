@@ -79,5 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hucares.Server.Client\Hucares.Server.Client.csproj">
+      <Project>{8897D00A-7641-4588-A156-21451730B387}</Project>
+      <Name>Hucares.Server.Client</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

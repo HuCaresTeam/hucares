@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Hucares.Server.Client;
+using Hucares.Server.Client.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,8 +14,11 @@ namespace HucaresWF
 {
     public partial class MissingLicensePlateForm : Form
     {
-        public MissingLicensePlateForm()
+        private ICameraInfoClient cameraClient;
+
+        public MissingLicensePlateForm(ICameraInfoClient cameraClient)
         {
+            this.cameraClient = cameraClient;
             InitializeComponent();
         }
 
@@ -45,6 +50,24 @@ namespace HucaresWF
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void submitCam_Click(object sender, EventArgs e)
+        {
+            var camObj = new CameraInfo()
+            {
+                HostUrl = hostUrlField.Text,
+                Latitude = (double) latField.Value,
+                Longitude = (double) longField.Value,
+                IsTrustedSource = isTrustedBox.Checked
+            };
+
+            await cameraClient.InsertCamera(camObj);
         }
     }
 }

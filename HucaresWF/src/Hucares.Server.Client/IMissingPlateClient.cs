@@ -5,7 +5,7 @@ using Hucares.Server.Client.Models;
 
 namespace Hucares.Server.Client
 {
-    public interface IMissingLicensePlateClient
+    public interface IMissingPlateClient
     {
         Task<MissingLicensePlate> InsertPlateRecord(string plateNumber, DateTime searchStartDatetime);
         Task<IEnumerable<MissingLicensePlate>> GetAllPlateRecords();

@@ -8,13 +8,13 @@ using Newtonsoft.Json;
 
 namespace Hucares.Server.Client
 {
-    public class MissingLicensePlateClient : IMissingLicensePlateClient
+    public class MissingPlateClient : IMissingPlateClient
     {
         private Uri HostUri { get; set; } = new Uri("http://localhost:50510");
         
         private readonly HttpClientHelper httpHelper;
         
-        public MissingLicensePlateClient(HttpClientHelper httpHelper = null)
+        public MissingPlateClient(HttpClientHelper httpHelper = null)
         {
             this.httpHelper = httpHelper ?? new HttpClientHelper();
         }

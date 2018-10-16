@@ -46,8 +46,8 @@
   <ItemGroup>
     <Compile Include="HttpClientHelper.cs" />
     <Compile Include="ICameraInfoClient.cs" />
-    <Compile Include="IMissingLicensePlateClient.cs" />
-    <Compile Include="MissingLicensePlateClient.cs" />
+    <Compile Include="IMissingPlateClient.cs" />
+    <Compile Include="MissingPlateClient.cs" />
     <Compile Include="Models\CameraInfo.cs" />
     <Compile Include="CameraInfoClient.cs" />
     <Compile Include="Models\DetectedLicensePlate.cs" />

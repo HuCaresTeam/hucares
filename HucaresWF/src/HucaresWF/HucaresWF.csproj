@@ -56,10 +56,19 @@
     <Compile Include="MissingLicensePlateForm.Designer.cs">
       <DependentUpon>MissingLicensePlateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MissingLicensePlateList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MissingLicensePlateList.designer.cs">
+      <DependentUpon>MissingLicensePlateList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MissingLicensePlateForm.resx">
       <DependentUpon>MissingLicensePlateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MissingLicensePlateList.resx">
+      <DependentUpon>MissingLicensePlateList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

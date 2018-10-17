@@ -48,6 +48,7 @@ namespace Hucares.Server.Client
             var uri = $"api/mlp/all";
             var fullUri = new Uri(HostUri, uri);
             var request = new HttpRequestMessage(HttpMethod.Get, fullUri);
+            
             return await httpHelper.MakeRequest<IEnumerable<MissingLicensePlate>>(request);
         }
 
@@ -85,6 +86,7 @@ namespace Hucares.Server.Client
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
+            
             var request = new HttpRequestMessage(HttpMethod.Post, fullUri)
             {
                 Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
@@ -127,6 +129,7 @@ namespace Hucares.Server.Client
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
+            
             var request = new HttpRequestMessage(HttpMethod.Post, fullUri)
             {
                 Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
@@ -144,6 +147,7 @@ namespace Hucares.Server.Client
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
+            
             var request = new HttpRequestMessage(HttpMethod.Post, fullUri)
             {
                 Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")

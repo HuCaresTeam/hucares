@@ -47,12 +47,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.longField = new System.Windows.Forms.NumericUpDown();
             this.latField = new System.Windows.Forms.NumericUpDown();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HostUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsTrustedSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cameraTable = new System.Windows.Forms.DataGridView();
             this.submitCam = new System.Windows.Forms.Button();
             this.isTrustedBox = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -60,6 +55,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HostUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsTrustedSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -68,7 +68,7 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.longField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.latField)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cameraTable)).BeginInit();
             this.SuspendLayout();
             // 
             // licensePlateImage
@@ -173,6 +173,7 @@
             this.gMapUri});
             this.dataGridView1.Location = new System.Drawing.Point(82, 33);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(643, 230);
             this.dataGridView1.TabIndex = 0;
             // 
@@ -210,7 +211,7 @@
             // 
             this.tabPage3.Controls.Add(this.longField);
             this.tabPage3.Controls.Add(this.latField);
-            this.tabPage3.Controls.Add(this.dataGridView2);
+            this.tabPage3.Controls.Add(this.cameraTable);
             this.tabPage3.Controls.Add(this.submitCam);
             this.tabPage3.Controls.Add(this.isTrustedBox);
             this.tabPage3.Controls.Add(this.label4);
@@ -263,45 +264,20 @@
             this.latField.Size = new System.Drawing.Size(98, 20);
             this.latField.TabIndex = 20;
             // 
-            // dataGridView2
+            // cameraTable
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
+            this.cameraTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.cameraTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.idColumn,
             this.HostUrl,
             this.Lat,
             this.Long,
             this.IsTrustedSource});
-            this.dataGridView2.Location = new System.Drawing.Point(198, 15);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(544, 261);
-            this.dataGridView2.TabIndex = 18;
-            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // HostUrl
-            // 
-            this.HostUrl.HeaderText = "Host Url";
-            this.HostUrl.Name = "HostUrl";
-            // 
-            // Lat
-            // 
-            this.Lat.HeaderText = "Latitude";
-            this.Lat.Name = "Lat";
-            // 
-            // Long
-            // 
-            this.Long.HeaderText = "Longitude";
-            this.Long.Name = "Long";
-            // 
-            // IsTrustedSource
-            // 
-            this.IsTrustedSource.HeaderText = "Is Trusted";
-            this.IsTrustedSource.Name = "IsTrustedSource";
+            this.cameraTable.Location = new System.Drawing.Point(198, 15);
+            this.cameraTable.Name = "cameraTable";
+            this.cameraTable.ReadOnly = true;
+            this.cameraTable.Size = new System.Drawing.Size(544, 261);
+            this.cameraTable.TabIndex = 18;
             // 
             // submitCam
             // 
@@ -365,6 +341,36 @@
             this.label1.TabIndex = 9;
             this.label1.Text = "HostUrl";
             // 
+            // idColumn
+            // 
+            this.idColumn.DataPropertyName = "Id";
+            this.idColumn.HeaderText = "Id";
+            this.idColumn.Name = "idColumn";
+            // 
+            // HostUrl
+            // 
+            this.HostUrl.DataPropertyName = "HostUrl";
+            this.HostUrl.HeaderText = "Host Url";
+            this.HostUrl.Name = "HostUrl";
+            // 
+            // Lat
+            // 
+            this.Lat.DataPropertyName = "Latitude";
+            this.Lat.HeaderText = "Latitude";
+            this.Lat.Name = "Lat";
+            // 
+            // Long
+            // 
+            this.Long.DataPropertyName = "Longitude";
+            this.Long.HeaderText = "Longitude";
+            this.Long.Name = "Long";
+            // 
+            // IsTrustedSource
+            // 
+            this.IsTrustedSource.DataPropertyName = "IsTrustedSource";
+            this.IsTrustedSource.HeaderText = "Is Trusted";
+            this.IsTrustedSource.Name = "IsTrustedSource";
+            // 
             // MissingLicensePlateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -384,7 +390,7 @@
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.longField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.latField)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cameraTable)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -407,7 +413,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Confidence;
         private System.Windows.Forms.DataGridViewTextBoxColumn gMapUri;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView cameraTable;
         private System.Windows.Forms.Button submitCam;
         private System.Windows.Forms.CheckBox isTrustedBox;
         private System.Windows.Forms.Label label4;
@@ -415,13 +421,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.NumericUpDown longField;
+        private System.Windows.Forms.NumericUpDown latField;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn HostUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn Lat;
         private System.Windows.Forms.DataGridViewTextBoxColumn Long;
         private System.Windows.Forms.DataGridViewTextBoxColumn IsTrustedSource;
-        private System.Windows.Forms.NumericUpDown longField;
-        private System.Windows.Forms.NumericUpDown latField;
     }
 }
 

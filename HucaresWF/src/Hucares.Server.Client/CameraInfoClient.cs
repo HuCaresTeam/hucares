@@ -69,7 +69,7 @@ namespace Hucares.Server.Client
             return await httpHelper.MakeRequest<CameraInfo>(request);
         }
 
-        public async Task<IEnumerable<CameraInfo>> GetAllCameras(bool? isTrustedSource)
+        public async Task<IEnumerable<CameraInfo>> GetAllCameras(bool? isTrustedSource = null)
         {
             var uri = "api/camera/all";
             if (null != isTrustedSource)
@@ -82,7 +82,7 @@ namespace Hucares.Server.Client
             return await httpHelper.MakeRequest<IEnumerable<CameraInfo>>(request);
         }
 
-        public async Task<IEnumerable<CameraInfo>> GetActiveCameras(bool? isTrustedSource)
+        public async Task<IEnumerable<CameraInfo>> GetActiveCameras(bool? isTrustedSource = null)
         {
             var uri = "api/camera/active";
             if (null != isTrustedSource)

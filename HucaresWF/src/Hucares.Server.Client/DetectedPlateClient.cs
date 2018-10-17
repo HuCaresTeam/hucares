@@ -27,54 +27,52 @@ namespace Hucares.Server.Client
             return await httpHelper.MakeRequest<IEnumerable<DetectedLicensePlate>>(request);
         }
 
-        public async Task<IEnumerable<DetectedLicensePlate>> GetAllDetectedPlatesByPlateNumber(string plateNumber, DateTime? startDateTime = null,
-            DateTime? endDateTime = null)
+        public async Task<IEnumerable<DetectedLicensePlate>> GetAllDetectedPlatesByPlateNumber(string plateNumber, 
+            DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
             var uri = $"api/dlp/plate/{plateNumber}";
             var fullUri = new Uri(HostUri, uri);
 
-            var plateNumberData = new
+            if (startDateTime != null)
             {
-                plateNumber = plateNumber,
-                startDateTime = startDateTime,
-                endDateTime = endDateTime
-            };
+                uri += $"?startDateTime={startDateTime}";
 
-            var jsonContent = JsonConvert.SerializeObject(plateNumberData, new JsonSerializerSettings
+                if (endDateTime != null)
+                {
+                    uri += $"&endDateTime={endDateTime}";
+                }
+            } 
+            else if (endDateTime != null)
             {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-            
-            var request = new HttpRequestMessage(HttpMethod.Post, fullUri)
-            {
-                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
-            };
+                uri += $"?endDateTime={endDateTime}";
+            }
+
+            var request = new HttpRequestMessage(HttpMethod.Get, fullUri);
 
             return await httpHelper.MakeRequest<IEnumerable<DetectedLicensePlate>>(request);
         }
 
-        public async Task<IEnumerable<DetectedLicensePlate>> GetAllDetectedPlatesByCamera(int cameraId, DateTime? startDateTime = null, 
-			DateTime? endDateTime = null)
+        public async Task<IEnumerable<DetectedLicensePlate>> GetAllDetectedPlatesByCamera(int cameraId, 
+            DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
             var uri = $"api/dlp/cam/{cameraId}";
             var fullUri = new Uri(HostUri, uri);
 
-            var cameraIdData = new
+            if (startDateTime != null)
             {
-                cameraId = cameraId,
-                startDateTime = startDateTime,
-                endDateTime = endDateTime
-            };
+                uri += $"?startDateTime={startDateTime}";
 
-            var jsonContent = JsonConvert.SerializeObject(cameraIdData, new JsonSerializerSettings
+                if (endDateTime != null)
+                {
+                    uri += $"&endDateTime={endDateTime}";
+                }
+            } 
+            else if (endDateTime != null)
             {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-            
-            var request = new HttpRequestMessage(HttpMethod.Post, fullUri)
-            {
-                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
-            };
+                uri += $"?endDateTime={endDateTime}";
+            }
+
+            var request = new HttpRequestMessage(HttpMethod.Get, fullUri);
 
             return await httpHelper.MakeRequest<IEnumerable<DetectedLicensePlate>>(request);
         }

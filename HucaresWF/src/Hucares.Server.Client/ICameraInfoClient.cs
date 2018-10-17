@@ -9,8 +9,8 @@ namespace Hucares.Server.Client
     {
         Uri HostUri { get; }
 
-        Task<IEnumerable<CameraInfo>> GetActiveCameras(bool? isTrustedSource);
-        Task<IEnumerable<CameraInfo>> GetAllCameras(bool? isTrustedSource);
+        Task<IEnumerable<CameraInfo>> GetActiveCameras(bool? isTrustedSource = null);
+        Task<IEnumerable<CameraInfo>> GetAllCameras(bool? isTrustedSource = null);
         Task<IEnumerable<CameraInfo>> GetInactiveCameras();
         Task<CameraInfo> InsertCamera(CameraInfo cameraInfo);
         Task<CameraInfo> UpdateCameraActivity(CameraInfo cameraInfo);

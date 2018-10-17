@@ -32,9 +32,9 @@ namespace HucaresWF
 
         }
 
-        private void MissingLicensePlateForm_Load(object sender, EventArgs e)
+        private async void MissingLicensePlateForm_Load(object sender, EventArgs e)
         {
-
+            cameraTable.DataSource = await cameraClient.GetAllCameras();
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
@@ -43,11 +43,6 @@ namespace HucaresWF
         }
 
         private void tabPage4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
@@ -68,6 +63,7 @@ namespace HucaresWF
             };
 
             await cameraClient.InsertCamera(camObj);
+            cameraTable.DataSource = await cameraClient.GetAllCameras();
         }
     }
 }

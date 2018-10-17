@@ -24,7 +24,13 @@ namespace Hucares.Server.Client
             var uri = $"api/mlp/insert";
             var fullUri = new Uri(HostUri, uri);
 
-            var jsonContent = JsonConvert.SerializeObject(searchStartDatetime, new JsonSerializerSettings
+            var plateNumberData = new
+            {
+                plateNumber = plateNumber,
+                searchStartDatetime = searchStartDatetime
+            };
+
+            var jsonContent = JsonConvert.SerializeObject(plateNumberData, new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore
             });

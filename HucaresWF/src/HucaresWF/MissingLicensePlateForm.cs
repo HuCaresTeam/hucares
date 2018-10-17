@@ -69,5 +69,11 @@ namespace HucaresWF
 
             await cameraClient.InsertCamera(camObj);
         }
+
+        private void showMlpButton_Click(object sender, EventArgs e)
+        {
+            MissingLicensePlateList mlpList = new MissingLicensePlateList();
+            mlpList.Show();
+        }
     }
 }

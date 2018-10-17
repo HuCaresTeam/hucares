@@ -35,15 +35,10 @@
             this.lettersBox = new System.Windows.Forms.TextBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.showMlpListButton = new System.Windows.Forms.Button();
             this.digitsBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dlpTable = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LicenseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ImageUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Confidence = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gMapUri = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.longField = new System.Windows.Forms.NumericUpDown();
             this.latField = new System.Windows.Forms.NumericUpDown();
@@ -53,6 +48,7 @@
             this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsTrustedSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsActive = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.submitCam = new System.Windows.Forms.Button();
             this.isTrustedBox = new System.Windows.Forms.CheckBox();
             this.isTrustedLabel = new System.Windows.Forms.Label();
@@ -60,7 +56,12 @@
             this.longLabel = new System.Windows.Forms.Label();
             this.latLabel = new System.Windows.Forms.Label();
             this.hostUrlLabel = new System.Windows.Forms.Label();
-            this.showMlpListButton = new System.Windows.Forms.Button();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LicenseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImageUrl = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.Confidence = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gMapUri = new System.Windows.Forms.DataGridViewLinkColumn();
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).BeginInit();
             this.tabControlMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -141,6 +142,16 @@
             this.tabPage1.Text = "MLP Insert";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // showMlpListButton
+            // 
+            this.showMlpListButton.Location = new System.Drawing.Point(21, 248);
+            this.showMlpListButton.Name = "showMlpListButton";
+            this.showMlpListButton.Size = new System.Drawing.Size(102, 44);
+            this.showMlpListButton.TabIndex = 5;
+            this.showMlpListButton.Text = "Show MLP List";
+            this.showMlpListButton.UseVisualStyleBackColor = true;
+            this.showMlpListButton.Click += new System.EventHandler(this.showMlpList_Click);
+            // 
             // digitsBox
             // 
             this.digitsBox.BackColor = System.Drawing.SystemColors.Window;
@@ -173,47 +184,12 @@
             this.ImageUrl,
             this.Confidence,
             this.gMapUri});
-            this.dlpTable.Location = new System.Drawing.Point(82, 33);
+            this.dlpTable.Location = new System.Drawing.Point(29, 19);
             this.dlpTable.Name = "dlpTable";
             this.dlpTable.ReadOnly = true;
-            this.dlpTable.Size = new System.Drawing.Size(643, 230);
+            this.dlpTable.Size = new System.Drawing.Size(744, 252);
             this.dlpTable.TabIndex = 0;
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            // 
-            // LicenseNumber
-            // 
-            this.LicenseNumber.HeaderText = "License Number";
-            this.LicenseNumber.Name = "LicenseNumber";
-            this.LicenseNumber.ReadOnly = true;
-            // 
-            // Date
-            // 
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            this.Date.ReadOnly = true;
-            // 
-            // ImageUrl
-            // 
-            this.ImageUrl.HeaderText = "Image URL";
-            this.ImageUrl.Name = "ImageUrl";
-            this.ImageUrl.ReadOnly = true;
-            // 
-            // Confidence
-            // 
-            this.Confidence.HeaderText = "Confidence";
-            this.Confidence.Name = "Confidence";
-            this.Confidence.ReadOnly = true;
-            // 
-            // gMapUri
-            // 
-            this.gMapUri.HeaderText = "GMapsUri";
-            this.gMapUri.Name = "gMapUri";
-            this.gMapUri.ReadOnly = true;
+            this.dlpTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dlpTable_CellContentClick);
             // 
             // tabPage3
             // 
@@ -280,11 +256,12 @@
             this.HostUrl,
             this.Lat,
             this.Long,
-            this.IsTrustedSource});
-            this.cameraTable.Location = new System.Drawing.Point(198, 15);
+            this.IsTrustedSource,
+            this.IsActive});
+            this.cameraTable.Location = new System.Drawing.Point(185, 15);
             this.cameraTable.Name = "cameraTable";
             this.cameraTable.ReadOnly = true;
-            this.cameraTable.Size = new System.Drawing.Size(544, 261);
+            this.cameraTable.Size = new System.Drawing.Size(601, 257);
             this.cameraTable.TabIndex = 18;
             // 
             // idColumn
@@ -293,6 +270,7 @@
             this.idColumn.HeaderText = "Id";
             this.idColumn.Name = "idColumn";
             this.idColumn.ReadOnly = true;
+            this.idColumn.Width = 50;
             // 
             // HostUrl
             // 
@@ -321,6 +299,13 @@
             this.IsTrustedSource.HeaderText = "Is Trusted";
             this.IsTrustedSource.Name = "IsTrustedSource";
             this.IsTrustedSource.ReadOnly = true;
+            // 
+            // IsActive
+            // 
+            this.IsActive.DataPropertyName = "IsActive";
+            this.IsActive.HeaderText = "Is Active";
+            this.IsActive.Name = "IsActive";
+            this.IsActive.ReadOnly = true;
             // 
             // submitCam
             // 
@@ -384,15 +369,55 @@
             this.hostUrlLabel.TabIndex = 9;
             this.hostUrlLabel.Text = "HostUrl";
             // 
-            // showMlpListButton
+            // Id
             // 
-            this.showMlpListButton.Location = new System.Drawing.Point(21, 250);
-            this.showMlpListButton.Name = "showMlpListButton";
-            this.showMlpListButton.Size = new System.Drawing.Size(102, 44);
-            this.showMlpListButton.TabIndex = 5;
-            this.showMlpListButton.Text = "Show MLP List";
-            this.showMlpListButton.UseVisualStyleBackColor = true;
-            this.showMlpListButton.Click += new System.EventHandler(this.showMlpList_Click);
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Width = 50;
+            // 
+            // LicenseNumber
+            // 
+            this.LicenseNumber.DataPropertyName = "PlateNumber";
+            this.LicenseNumber.HeaderText = "License Number";
+            this.LicenseNumber.Name = "LicenseNumber";
+            this.LicenseNumber.ReadOnly = true;
+            // 
+            // Date
+            // 
+            this.Date.DataPropertyName = "DetectedDateTime";
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            this.Date.Width = 150;
+            // 
+            // ImageUrl
+            // 
+            this.ImageUrl.DataPropertyName = "ImgUrl";
+            this.ImageUrl.HeaderText = "Image URL";
+            this.ImageUrl.Name = "ImageUrl";
+            this.ImageUrl.ReadOnly = true;
+            this.ImageUrl.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ImageUrl.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.ImageUrl.Width = 150;
+            // 
+            // Confidence
+            // 
+            this.Confidence.DataPropertyName = "Confidence";
+            this.Confidence.HeaderText = "Confidence";
+            this.Confidence.Name = "Confidence";
+            this.Confidence.ReadOnly = true;
+            // 
+            // gMapUri
+            // 
+            this.gMapUri.DataPropertyName = "GMapsUri";
+            this.gMapUri.HeaderText = "GMapsUri";
+            this.gMapUri.Name = "gMapUri";
+            this.gMapUri.ReadOnly = true;
+            this.gMapUri.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.gMapUri.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.gMapUri.Width = 150;
             // 
             // MissingLicensePlateForm
             // 
@@ -429,12 +454,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox digitsBox;
         private System.Windows.Forms.DataGridView dlpTable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LicenseNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ImageUrl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Confidence;
-        private System.Windows.Forms.DataGridViewTextBoxColumn gMapUri;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.DataGridView cameraTable;
         private System.Windows.Forms.Button submitCam;
@@ -446,12 +465,19 @@
         private System.Windows.Forms.Label hostUrlLabel;
         private System.Windows.Forms.NumericUpDown longField;
         private System.Windows.Forms.NumericUpDown latField;
+        private System.Windows.Forms.Button showMlpListButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn idColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn HostUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn Lat;
         private System.Windows.Forms.DataGridViewTextBoxColumn Long;
         private System.Windows.Forms.DataGridViewTextBoxColumn IsTrustedSource;
-        private System.Windows.Forms.Button showMlpListButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsActive;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LicenseNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
+        private System.Windows.Forms.DataGridViewLinkColumn ImageUrl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Confidence;
+        private System.Windows.Forms.DataGridViewLinkColumn gMapUri;
     }
 }
 

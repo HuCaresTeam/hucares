@@ -15,16 +15,22 @@ namespace HucaresWF
     public partial class MissingLicensePlateForm : Form
     {
         private ICameraInfoClient cameraClient;
+        private IMissingPlateClient mlpClient;
+        private IDetectedPlateClient dlpClient;
 
-        public MissingLicensePlateForm(ICameraInfoClient cameraClient)
+        public MissingLicensePlateForm(ICameraInfoClient cameraClient, IMissingPlateClient mlpClient, IDetectedPlateClient dlpClient)
         {
             this.cameraClient = cameraClient;
+            this.mlpClient = mlpClient;
+            this.dlpClient = dlpClient;
             InitializeComponent();
         }
 
-        private void submitButton_Click(object sender, EventArgs e)
+        private async void submitButton_Click(object sender, EventArgs e)
         {
-
+            var plateNumber = lettersBox.Text + digitsBox.Text;
+            await mlpClient.InsertPlateRecord(plateNumber, DateTime.Now);
+            await MissingLicensePlateList.CreateIfNotExistsAndGetInstance(mlpClient).UpdateDatasource();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -68,7 +74,7 @@ namespace HucaresWF
 
         private void showMlpList_Click(object sender, EventArgs e)
         {
-            MissingLicensePlateList mlpList = new MissingLicensePlateList();
+            MissingLicensePlateList mlpList = MissingLicensePlateList.CreateIfNotExistsAndGetInstance(mlpClient);
             mlpList.Show();
         }
     }

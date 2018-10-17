@@ -79,6 +79,7 @@ namespace Hucares.Server.Client
 
             var fullUri = new Uri(HostUri, uri);
             var request = new HttpRequestMessage(HttpMethod.Get, fullUri);
+
             return await httpHelper.MakeRequest<IEnumerable<CameraInfo>>(request);
         }
 
@@ -92,6 +93,7 @@ namespace Hucares.Server.Client
 
             var fullUri = new Uri(HostUri, uri);
             var request = new HttpRequestMessage(HttpMethod.Get, fullUri);
+
             return await httpHelper.MakeRequest<IEnumerable<CameraInfo>>(request);
         }
 
@@ -100,6 +102,7 @@ namespace Hucares.Server.Client
             var uri = "api/camera/inactive";
             var fullUri = new Uri(HostUri, uri);
             var request = new HttpRequestMessage(HttpMethod.Get, fullUri);
+
             return await httpHelper.MakeRequest<IEnumerable<CameraInfo>>(request);
         }
     }

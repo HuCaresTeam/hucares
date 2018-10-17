@@ -36,10 +36,10 @@ namespace HucaresServer.Storage.UnitTests
             var expectedDetectedPlate = new DetectedLicensePlate()
             {
                 PlateNumber = "ABC001",
-                DetectedDateTime= new DateTime(2018, 09, 29),
-                CamId= 1,
-                ImgUrl= "http://localhost:6969/images/cam01_21080929_235959",
-                Confidence= 0.75
+                DetectedDateTime = new DateTime(2018, 09, 29),
+                CamId = 1,
+                ImgUrl = "http://localhost:6969/images/cam01_21080929_235959",
+                Confidence = 0.75
             };
             
             var result = detectedPlateHelper.InsertNewDetectedPlate(expectedDetectedPlate.PlateNumber, 

@@ -34,7 +34,7 @@ namespace HucaresServer.Controllers
         }
 
         [HttpPost]
-        [Route("api/mlp/insert/{plateNumber}")]
+        [Route("api/mlp/insert")]
         public IHttpActionResult InsertMissingPlateByNumber([FromBody] PostPlateRecordDataModel data)
         {
             return Json(MissingPlateHelper.InsertPlateRecord(data.PlateNumber, data.SearchStartDateTime));
@@ -51,7 +51,7 @@ namespace HucaresServer.Controllers
         }
         
         [HttpPost]
-        [Route("api/mlp/found/{plateId}/{isFound}")]
+        [Route("api/mlp/found/{plateId}")]
         public IHttpActionResult MarkFoundMissingPlate(int plateId, [FromBody] MarkFoundRecordDataModel data)
         {
             return Json(MissingPlateHelper.MarkFoundPlate(plateId, data.EndDateTime, data.IsFound));

@@ -9,13 +9,9 @@ namespace Hucares.Server.Client
     public interface IDetectedPlateClient
     {
         Task<IEnumerable<DetectedLicensePlate>> GetAllDetectedMissingPlates();
-
         Task<IEnumerable<DetectedLicensePlate>> GetAllDetectedPlatesByPlateNumber(string plateNumber,
             DateTime? startDateTime = null, DateTime? endDateTime = null);
-
         Task<IEnumerable<DetectedLicensePlate>> GetAllDetectedPlatesByCamera(int cameraId, DateTime? startDateTime = null, 
             DateTime? endDateTime = null);
-
-
     }
 }

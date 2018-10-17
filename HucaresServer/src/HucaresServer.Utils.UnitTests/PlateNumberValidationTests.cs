@@ -28,7 +28,7 @@ namespace HucaresServer.Utils.UnitTests
             //Arrange
             //Act
             //Assert
-            Assert.IsFalse(plateNumber.IsValidPlateNumber(), "Regex did not match");
+            Assert.IsFalse(plateNumber.IsValidPlateNumber(), "Regex did match");
         }
     }
 }

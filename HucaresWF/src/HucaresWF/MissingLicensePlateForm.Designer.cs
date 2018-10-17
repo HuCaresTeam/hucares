@@ -33,26 +33,16 @@
             this.submitButton = new System.Windows.Forms.Button();
             this.mlpLabel = new System.Windows.Forms.Label();
             this.lettersBox = new System.Windows.Forms.TextBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabControlForm = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.showMlpButton = new System.Windows.Forms.Button();
             this.digitsBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LicenseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ImageUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Confidence = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gMapUri = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dlpListView = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.longField = new System.Windows.Forms.NumericUpDown();
             this.latField = new System.Windows.Forms.NumericUpDown();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HostUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsTrustedSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mlpListView = new System.Windows.Forms.DataGridView();
             this.submitCam = new System.Windows.Forms.Button();
             this.isTrustedBox = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -60,15 +50,26 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LicenseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImageUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Confidence = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gMapUri = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HostUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsTrustedSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            this.tabControlForm.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dlpListView)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.longField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.latField)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mlpListView)).BeginInit();
             this.SuspendLayout();
             // 
             // licensePlateImage
@@ -113,19 +114,20 @@
             this.lettersBox.TabIndex = 3;
             this.lettersBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // tabControl1
+            // tabControlForm
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(-2, 9);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(812, 332);
-            this.tabControl1.TabIndex = 5;
+            this.tabControlForm.Controls.Add(this.tabPage1);
+            this.tabControlForm.Controls.Add(this.tabPage2);
+            this.tabControlForm.Controls.Add(this.tabPage3);
+            this.tabControlForm.Location = new System.Drawing.Point(-2, 9);
+            this.tabControlForm.Name = "tabControlForm";
+            this.tabControlForm.SelectedIndex = 0;
+            this.tabControlForm.Size = new System.Drawing.Size(812, 332);
+            this.tabControlForm.TabIndex = 5;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.showMlpButton);
             this.tabPage1.Controls.Add(this.digitsBox);
             this.tabPage1.Controls.Add(this.submitButton);
             this.tabPage1.Controls.Add(this.mlpLabel);
@@ -138,6 +140,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "MLP Insert";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // showMlpButton
+            // 
+            this.showMlpButton.Location = new System.Drawing.Point(21, 250);
+            this.showMlpButton.Name = "showMlpButton";
+            this.showMlpButton.Size = new System.Drawing.Size(123, 41);
+            this.showMlpButton.TabIndex = 5;
+            this.showMlpButton.Text = "Show all MLP";
+            this.showMlpButton.UseVisualStyleBackColor = true;
+            this.showMlpButton.Click += new System.EventHandler(this.showMlpButton_Click);
             // 
             // digitsBox
             // 
@@ -152,7 +164,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Controls.Add(this.dlpListView);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -161,56 +173,26 @@
             this.tabPage2.Text = "DLP";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dlpListView
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dlpListView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dlpListView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
             this.LicenseNumber,
             this.Date,
             this.ImageUrl,
             this.Confidence,
             this.gMapUri});
-            this.dataGridView1.Location = new System.Drawing.Point(82, 33);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(643, 230);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            // 
-            // LicenseNumber
-            // 
-            this.LicenseNumber.HeaderText = "License Number";
-            this.LicenseNumber.Name = "LicenseNumber";
-            // 
-            // Date
-            // 
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            // 
-            // ImageUrl
-            // 
-            this.ImageUrl.HeaderText = "Image URL";
-            this.ImageUrl.Name = "ImageUrl";
-            // 
-            // Confidence
-            // 
-            this.Confidence.HeaderText = "Confidence";
-            this.Confidence.Name = "Confidence";
-            // 
-            // gMapUri
-            // 
-            this.gMapUri.HeaderText = "GMapsUri";
-            this.gMapUri.Name = "gMapUri";
+            this.dlpListView.Location = new System.Drawing.Point(82, 33);
+            this.dlpListView.Name = "dlpListView";
+            this.dlpListView.Size = new System.Drawing.Size(643, 230);
+            this.dlpListView.TabIndex = 0;
             // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.longField);
             this.tabPage3.Controls.Add(this.latField);
-            this.tabPage3.Controls.Add(this.dataGridView2);
+            this.tabPage3.Controls.Add(this.mlpListView);
             this.tabPage3.Controls.Add(this.submitCam);
             this.tabPage3.Controls.Add(this.isTrustedBox);
             this.tabPage3.Controls.Add(this.label4);
@@ -263,45 +245,20 @@
             this.latField.Size = new System.Drawing.Size(98, 20);
             this.latField.TabIndex = 20;
             // 
-            // dataGridView2
+            // mlpListView
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.mlpListView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.mlpListView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.HostUrl,
             this.Lat,
             this.Long,
             this.IsTrustedSource});
-            this.dataGridView2.Location = new System.Drawing.Point(198, 15);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(544, 261);
-            this.dataGridView2.TabIndex = 18;
-            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // HostUrl
-            // 
-            this.HostUrl.HeaderText = "Host Url";
-            this.HostUrl.Name = "HostUrl";
-            // 
-            // Lat
-            // 
-            this.Lat.HeaderText = "Latitude";
-            this.Lat.Name = "Lat";
-            // 
-            // Long
-            // 
-            this.Long.HeaderText = "Longitude";
-            this.Long.Name = "Long";
-            // 
-            // IsTrustedSource
-            // 
-            this.IsTrustedSource.HeaderText = "Is Trusted";
-            this.IsTrustedSource.Name = "IsTrustedSource";
+            this.mlpListView.Location = new System.Drawing.Point(198, 15);
+            this.mlpListView.Name = "mlpListView";
+            this.mlpListView.Size = new System.Drawing.Size(544, 261);
+            this.mlpListView.TabIndex = 18;
+            this.mlpListView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
             // submitCam
             // 
@@ -365,26 +322,92 @@
             this.label1.TabIndex = 9;
             this.label1.Text = "HostUrl";
             // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            // 
+            // LicenseNumber
+            // 
+            this.LicenseNumber.HeaderText = "License Number";
+            this.LicenseNumber.Name = "LicenseNumber";
+            this.LicenseNumber.ReadOnly = true;
+            // 
+            // Date
+            // 
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            // 
+            // ImageUrl
+            // 
+            this.ImageUrl.HeaderText = "Image URL";
+            this.ImageUrl.Name = "ImageUrl";
+            this.ImageUrl.ReadOnly = true;
+            // 
+            // Confidence
+            // 
+            this.Confidence.HeaderText = "Confidence";
+            this.Confidence.Name = "Confidence";
+            this.Confidence.ReadOnly = true;
+            // 
+            // gMapUri
+            // 
+            this.gMapUri.HeaderText = "GMapsUri";
+            this.gMapUri.Name = "gMapUri";
+            this.gMapUri.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // HostUrl
+            // 
+            this.HostUrl.HeaderText = "Host Url";
+            this.HostUrl.Name = "HostUrl";
+            this.HostUrl.ReadOnly = true;
+            // 
+            // Lat
+            // 
+            this.Lat.HeaderText = "Latitude";
+            this.Lat.Name = "Lat";
+            this.Lat.ReadOnly = true;
+            // 
+            // Long
+            // 
+            this.Long.HeaderText = "Longitude";
+            this.Long.Name = "Long";
+            this.Long.ReadOnly = true;
+            // 
+            // IsTrustedSource
+            // 
+            this.IsTrustedSource.HeaderText = "Is Trusted";
+            this.IsTrustedSource.Name = "IsTrustedSource";
+            this.IsTrustedSource.ReadOnly = true;
+            // 
             // MissingLicensePlateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 337);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabControlForm);
             this.Name = "MissingLicensePlateForm";
             this.Text = "HUCARES";
             this.Load += new System.EventHandler(this.MissingLicensePlateForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            this.tabControlForm.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dlpListView)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.longField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.latField)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mlpListView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -395,19 +418,13 @@
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.Label mlpLabel;
         private System.Windows.Forms.TextBox lettersBox;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabControlForm;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox digitsBox;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LicenseNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ImageUrl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Confidence;
-        private System.Windows.Forms.DataGridViewTextBoxColumn gMapUri;
+        private System.Windows.Forms.DataGridView dlpListView;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView mlpListView;
         private System.Windows.Forms.Button submitCam;
         private System.Windows.Forms.CheckBox isTrustedBox;
         private System.Windows.Forms.Label label4;
@@ -415,13 +432,20 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown longField;
+        private System.Windows.Forms.NumericUpDown latField;
+        private System.Windows.Forms.Button showMlpButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LicenseNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ImageUrl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Confidence;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gMapUri;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn HostUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn Lat;
         private System.Windows.Forms.DataGridViewTextBoxColumn Long;
         private System.Windows.Forms.DataGridViewTextBoxColumn IsTrustedSource;
-        private System.Windows.Forms.NumericUpDown longField;
-        private System.Windows.Forms.NumericUpDown latField;
     }
 }
 

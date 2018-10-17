@@ -50,17 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MissingLicensePlateList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MissingLicensePlateList.Designer.cs">
-      <DependentUpon>MissingLicensePlateList.cs</DependentUpon>
-    </Compile>
     <Compile Include="MissingLicensePlateForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MissingLicensePlateForm.Designer.cs">
       <DependentUpon>MissingLicensePlateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MissingLicensePlateList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MissingLicensePlateList.designer.cs">
+      <DependentUpon>MissingLicensePlateList.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

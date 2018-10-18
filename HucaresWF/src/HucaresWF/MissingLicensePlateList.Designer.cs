@@ -13,11 +13,14 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            lock (mlpLock)
             {
-                components.Dispose();
+                if (disposing && (components != null))
+                {
+                    components.Dispose();
+                }
+                base.Dispose(disposing);
             }
-            base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
@@ -44,32 +47,37 @@
             this.Date});
             this.mlpTable.Location = new System.Drawing.Point(12, 34);
             this.mlpTable.Name = "mlpTable";
-            this.mlpTable.Size = new System.Drawing.Size(342, 369);
+            this.mlpTable.ReadOnly = true;
+            this.mlpTable.Size = new System.Drawing.Size(453, 410);
             this.mlpTable.TabIndex = 0;
             // 
             // PlateId
             // 
+            this.PlateId.DataPropertyName = "Id";
             this.PlateId.HeaderText = "Id";
             this.PlateId.Name = "PlateId";
             this.PlateId.ReadOnly = true;
             // 
             // plateNumber
             // 
+            this.plateNumber.DataPropertyName = "PlateNumber";
             this.plateNumber.HeaderText = "Plate number";
             this.plateNumber.Name = "plateNumber";
             this.plateNumber.ReadOnly = true;
             // 
             // Date
             // 
+            this.Date.DataPropertyName = "SearchStartDateTime";
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
+            this.Date.Width = 150;
             // 
             // MissingLicensePlateList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(368, 426);
+            this.ClientSize = new System.Drawing.Size(477, 456);
             this.Controls.Add(this.mlpTable);
             this.Name = "MissingLicensePlateList";
             this.Text = "MLP List";

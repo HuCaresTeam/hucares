@@ -150,7 +150,7 @@ namespace HucaresServer.Storage.UnitTests
                     PlateNumber = expectedDetectedPlate.PlateNumber,
                     SearchStartDateTime = new DateTime(2018, 09, 29),
                     SearchEndDateTime = null, 
-                    Status = false
+                    Status = LicensePlateFoundStatus.NotFound
                 }
             };
 

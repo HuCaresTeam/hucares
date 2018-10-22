@@ -67,14 +67,14 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        public MissingLicensePlate MarkFoundPlate(int plateId, DateTime requestDateTime, bool isFound)
+        public MissingLicensePlate MarkFoundPlate(int plateId, DateTime requestDateTime, LicensePlateFoundStatus status)
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 var recordToUpdate = ctx.MissingLicensePlates.FirstOrDefault(c => c.Id == plateId) ?? 
                                      throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, plateId));
 
-                recordToUpdate.Status = (isFound ? LicensePlateFoundStatus.Found : LicensePlateFoundStatus.NotFound);
+                recordToUpdate.Status = status;
                 recordToUpdate.SearchEndDateTime = requestDateTime;
                 ctx.SaveChanges();
 

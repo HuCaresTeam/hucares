@@ -98,7 +98,7 @@ namespace HucaresServer.Storage.Helpers
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
             var missingPlateInfo = _missingPlateHelper.GetPlateRecordByPlateNumber(plateNumber)
-                .FirstOrDefault(s => s.Status == null);
+                .FirstOrDefault(s => s.Status == LicensePlateFoundStatus.Searching);
 
             if (missingPlateInfo == null)
             {

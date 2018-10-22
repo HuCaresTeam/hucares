@@ -272,7 +272,8 @@ namespace HucaresServer.Storage.UnitTests
         [Test]
         public void MarkFoundPlate_WhenPlateIdExist_ShouldSucceed()
         {
-            var missingPlateObj = new MissingLicensePlate() { Id = 1, SearchStartDateTime = new DateTime(2018, 05, 08), Status = false};
+            var missingPlateObj = new MissingLicensePlate() { Id = 1, SearchStartDateTime = new DateTime(2018, 05, 08), 
+                Status = LicensePlateFoundStatus.NotFound};
             //Arrange
             var fakeIQueryable = new List<MissingLicensePlate>() { missingPlateObj }.AsQueryable();
             var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
@@ -285,7 +286,7 @@ namespace HucaresServer.Storage.UnitTests
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .Returns(fakeHucaresContext);
 
-            var expectedSearch = true;
+            var expectedSearch = LicensePlateFoundStatus.Found;
             
             var missingPlateHelper = new MissingPlateHelper(fakeDbContextFactory);
             var result = missingPlateHelper.MarkFoundPlate(missingPlateObj.Id, DateTime.Now, expectedSearch);
@@ -301,7 +302,7 @@ namespace HucaresServer.Storage.UnitTests
                 .MustHaveHappenedOnceExactly();
 
             result.ShouldBe(missingPlateObj);
-            missingPlateObj.Status.ShouldBe(true);
+            missingPlateObj.Status.ShouldBe(expectedSearch);
         }
         
         [Test]
@@ -323,7 +324,7 @@ namespace HucaresServer.Storage.UnitTests
 
             var expectedId = 5;
             var expectedStartSearchDateTime = new DateTime(2018, 08, 17);
-            var expectedSearch = true;
+            var expectedSearch = LicensePlateFoundStatus.Found;
 
             //Act & Assert
             Assert.Throws<ArgumentException>(() => missingPlateHelper.MarkFoundPlate(expectedId, expectedStartSearchDateTime, expectedSearch));

@@ -34,12 +34,12 @@
             this.mlpLabel = new System.Windows.Forms.Label();
             this.lettersBox = new System.Windows.Forms.TextBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.mlpTab = new System.Windows.Forms.TabPage();
             this.showMlpListButton = new System.Windows.Forms.Button();
             this.digitsBox = new System.Windows.Forms.TextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dlpTab = new System.Windows.Forms.TabPage();
             this.dlpTable = new System.Windows.Forms.DataGridView();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cameraTab = new System.Windows.Forms.TabPage();
             this.longField = new System.Windows.Forms.NumericUpDown();
             this.latField = new System.Windows.Forms.NumericUpDown();
             this.cameraTable = new System.Windows.Forms.DataGridView();
@@ -64,10 +64,10 @@
             this.gMapUri = new System.Windows.Forms.DataGridViewLinkColumn();
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).BeginInit();
             this.tabControlMain.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.mlpTab.SuspendLayout();
+            this.dlpTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dlpTable)).BeginInit();
-            this.tabPage3.SuspendLayout();
+            this.cameraTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.longField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.latField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cameraTable)).BeginInit();
@@ -102,7 +102,6 @@
             this.mlpLabel.Size = new System.Drawing.Size(251, 31);
             this.mlpLabel.TabIndex = 2;
             this.mlpLabel.Text = "Input MLP number";
-            this.mlpLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // lettersBox
             // 
@@ -117,30 +116,30 @@
             // 
             // tabControlMain
             // 
-            this.tabControlMain.Controls.Add(this.tabPage1);
-            this.tabControlMain.Controls.Add(this.tabPage2);
-            this.tabControlMain.Controls.Add(this.tabPage3);
+            this.tabControlMain.Controls.Add(this.mlpTab);
+            this.tabControlMain.Controls.Add(this.dlpTab);
+            this.tabControlMain.Controls.Add(this.cameraTab);
             this.tabControlMain.Location = new System.Drawing.Point(-2, 9);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(812, 332);
             this.tabControlMain.TabIndex = 5;
             // 
-            // tabPage1
+            // mlpTab
             // 
-            this.tabPage1.Controls.Add(this.showMlpListButton);
-            this.tabPage1.Controls.Add(this.digitsBox);
-            this.tabPage1.Controls.Add(this.submitButton);
-            this.tabPage1.Controls.Add(this.mlpLabel);
-            this.tabPage1.Controls.Add(this.lettersBox);
-            this.tabPage1.Controls.Add(this.licensePlateImage);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(804, 306);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "MLP Insert";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.mlpTab.Controls.Add(this.showMlpListButton);
+            this.mlpTab.Controls.Add(this.digitsBox);
+            this.mlpTab.Controls.Add(this.submitButton);
+            this.mlpTab.Controls.Add(this.mlpLabel);
+            this.mlpTab.Controls.Add(this.lettersBox);
+            this.mlpTab.Controls.Add(this.licensePlateImage);
+            this.mlpTab.Location = new System.Drawing.Point(4, 22);
+            this.mlpTab.Name = "mlpTab";
+            this.mlpTab.Padding = new System.Windows.Forms.Padding(3);
+            this.mlpTab.Size = new System.Drawing.Size(804, 306);
+            this.mlpTab.TabIndex = 0;
+            this.mlpTab.Text = "MLP Insert";
+            this.mlpTab.UseVisualStyleBackColor = true;
             // 
             // showMlpListButton
             // 
@@ -163,16 +162,16 @@
             this.digitsBox.TabIndex = 4;
             this.digitsBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // tabPage2
+            // dlpTab
             // 
-            this.tabPage2.Controls.Add(this.dlpTable);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(804, 306);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "DLP";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.dlpTab.Controls.Add(this.dlpTable);
+            this.dlpTab.Location = new System.Drawing.Point(4, 22);
+            this.dlpTab.Name = "dlpTab";
+            this.dlpTab.Padding = new System.Windows.Forms.Padding(3);
+            this.dlpTab.Size = new System.Drawing.Size(804, 306);
+            this.dlpTab.TabIndex = 1;
+            this.dlpTab.Text = "DLP";
+            this.dlpTab.UseVisualStyleBackColor = true;
             // 
             // dlpTable
             // 
@@ -191,26 +190,26 @@
             this.dlpTable.TabIndex = 0;
             this.dlpTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dlpTable_CellContentClick);
             // 
-            // tabPage3
+            // camTab
             // 
-            this.tabPage3.Controls.Add(this.longField);
-            this.tabPage3.Controls.Add(this.latField);
-            this.tabPage3.Controls.Add(this.cameraTable);
-            this.tabPage3.Controls.Add(this.submitCam);
-            this.tabPage3.Controls.Add(this.isTrustedBox);
-            this.tabPage3.Controls.Add(this.isTrustedLabel);
-            this.tabPage3.Controls.Add(this.hostUrlField);
-            this.tabPage3.Controls.Add(this.longLabel);
-            this.tabPage3.Controls.Add(this.latLabel);
-            this.tabPage3.Controls.Add(this.hostUrlLabel);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(804, 306);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Camera";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
+            this.cameraTab.Controls.Add(this.longField);
+            this.cameraTab.Controls.Add(this.latField);
+            this.cameraTab.Controls.Add(this.cameraTable);
+            this.cameraTab.Controls.Add(this.submitCam);
+            this.cameraTab.Controls.Add(this.isTrustedBox);
+            this.cameraTab.Controls.Add(this.isTrustedLabel);
+            this.cameraTab.Controls.Add(this.hostUrlField);
+            this.cameraTab.Controls.Add(this.longLabel);
+            this.cameraTab.Controls.Add(this.latLabel);
+            this.cameraTab.Controls.Add(this.hostUrlLabel);
+            this.cameraTab.Location = new System.Drawing.Point(4, 22);
+            this.cameraTab.Name = "cameraTab";
+            this.cameraTab.Padding = new System.Windows.Forms.Padding(3);
+            this.cameraTab.Size = new System.Drawing.Size(804, 306);
+            this.cameraTab.TabIndex = 2;
+            this.cameraTab.Text = "Camera";
+            this.cameraTab.UseVisualStyleBackColor = true;
+            this.cameraTab.Click += new System.EventHandler(this.cameraTab_Click);
             // 
             // longField
             // 
@@ -430,12 +429,12 @@
             this.Load += new System.EventHandler(this.MissingLicensePlateForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).EndInit();
             this.tabControlMain.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
+            this.mlpTab.ResumeLayout(false);
+            this.mlpTab.PerformLayout();
+            this.dlpTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dlpTable)).EndInit();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
+            this.cameraTab.ResumeLayout(false);
+            this.cameraTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.longField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.latField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cameraTable)).EndInit();
@@ -450,11 +449,11 @@
         private System.Windows.Forms.Label mlpLabel;
         private System.Windows.Forms.TextBox lettersBox;
         private System.Windows.Forms.TabControl tabControlMain;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage mlpTab;
+        private System.Windows.Forms.TabPage dlpTab;
         private System.Windows.Forms.TextBox digitsBox;
         private System.Windows.Forms.DataGridView dlpTable;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage cameraTab;
         private System.Windows.Forms.DataGridView cameraTable;
         private System.Windows.Forms.Button submitCam;
         private System.Windows.Forms.CheckBox isTrustedBox;

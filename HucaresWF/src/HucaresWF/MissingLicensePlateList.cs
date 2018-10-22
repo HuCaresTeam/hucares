@@ -37,7 +37,15 @@ namespace HucaresWF
 
         private async void MissingLicensePlateList_Load(object sender, EventArgs e)
         {
-            await UpdateDatasource();
+            try
+            {
+                await UpdateDatasource();
+            }
+
+            catch
+            {
+                MessageBox.Show("Check your connection!");
+            }
         }
 
         public async Task UpdateDatasource()

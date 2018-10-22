@@ -133,7 +133,7 @@ namespace HucaresWF
 
         private bool validatePlateNumber(string plateNumber)
         {
-            var regex = new Regex(@"^\w{3}\d{3}$");
+            var regex = new Regex(@"^([A-Z]){3}\d{3}$");
             return regex.IsMatch(plateNumber);
         }
     }

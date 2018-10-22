@@ -75,7 +75,7 @@ namespace HucaresServer.Storage.Helpers
                                      throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, plateId));
 
                 recordToUpdate.Status = (isFound ? LicensePlateFoundStatus.Found : LicensePlateFoundStatus.NotFound);
-                recordToUpdate.SearchStartDateTime = requestDateTime;
+                recordToUpdate.SearchEndDateTime = requestDateTime;
                 ctx.SaveChanges();
 
                 return recordToUpdate;

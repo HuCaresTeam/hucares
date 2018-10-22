@@ -21,6 +21,7 @@ namespace HucaresServer.Storage.Helpers
             {
                 PlateNumber = plateNumber,
                 SearchStartDateTime = searchStartDatetime,
+                Status = LicensePlateFoundStatus.Searching
                
             };
 
@@ -73,7 +74,7 @@ namespace HucaresServer.Storage.Helpers
                 var recordToUpdate = ctx.MissingLicensePlates.FirstOrDefault(c => c.Id == plateId) ?? 
                                      throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, plateId));
 
-                recordToUpdate.LicensePlateFound = isFound;
+                recordToUpdate.Status = (isFound ? LicensePlateFoundStatus.Found : LicensePlateFoundStatus.NotFound);
                 recordToUpdate.SearchStartDateTime = requestDateTime;
                 ctx.SaveChanges();
 

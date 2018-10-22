@@ -272,7 +272,7 @@ namespace HucaresServer.Storage.UnitTests
         [Test]
         public void MarkFoundPlate_WhenPlateIdExist_ShouldSucceed()
         {
-            var missingPlateObj = new MissingLicensePlate() { Id = 1, SearchStartDateTime = new DateTime(2018, 05, 08), LicensePlateFound = false};
+            var missingPlateObj = new MissingLicensePlate() { Id = 1, SearchStartDateTime = new DateTime(2018, 05, 08), Status = false};
             //Arrange
             var fakeIQueryable = new List<MissingLicensePlate>() { missingPlateObj }.AsQueryable();
             var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
@@ -301,7 +301,7 @@ namespace HucaresServer.Storage.UnitTests
                 .MustHaveHappenedOnceExactly();
 
             result.ShouldBe(missingPlateObj);
-            missingPlateObj.LicensePlateFound.ShouldBe(true);
+            missingPlateObj.Status.ShouldBe(true);
         }
         
         [Test]

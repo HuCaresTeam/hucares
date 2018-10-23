@@ -44,7 +44,7 @@ namespace Hucares.Server.Client
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
-            var request = new HttpRequestMessage(HttpMethod.Post, fullUri)
+            var request = new HttpRequestMessage(HttpMethod.Put, fullUri)
             {
                 Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
             };
@@ -61,7 +61,7 @@ namespace Hucares.Server.Client
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
-            var request = new HttpRequestMessage(HttpMethod.Post, fullUri)
+            var request = new HttpRequestMessage(HttpMethod.Put, fullUri)
             {
                 Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
             };

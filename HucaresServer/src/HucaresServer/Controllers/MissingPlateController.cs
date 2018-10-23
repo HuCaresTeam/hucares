@@ -40,7 +40,7 @@ namespace HucaresServer.Controllers
             return Json(MissingPlateHelper.InsertPlateRecord(data.PlateNumber, data.SearchStartDateTime));
         }
         
-        [HttpPost]
+        [HttpPut]
         [Route("api/mlp/update/{plateId}")]
         public IHttpActionResult UpdatePlateRecordById(int id, [FromBody] PostPlateRecordDataModel data)
         {

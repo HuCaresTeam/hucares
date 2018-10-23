@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,28 +28,17 @@ namespace HucaresWF
             InitializeComponent();
         }
 
-        private async void submitButton_Click(object sender, EventArgs e)
-        {
-            var plateNumber = lettersBox.Text + digitsBox.Text;
-            await mlpClient.InsertPlateRecord(plateNumber, DateTime.Now);
-            await MissingLicensePlateList.CreateIfNotExistsAndGetInstance(mlpClient).UpdateDatasource();
-            await UpdateDlpDataSource();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private async void MissingLicensePlateForm_Load(object sender, EventArgs e)
         {
-            await UpdateCameraDataSource();
-            await UpdateDlpDataSource();
-        }
-
-        private async Task UpdateCameraDataSource()
-        {
-            cameraTable.DataSource = await cameraClient.GetAllCameras();
+            try
+            {
+                await UpdateCameraDataSource();
+                await UpdateDlpDataSource();
+            }
+            catch
+            {
+                MessageBox.Show("Check your connection!");
+            }
         }
 
         private async Task UpdateDlpDataSource()
@@ -55,38 +46,58 @@ namespace HucaresWF
             var cameraList = await cameraClient.GetActiveCameras();
             var dlpList = await dlpClient.GetAllDetectedMissingPlates();
 
-           var dlpListWithCam = dlpList.Join
-                (
-                cameraList,
-                dlp => dlp.CamId,
-                cam => cam.Id,
-                (dlp, cam) => new { dlp, cam }
-                );
+            var dlpListWithCam = dlpList.Join
+                 (
+                 cameraList,
+                 detectedLicensePlates => detectedLicensePlates.CamId,
+                 camera => camera.Id,
+                 (detectedLicensePlates, camera) => new { detectedLicensePlates, camera }
+                 );
 
             dlpTable.DataSource = dlpListWithCam
                 .Select(dnc => new
-                    {
-                    dnc.dlp.Id,
-                    dnc.dlp.PlateNumber,
-                    dnc.dlp.DetectedDateTime,
-                    dnc.dlp.ImgUrl,
-                    dnc.dlp.Confidence,
-                    GMapsUri = $"https://www.google.com/maps/search/?api=1&query={dnc.cam.Latitude},{dnc.cam.Longitude}"
+                {
+                    dnc.detectedLicensePlates.Id,
+                    dnc.detectedLicensePlates.PlateNumber,
+                    dnc.detectedLicensePlates.DetectedDateTime,
+                    dnc.detectedLicensePlates.ImgUrl,
+                    dnc.detectedLicensePlates.Confidence,
+                    GMapsUri = $"https://www.google.com/maps/search/?api=1&query={dnc.camera.Latitude},{dnc.camera.Longitude}"
                 })
                 .ToList();
         }
 
-        private void tabPage1_Click(object sender, EventArgs e)
+        private async Task UpdateCameraDataSource()
+        {
+            cameraTable.DataSource = await cameraClient.GetAllCameras();
+        }
+
+        private async void submitButton_Click(object sender, EventArgs e)
+        {
+            var plateNumber = lettersBox.Text + digitsBox.Text;
+            
+            if(!validatePlateNumber(plateNumber))
+            {
+                MessageBox.Show("You have entered wrong plate number. Check it!");
+                return;
+            }
+
+            await mlpClient.InsertPlateRecord(plateNumber, DateTime.Now);
+            await MissingLicensePlateList.CreateIfNotExistsAndGetInstance(mlpClient).UpdateDatasource();
+            await UpdateDlpDataSource();
+        }
+
+        private void mlpTab_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void tabPage4_Click(object sender, EventArgs e)
+        private void dlpTab_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void tabPage3_Click(object sender, EventArgs e)
+        private void cameraTab_Click(object sender, EventArgs e)
         {
 
         }
@@ -118,6 +129,12 @@ namespace HucaresWF
                 var value = dlpTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                 System.Diagnostics.Process.Start(value);
             }
+        }
+
+        private bool validatePlateNumber(string plateNumber)
+        {
+            var regex = new Regex(@"^([A-Z]){3}\d{3}$");
+            return regex.IsMatch(plateNumber);
         }
     }
 }

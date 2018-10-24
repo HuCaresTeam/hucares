@@ -19,14 +19,14 @@ namespace HucaresServer.Controllers
             return Json(CameraInfoHelper.InsertCamera(data.HostUrl, data.Latitude, data.Longitude, data.IsTrustedSource));
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/camera/update/source/{id}")]
         public IHttpActionResult UpdateCameraSource(int id, [FromBody] UpdateCameraSourceDataModel data)
         {
             return Json(CameraInfoHelper.UpdateCameraSource(id, data.HostUrl, data.IsTrustedSource));
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/camera/update/activity/{id}")]
         public IHttpActionResult UpdateCameraActivity(int id, [FromBody] UpdateCameraActivityDataModel data)
         {

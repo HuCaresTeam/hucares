@@ -36,9 +36,9 @@ namespace HucaresServer.Storage.Models
         public DateTime? SearchEndDateTime { get; set; }
 
         /// <summary>
-        /// Indicates wheter the license plate was found once the search is complete.
+        /// Indicates whether the license plate was found once the search is complete.
         /// </summary>
-        public bool? LicensePlateFound { get; set; }
+        public LicensePlateFoundStatus Status { get; set; }
         
         public bool Equals(MissingLicensePlate other)
         {
@@ -50,7 +50,7 @@ namespace HucaresServer.Storage.Models
                     && PlateNumber == other.PlateNumber
                     && SearchStartDateTime == other.SearchStartDateTime
                     && SearchEndDateTime== other.SearchEndDateTime
-                    && LicensePlateFound == other.LicensePlateFound);
+                    && Status == other.Status);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Hucares.Server.Client
         Task<IEnumerable<MissingLicensePlate>> GetAllPlateRecords();
         Task<IEnumerable<MissingLicensePlate>> GetPlateRecordByPlateNumber(string plateNumber);
         Task<MissingLicensePlate> UpdatePlateRecord(int plateId, string plateNumber, DateTime searchStartDatetime);
-        Task<MissingLicensePlate> MarkFoundPlate(int plateId, DateTime requestDateTime, bool isFound);
+        Task<MissingLicensePlate> MarkFoundPlate(int plateId, DateTime requestDateTime, LicensePlateFoundStatus status);
         Task<MissingLicensePlate> DeletePlateById(int plateId);
         Task<MissingLicensePlate> DeletePlateByNumber(string plateNumber);
     }

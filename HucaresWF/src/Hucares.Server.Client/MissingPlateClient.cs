@@ -86,15 +86,15 @@ namespace Hucares.Server.Client
             return await httpHelper.MakeRequest<MissingLicensePlate>(request);
         }
 
-        public async Task<MissingLicensePlate> MarkFoundPlate(int plateId, DateTime requestDateTime, bool isFound)
+        public async Task<MissingLicensePlate> MarkFoundPlate(int plateId, DateTime requestDateTime, LicensePlateFoundStatus status)
         {
             var uri = $"api/mlp/found/{plateId}";
             var fullUri = new Uri(HostUri, uri);
             
             var plateNumberData = new
             {
-                requestDateTime = requestDateTime,
-                isFound = isFound
+                endDateTime = requestDateTime,
+                status = status
             };
 
             var jsonContent = JsonConvert.SerializeObject(plateNumberData, new JsonSerializerSettings

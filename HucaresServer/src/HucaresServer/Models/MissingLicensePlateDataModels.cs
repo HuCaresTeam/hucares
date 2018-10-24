@@ -1,4 +1,5 @@
 using System;
+using HucaresServer.Storage.Models;
 
 namespace HucaresServer.Models
 {
@@ -16,7 +17,7 @@ namespace HucaresServer.Models
         public struct MarkFoundRecordDataModel
         {
             public DateTime EndDateTime { get; set; }
-            public bool IsFound { get; set; }
+            public LicensePlateFoundStatus Status { get; set; }
         }
     }
 }

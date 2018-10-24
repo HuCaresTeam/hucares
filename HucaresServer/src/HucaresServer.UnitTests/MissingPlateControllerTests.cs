@@ -151,11 +151,11 @@ namespace HucaresServer.UnitTests
 
             var expectedId = 5;
             var requestedDateTime = new DateTime(2018, 05, 15);
-            var expectedSearch = true;
+            var expectedSearch = LicensePlateFoundStatus.Found;
             var expectedDataModel = new MarkFoundRecordDataModel()
             {
                 EndDateTime = new DateTime(2018, 05, 15),
-                IsFound = true,
+                Status = LicensePlateFoundStatus.Found,
             };
             var expectedMissingPlateInfo = new MissingLicensePlate() {Id = expectedId};
             A.CallTo(() => fakeMissingPlateHelper.MarkFoundPlate(expectedId, requestedDateTime, expectedSearch))

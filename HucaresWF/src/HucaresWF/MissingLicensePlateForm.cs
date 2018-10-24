@@ -112,8 +112,15 @@ namespace HucaresWF
                 IsTrustedSource = isTrustedBox.Checked
             };
 
-            await cameraClient.InsertCamera(camObj);
-            await UpdateCameraDataSource();
+            if (!Uri.IsWellFormedUriString(camObj.HostUrl, UriKind.Absolute))
+            {
+                MessageBox.Show("You have entered a bad url. Check it!");
+            }
+            else
+            {
+                await cameraClient.InsertCamera(camObj);
+                await UpdateCameraDataSource();
+            }
         }
 
         private void showMlpList_Click(object sender, EventArgs e)

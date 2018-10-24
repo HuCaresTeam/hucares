@@ -9,7 +9,7 @@ namespace HucaresServer.Storage.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
             ContextKey = "HucaresServer.Storage.HucaresContext";
         }
 

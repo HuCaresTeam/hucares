@@ -53,6 +53,7 @@
     <Compile Include="CameraInfoClient.cs" />
     <Compile Include="DetectedPlateClient.cs" />
     <Compile Include="Models\DetectedLicensePlate.cs" />
+    <Compile Include="Models\LicensePlateFoundStatus.cs" />
     <Compile Include="Models\MissingLicensePlate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

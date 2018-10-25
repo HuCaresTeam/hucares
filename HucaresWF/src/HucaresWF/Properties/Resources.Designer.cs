@@ -77,5 +77,14 @@ namespace HucaresWF.Properties {
                 return ResourceManager.GetString("Error_Connection", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You entered an incorrect license plate number, please check it.
+        /// </summary>
+        internal static string Error_BadLicensePlateNumber {
+            get {
+                return ResourceManager.GetString("You entered an incorrect license plate number, please check it", resourceCulture);
+            }
+        }
     }
 }

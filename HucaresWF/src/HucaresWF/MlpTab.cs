@@ -15,9 +15,9 @@ namespace HucaresWF
         private async void submitButton_Click(object sender, EventArgs e)
         {
             var plateNumber = lettersBox.Text + digitsBox.Text;
-            if (plateNumber.ValidatePlateNumber())
+            if (!plateNumber.ValidatePlateNumber())
             {
-                var eventArgs = new ExceptionEventArgs { ExceptionMessage = Resources.Error_BadUri };
+                var eventArgs = new ExceptionEventArgs { ExceptionMessage = Resources.Error_BadLicensePlateNumber };
                 ExceptionEventHandler?.Invoke(this, eventArgs);
                 return;
             }

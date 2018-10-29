@@ -1,6 +1,6 @@
 ﻿namespace HucaresWF
 {
-    partial class MissingLicensePlateForm
+    partial class HucaresForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MissingLicensePlateForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HucaresForm));
             this.licensePlateImage = new System.Windows.Forms.PictureBox();
             this.submitButton = new System.Windows.Forms.Button();
             this.mlpLabel = new System.Windows.Forms.Label();
@@ -209,7 +209,6 @@
             this.cameraTab.TabIndex = 2;
             this.cameraTab.Text = "Camera";
             this.cameraTab.UseVisualStyleBackColor = true;
-            this.cameraTab.Click += new System.EventHandler(this.cameraTab_Click);
             // 
             // longField
             // 

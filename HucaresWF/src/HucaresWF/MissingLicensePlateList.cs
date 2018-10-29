@@ -1,11 +1,9 @@
 ﻿using Hucares.Server.Client;
+using HucaresWF.Properties;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,22 +12,24 @@ namespace HucaresWF
     public partial class MissingLicensePlateList : Form
     {
         private IMissingPlateClient mlpClient;
+        private IExceptionEventObservable parent;
         private static object mlpLock = new object();
         private static MissingLicensePlateList mlpList;
 
-        private MissingLicensePlateList(IMissingPlateClient mlpClient)
+        private MissingLicensePlateList(IMissingPlateClient mlpClient, IExceptionEventObservable parent)
         {
             this.mlpClient = mlpClient;
+            this.parent = parent;
             InitializeComponent();
         }
 
-        public static MissingLicensePlateList CreateIfNotExistsAndGetInstance(IMissingPlateClient mlpClient)
+        public static MissingLicensePlateList CreateIfNotExistsAndGetInstance(IMissingPlateClient mlpClient, IExceptionEventObservable parent)
         {
             lock (mlpLock)
             {
                 if (null == mlpList || mlpList.IsDisposed)
                 {
-                    mlpList = new MissingLicensePlateList(mlpClient);
+                    mlpList = new MissingLicensePlateList(mlpClient, parent);
                 }
                 return mlpList;
             }
@@ -42,9 +42,10 @@ namespace HucaresWF
                 await UpdateDatasource();
             }
 
-            catch
+            catch (HttpRequestException ex)
             {
-                MessageBox.Show("Check your connection!");
+                var eventArgs = new ExceptionEventArgs { ExceptionMessage = String.Format(Resources.Error_Connection, ex.Message) };
+                parent.InvokeHandler(eventArgs);
             }
         }
 

@@ -50,11 +50,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MissingLicensePlateForm.cs">
+    <Compile Include="ExceptionEventArgs.cs" />
+    <Compile Include="ExceptionEventMessageBoxObserver.cs" />
+    <Compile Include="IExceptionEventObservable.cs" />
+    <Compile Include="IExceptionEventObserver.cs" />
+    <Compile Include="MlpTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MissingLicensePlateForm.Designer.cs">
-      <DependentUpon>MissingLicensePlateForm.cs</DependentUpon>
+    <Compile Include="DlpTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CameraTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HucaresForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HucaresForm.Designer.cs">
+      <DependentUpon>HucaresForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MissingLicensePlateList.cs">
       <SubType>Form</SubType>
@@ -64,8 +77,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MissingLicensePlateForm.resx">
-      <DependentUpon>MissingLicensePlateForm.cs</DependentUpon>
+    <Compile Include="ValidationUtil.cs" />
+    <EmbeddedResource Include="HucaresForm.resx">
+      <DependentUpon>HucaresForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MissingLicensePlateList.resx">
       <DependentUpon>MissingLicensePlateList.cs</DependentUpon>
@@ -78,6 +92,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

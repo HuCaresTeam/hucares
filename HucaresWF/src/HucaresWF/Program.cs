@@ -17,7 +17,11 @@ namespace HucaresWF
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MissingLicensePlateForm(new CameraInfoClient(), new MissingPlateClient(), new DetectedPlateClient()));
+
+            var mainForm = new HucaresForm(new CameraInfoClient(), new MissingPlateClient(), new DetectedPlateClient());
+            mainForm.ExceptionEventHandler += new ExceptionEventMessageBoxObserver().HandleExceptionEvent;
+
+            Application.Run(mainForm);
         }
     }
 }

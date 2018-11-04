@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HucaresServer.Utils", "Huca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HucaresServer.Utils.UnitTests", "HucaresServer.Utils.UnitTests\HucaresServer.Utils.UnitTests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HucaresServer.DataAcquisition", "HucaresServer.DataAcquisition\HucaresServer.DataAcquisition.csproj", "{5358ED9E-F9D6-45A7-B374-9CD22C538106}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HucaresServer.DataAcquisition.UnitTests", "HucaresServer.DataAcquisition.UnitTests\HucaresServer.DataAcquisition.UnitTests.csproj", "{4EFCAA79-6454-4A81-92BD-DA8A59056A2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5358ED9E-F9D6-45A7-B374-9CD22C538106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5358ED9E-F9D6-45A7-B374-9CD22C538106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5358ED9E-F9D6-45A7-B374-9CD22C538106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5358ED9E-F9D6-45A7-B374-9CD22C538106}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EFCAA79-6454-4A81-92BD-DA8A59056A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EFCAA79-6454-4A81-92BD-DA8A59056A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EFCAA79-6454-4A81-92BD-DA8A59056A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EFCAA79-6454-4A81-92BD-DA8A59056A2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

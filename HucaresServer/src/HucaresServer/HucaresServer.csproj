@@ -51,6 +51,9 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="OpenAlprApi, Version=2.0.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>OpenAlprApi.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -88,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="OpenAlprApi.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +132,10 @@
     <ProjectReference Include="..\HucaresServer.Utils\HucaresServer.Utils.csproj">
       <Project>{8A79D1D0-A355-4FF9-9269-7EBBC4A615A0}</Project>
       <Name>HucaresServer.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenAlprApi\OpenAlprApi.csproj">
+      <Project>{28674e2c-c26d-4e6d-a26c-efb062e9348e}</Project>
+      <Name>OpenAlprApi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

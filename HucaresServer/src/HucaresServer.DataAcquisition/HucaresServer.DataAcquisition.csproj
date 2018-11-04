@@ -42,6 +42,12 @@
     <Compile Include="ICameraImageDownloading.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HucaresServer.Storage\HucaresServer.Storage.csproj">
+      <Project>{825695a4-3e4b-4f60-a69d-07d6d3ae3a1a}</Project>
+      <Name>HucaresServer.Storage</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.

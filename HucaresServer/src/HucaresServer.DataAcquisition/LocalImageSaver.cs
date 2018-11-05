@@ -17,6 +17,11 @@ namespace HucaresServer.DataAcquisition
             throw new NotImplementedException();
         }
 
+        public string GenerateStorageLocationAndFilename(int cameraId, DateTime? dateTime = null)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Method generates a filename to be used for an image
         /// </summary>

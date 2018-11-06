@@ -4,9 +4,9 @@ namespace HucaresServer.DataAcquisition
 {
     public class CustomWebClientFactory : IWebClientFactory
     {
-        public WebClient BuildWebClient()
+        public IWebClient BuildWebClient()
         {
-            return new WebClient();
+            return new CustomWebClient();
         }
     }
 }

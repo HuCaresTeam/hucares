@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMemoryStreamFactory.cs" />
+    <Compile Include="MemoryStreamFactory.cs" />
     <Compile Include="PlateNumberValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

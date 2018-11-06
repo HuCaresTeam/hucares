@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using HucaresServer.Storage.Helpers;
 
 namespace HucaresServer.DataAcquisition
@@ -16,23 +20,35 @@ namespace HucaresServer.DataAcquisition
         public CameraImageDownloading(ICameraInfoHelper cameraInfoHelper = null, IImageSaver imageSaver = null)
         {
             _cameraInfoHelper = cameraInfoHelper ?? new CameraInfoHelper();
-            _imageSaver = imageSaver ?? new LocalImageSaver();
+            _imageSaver = imageSaver ?? new LocalImageSaver(TemporaryStorageUrl);
         }
 
         public int DownloadImagesFromCameraInfoSources(bool? isTrusted = null, DateTime? downloadDateTime = null)
         {
             var cameraDataToDownload = _cameraInfoHelper.GetActiveCameras(isTrusted = isTrusted).ToList();
+            var imageSavingTasks = new List<Task>();
 
-            using (var webClient = new WebClient())
+            foreach (var cameraData in cameraDataToDownload)
             {
-                foreach (var cameraData in cameraDataToDownload)
-                {
-                    webClient.DownloadFileAsync(new Uri(cameraData.HostUrl),
-                        _imageSaver.GenerateStorageLocationAndFilename(cameraData.Id, downloadDateTime));
-                }
+                imageSavingTasks.Add(Task.Factory.StartNew(() => DownloadAndSaveImage(cameraData.HostUrl)));
             }
 
+            Task.WaitAll(imageSavingTasks.ToArray());
+
             return cameraDataToDownload.Count;
+        }
+
+        private void DownloadAndSaveImage(string imageUrl)
+        {
+            using (var webClient = new WebClient())
+            {
+                var imageData = webClient.DownloadData(imageUrl);
+
+                using (var memoryStream = new MemoryStream(imageData))
+                {
+                    _imageSaver.SaveImage(new Bitmap(memoryStream));
+                }
+            }
         }
     }
 }

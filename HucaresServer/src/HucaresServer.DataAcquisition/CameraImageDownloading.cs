@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using HucaresServer.Storage.Helpers;
 
@@ -16,16 +15,19 @@ namespace HucaresServer.DataAcquisition
 
         private ICameraInfoHelper _cameraInfoHelper;
         private IImageSaver _imageSaver;
+        private IWebClientFactory _webClientFactory;
 
-        public CameraImageDownloading(ICameraInfoHelper cameraInfoHelper = null, IImageSaver imageSaver = null)
+        public CameraImageDownloading(ICameraInfoHelper cameraInfoHelper = null, IImageSaver imageSaver = null,
+            IWebClientFactory webClientFactory = null)
         {
             _cameraInfoHelper = cameraInfoHelper ?? new CameraInfoHelper();
             _imageSaver = imageSaver ?? new LocalImageSaver(TemporaryStorageUrl);
+            _webClientFactory = webClientFactory ?? new CustomWebClientFactory();
         }
 
         public int DownloadImagesFromCameraInfoSources(bool? isTrusted = null, DateTime? downloadDateTime = null)
         {
-            var cameraDataToDownload = _cameraInfoHelper.GetActiveCameras(isTrusted = isTrusted).ToList();
+            var cameraDataToDownload = _cameraInfoHelper.GetActiveCameras(isTrusted).ToList();
             var imageSavingTasks = new List<Task>();
 
             foreach (var cameraData in cameraDataToDownload)
@@ -40,7 +42,7 @@ namespace HucaresServer.DataAcquisition
 
         private void DownloadAndSaveImage(string imageUrl)
         {
-            using (var webClient = new WebClient())
+            using (var webClient = _webClientFactory.BuildWebClient())
             {
                 var imageData = webClient.DownloadData(imageUrl);
 

@@ -40,8 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CameraImageDownloading.cs" />
+    <Compile Include="CustomWebClient.cs" />
+    <Compile Include="CustomWebClientFactory.cs" />
     <Compile Include="ICameraImageDownloading.cs" />
     <Compile Include="IImageSaver.cs" />
+    <Compile Include="IWebClientFactory.cs" />
     <Compile Include="LocalImageSaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

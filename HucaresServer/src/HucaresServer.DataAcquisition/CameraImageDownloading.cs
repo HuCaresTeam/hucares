@@ -35,7 +35,7 @@ namespace HucaresServer.DataAcquisition
             foreach (var cameraData in cameraDataToDownload)
             {
                 imageSavingTasks.Add(Task.Factory.StartNew(
-                    () => DownloadAndSaveImage(cameraData.HostUrl, cameraData.Id, downloadDateTime)));
+                    () => DownloadAndSaveImage(cameraData.HostUrl, cameraData.Id, datetime)));
             }
 
             await Task.WhenAll(imageSavingTasks.ToArray());
@@ -43,7 +43,7 @@ namespace HucaresServer.DataAcquisition
             return cameraDataToDownload.Count;
         }
 
-        private void DownloadAndSaveImage(string imageUrl, int cameraId, DateTime? captureDateTime)
+        private void DownloadAndSaveImage(string imageUrl, int cameraId, DateTime captureDateTime)
         {
             using (var webClient = _webClientFactory.BuildWebClient())
             {
@@ -51,7 +51,7 @@ namespace HucaresServer.DataAcquisition
 
                 using (var memoryStream = new MemoryStream(imageData))
                 {
-                    _imageSaver.SaveImage(new Bitmap(memoryStream), cameraId, captureDateTime);
+                    _imageSaver.SaveImage(cameraId, captureDateTime, new Bitmap(memoryStream));
                 }
             }
         }

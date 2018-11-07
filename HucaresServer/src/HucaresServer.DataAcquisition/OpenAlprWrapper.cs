@@ -70,7 +70,7 @@ namespace HucaresServer.DataAcquisition
             this.streamFactory = streamFactory ?? new MemoryStreamFactory();
         }
 
-        public async Task<InlineResponse200> DetectPlate(string pathToPlateImage)
+        public async Task<InlineResponse200> DetectPlateAsync(string pathToPlateImage)
         {
             using (Image image = Image.FromFile(pathToPlateImage))
             {

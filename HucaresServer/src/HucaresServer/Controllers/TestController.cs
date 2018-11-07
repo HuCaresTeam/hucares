@@ -11,6 +11,7 @@ using HucaresServer.Storage.Helpers;
 using OpenAlprApi.Api;
 using OpenAlprApi.Model;
 using HucaresServer.DataAcquisition;
+using System.Threading.Tasks;
 
 namespace HucaresServer.Controllers
 {
@@ -79,14 +80,14 @@ namespace HucaresServer.Controllers
         
         [HttpGet]
         [Route("api/test/detectPlate")]
-        public IHttpActionResult DetectPlate()
+        public async Task<IHttpActionResult> DetectPlate()
         {
             var pathToPlateImage = "";
             InlineResponse200 response;
 
             try
             {
-                response = OpenAlprWrapper.DetectPlate(pathToPlateImage);
+                response = await OpenAlprWrapper.DetectPlateAsync(pathToPlateImage);
             }
             catch (Exception e)
             {

@@ -5,6 +5,6 @@ namespace HucaresServer.DataAcquisition
 {
     public interface IOpenAlprWrapper
     {
-        Task<InlineResponse200> DetectPlate(string pathToPlateImage);
+        Task<InlineResponse200> DetectPlateAsync(string pathToPlateImage);
     }
 }

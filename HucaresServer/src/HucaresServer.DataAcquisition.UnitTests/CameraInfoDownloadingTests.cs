@@ -53,8 +53,7 @@ namespace HucaresServer.DataAcquisition.UnitTests
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(true)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, 0, new DateTime(2018, 11, 01))).MustHaveHappenedOnceExactly();
-            
-            resultCameraCount.ShouldBe(1);
+            resultCameraCount.Result.ShouldBe(1);
         }
         
         [Test]
@@ -79,7 +78,7 @@ namespace HucaresServer.DataAcquisition.UnitTests
             var fakeMissingPlates = new List<CameraInfo>()
             {
                 new CameraInfo() {Id = 0, HostUrl = url, IsTrustedSource = true},
-                new CameraInfo() {Id = 0, HostUrl = url, IsTrustedSource = false}
+                new CameraInfo() {Id = 1, HostUrl = url, IsTrustedSource = false}
             };
             
             var fakeCameraInfoHelper = A.Fake<ICameraInfoHelper>();
@@ -96,9 +95,8 @@ namespace HucaresServer.DataAcquisition.UnitTests
             // Assert
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustHaveHappenedTwiceExactly();
-            
-            A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, 0, new DateTime(2018, 11, 01))).MustHaveHappenedTwiceExactly();
-            resultCameraCount.ShouldBe(2);
+            A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, A<int>.Ignored, new DateTime(2018, 11, 01))).MustHaveHappenedTwiceExactly();
+            resultCameraCount.Result.ShouldBe(2);
         }
         
         [Test]
@@ -130,7 +128,7 @@ namespace HucaresServer.DataAcquisition.UnitTests
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustNotHaveHappened();
             A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, 0, new DateTime(2018, 11, 01))).MustNotHaveHappened();
-            resultCameraCount.ShouldBe(0);
+            resultCameraCount.Result.ShouldBe(0);
         }
     }
 }

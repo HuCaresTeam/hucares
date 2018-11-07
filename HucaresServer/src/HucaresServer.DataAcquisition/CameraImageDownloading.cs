@@ -25,7 +25,7 @@ namespace HucaresServer.DataAcquisition
             _webClientFactory = webClientFactory ?? new CustomWebClientFactory();
         }
 
-        public int DownloadImagesFromCameraInfoSources(bool? isTrusted = null, DateTime? downloadDateTime = null)
+        public async Task<int> DownloadImagesFromCameraInfoSources(bool? isTrusted = null, DateTime? downloadDateTime = null)
         {
             var cameraDataToDownload = _cameraInfoHelper.GetActiveCameras(isTrusted).ToList();
             var imageSavingTasks = new List<Task>();
@@ -38,7 +38,7 @@ namespace HucaresServer.DataAcquisition
                     () => DownloadAndSaveImage(cameraData.HostUrl, cameraData.Id, downloadDateTime)));
             }
 
-            Task.WaitAll(imageSavingTasks.ToArray());
+            await Task.WhenAll(imageSavingTasks.ToArray());
 
             return cameraDataToDownload.Count;
         }

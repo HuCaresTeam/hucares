@@ -13,10 +13,10 @@ namespace HucaresServer.DataAcquisition
             _pathToStorageLocation = pathToStorageLocation ?? "";
         }
 
-        public void SaveImage(Bitmap imageToSave)
+        public void SaveImage(int cameraId, DateTime captureDateTime, Bitmap imageToSave)
         {
-            var folderLocationPath = GenerateFolderLocationPath();
-            var fileName = GenerateFileName();
+            var folderLocationPath = GenerateFolderLocationPath(captureDateTime);
+            var fileName = GenerateFileName(cameraId, captureDateTime);
             var fullImageLocation = folderLocationPath + fileName + ".jpeg";
                         
             imageToSave.Save(fullImageLocation, ImageFormat.Jpeg);

@@ -49,6 +49,10 @@
     <Compile Include="LocalImageSaver.cs" />
     <Compile Include="OpenAlprWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebClient\CustomWebClient.cs" />
+    <Compile Include="WebClient\CustomWebClientFactory.cs" />
+    <Compile Include="WebClient\IWebClient.cs" />
+    <Compile Include="WebClient\IWebClientFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HucaresServer.Storage\HucaresServer.Storage.csproj">

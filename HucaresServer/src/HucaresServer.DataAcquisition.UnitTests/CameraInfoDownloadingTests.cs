@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 using FakeItEasy;
 using HucaresServer.Storage.Helpers;
 using HucaresServer.Storage.Models;
@@ -15,7 +14,7 @@ namespace HucaresServer.DataAcquisition.UnitTests
     public class CameraInfoDownloadingTests
     {
         [Test]
-        public void DownloadImagesFromCameraInfoSources_WithTrusted_ShouldDownloadAndReturn()
+        public async Task DownloadImagesFromCameraInfoSources_WithTrusted_ShouldDownloadAndReturn()
         {
             // Arrange
             var fakeBitmap = new Bitmap(100, 100);
@@ -47,17 +46,17 @@ namespace HucaresServer.DataAcquisition.UnitTests
             var cameraImageDownloading = new CameraImageDownloading(fakeCameraInfoHelper, fakeImageSaver, fakeWebClientFactory);
             
             // Act
-            var resultCameraCount = cameraImageDownloading.DownloadImagesFromCameraInfoSources(true, new DateTime(2018, 11, 01));
+            var resultCameraCount = await cameraImageDownloading.DownloadImagesFromCameraInfoSources(true, new DateTime(2018, 11, 01));
             
             // Assert
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(true)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, 0, new DateTime(2018, 11, 01))).MustHaveHappenedOnceExactly();
-            resultCameraCount.Result.ShouldBe(1);
+            resultCameraCount.ShouldBe(1);
         }
         
         [Test]
-        public void DownloadImagesFromCameraInfoSources_WhenIsTrustedNull_ShouldDownloadAndReturn()
+        public async Task DownloadImagesFromCameraInfoSources_WhenIsTrustedNull_ShouldDownloadAndReturn()
         {
             // Arrange
             var fakeBitmap = new Bitmap(100, 100);
@@ -90,17 +89,17 @@ namespace HucaresServer.DataAcquisition.UnitTests
             var cameraImageDownloading = new CameraImageDownloading(fakeCameraInfoHelper, fakeImageSaver, fakeWebClientFactory);
             
             // Act
-            var resultCameraCount = cameraImageDownloading.DownloadImagesFromCameraInfoSources(downloadDateTime: new DateTime(2018, 11, 01));
+            var resultCameraCount = await cameraImageDownloading.DownloadImagesFromCameraInfoSources(downloadDateTime: new DateTime(2018, 11, 01));
             
             // Assert
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustHaveHappenedTwiceExactly();
             A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, A<int>.Ignored, new DateTime(2018, 11, 01))).MustHaveHappenedTwiceExactly();
-            resultCameraCount.Result.ShouldBe(2);
+            resultCameraCount.ShouldBe(2);
         }
         
         [Test]
-        public void DownloadImagesFromCameraInfoSources_WhenNoCameras_ShouldDownloadAndReturn()
+        public async Task DownloadImagesFromCameraInfoSources_WhenNoCameras_ShouldDownloadAndReturn()
         {
             // Arrange
             var url = "https://some.url";
@@ -122,13 +121,13 @@ namespace HucaresServer.DataAcquisition.UnitTests
             var cameraImageDownloading = new CameraImageDownloading(fakeCameraInfoHelper, fakeImageSaver, fakeWebClientFactory);
             
             // Act
-            var resultCameraCount = cameraImageDownloading.DownloadImagesFromCameraInfoSources(downloadDateTime: new DateTime(2018, 11, 01));
+            var resultCameraCount = await cameraImageDownloading.DownloadImagesFromCameraInfoSources(downloadDateTime: new DateTime(2018, 11, 01));
             
             // Assert
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustNotHaveHappened();
             A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, 0, new DateTime(2018, 11, 01))).MustNotHaveHappened();
-            resultCameraCount.Result.ShouldBe(0);
+            resultCameraCount.ShouldBe(0);
         }
     }
 }

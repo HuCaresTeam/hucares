@@ -10,25 +10,6 @@ namespace HucaresServer.DataAcquisition.UnitTests
     public class LocalImageSaverTests
     {
         [Test]
-        public void SaveImage_WhenCalled_ShouldNotCreateDirectory_AndReturnSuccess()
-        {
-            var cameraId = 5;
-            var baseStorageLink = @"C:/temporaryImages/";
-            var captureDateTime = new DateTime(2018, 06, 06);
-            var fakeBitmap = new Bitmap(100, 100);
-            var fullDirectoryName = baseStorageLink +
-                                    cameraId + "/" +
-                                    captureDateTime.Year.ToString() + "/" +
-                                    captureDateTime.Month.ToString() + "/" +
-                                    captureDateTime.Day.ToString();
-                                    
-            
-            var fakeImageSaver = A.Fake<IImageSaver>();
-            A.CallTo(() => fakeImageSaver.SaveImage(cameraId, captureDateTime, fakeBitmap)).MustHaveHappened();
-            Assert.AreEqual(false, Directory.CreateDirectory(fullDirectoryName));
-        }
-        
-        [Test]
         public void SaveImage_WhenCalled_ShouldCreateDirectory_AndReturnSuccess()
         {
             var cameraId = 5;
@@ -40,11 +21,10 @@ namespace HucaresServer.DataAcquisition.UnitTests
                                     captureDateTime.Year.ToString() + "/" +
                                     captureDateTime.Month.ToString() + "/" +
                                     captureDateTime.Day.ToString();
-                                    
-            
+
             var fakeImageSaver = A.Fake<IImageSaver>();
-            A.CallTo(() => fakeImageSaver.SaveImage(cameraId, captureDateTime, fakeBitmap)).MustHaveHappened();
-            Assert.AreEqual(true, Directory.CreateDirectory(fullDirectoryName));
+            A.CallTo(() => fakeImageSaver.SaveImage(cameraId, captureDateTime, fakeBitmap)).MustHaveHappenedOnceExactly();
+            Assert.That(new DirectoryInfo(fullDirectoryName), Does.Exist);
         }
     }
 }

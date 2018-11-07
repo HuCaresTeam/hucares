@@ -125,6 +125,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HucaresServer.DataAcquisition\HucaresServer.DataAcquisition.csproj">
+      <Project>{5358ED9E-F9D6-45A7-B374-9CD22C538106}</Project>
+      <Name>HucaresServer.DataAcquisition</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HucaresServer.Storage\HucaresServer.Storage.csproj">
       <Project>{825695A4-3E4B-4F60-A69D-07D6D3AE3A1A}</Project>
       <Name>HucaresServer.Storage</Name>

@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace HucaresServer.DataAcquisition
 {
@@ -11,6 +12,6 @@ namespace HucaresServer.DataAcquisition
         /// <param name="downloadDateTime"> Optional parameter for the datetime of when the pictures are downloaded. If
         /// not specified the current datetime will be used.</param>
         /// <returns> Number of images downloaded.</returns>
-        int DownloadImagesFromCameraInfoSources(bool? isTrusted = null, DateTime? downloadDateTime = null);
+        Task<int> DownloadImagesFromCameraInfoSources(bool? isTrusted = null, DateTime? downloadDateTime = null);
     }
 }

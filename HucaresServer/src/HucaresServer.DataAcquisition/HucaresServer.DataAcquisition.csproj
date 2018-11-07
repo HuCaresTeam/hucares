@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenAlprApi">
+      <HintPath>..\HucaresServer\OpenAlprApi.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -42,13 +45,23 @@
     <Compile Include="CameraImageDownloading.cs" />
     <Compile Include="ICameraImageDownloading.cs" />
     <Compile Include="IImageSaver.cs" />
+    <Compile Include="IOpenAlprWrapper.cs" />
     <Compile Include="LocalImageSaver.cs" />
+    <Compile Include="OpenAlprWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebClient\CustomWebClient.cs" />
+    <Compile Include="WebClient\CustomWebClientFactory.cs" />
+    <Compile Include="WebClient\IWebClient.cs" />
+    <Compile Include="WebClient\IWebClientFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HucaresServer.Storage\HucaresServer.Storage.csproj">
       <Project>{825695a4-3e4b-4f60-a69d-07d6d3ae3a1a}</Project>
       <Name>HucaresServer.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HucaresServer.Utils\HucaresServer.Utils.csproj">
+      <Project>{8A79D1D0-A355-4FF9-9269-7EBBC4A615A0}</Project>
+      <Name>HucaresServer.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

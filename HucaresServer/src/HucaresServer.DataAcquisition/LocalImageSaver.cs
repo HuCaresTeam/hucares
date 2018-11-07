@@ -5,21 +5,22 @@ using System.IO;
 
 namespace HucaresServer.DataAcquisition
 {
+    //TODO seperate "Normal" and "Temp" image saver logic
     public class LocalImageSaver : IImageSaver
     {
-        private string _pathToStorageLocation;
-        string imagesDirectory = Path.Combine(Environment.CurrentDirectory, "Images");
+        private readonly string _pathToStorageLocation;
         
-        public LocalImageSaver(string pathToStorageLocation = null)
+        //TODO will be deprecated due to config file
+        public LocalImageSaver(string pathToStorageLocation)
         {
-            _pathToStorageLocation = pathToStorageLocation ?? imagesDirectory;
+            _pathToStorageLocation = pathToStorageLocation;
         }
 
         public void SaveImage(int cameraId, DateTime captureDateTime, Bitmap imageToSave)
         {
             var folderLocationPath = GenerateFolderLocationPath(captureDateTime);
             var fileName = GenerateFileName(cameraId, captureDateTime);
-            var fullImageLocation = folderLocationPath + fileName + ".jpeg";
+            var fullImageLocation = Path.Combine(folderLocationPath, fileName, ".jpg");
                         
             imageToSave.Save(fullImageLocation, ImageFormat.Jpeg);
         }
@@ -47,8 +48,8 @@ namespace HucaresServer.DataAcquisition
             var year = captureDateTime.Year.ToString(); 
             var month = captureDateTime.Month.ToString(); 
             var day = captureDateTime.Day.ToString();
-            
-            return _pathToStorageLocation + "\\" + year + "\\" + month + "\\" + day + "\\";
+
+            return Path.Combine(_pathToStorageLocation, year, month, day);
         }
     }
 }

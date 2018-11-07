@@ -12,7 +12,7 @@ namespace HucaresServer.DataAcquisition
             _pathToStorageLocation = pathToStorageLocation ?? "";
         }
 
-        public void SaveImage(Bitmap imageToSave)
+        public void SaveImage(Bitmap imageToSave, int cameraId, DateTime? captureDateTime)
         {
             throw new NotImplementedException();
         }

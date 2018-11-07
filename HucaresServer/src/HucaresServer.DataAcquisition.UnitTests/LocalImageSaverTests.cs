@@ -13,9 +13,10 @@ namespace HucaresServer.DataAcquisition.UnitTests
         public void SaveImage_WhenCalled_ShouldNotCreateDirectory_AndReturnSuccess()
         {
             var cameraId = 5;
+            var baseStorageLink = @"C:/temporaryImages/";
             var captureDateTime = new DateTime(2018, 06, 06);
             var fakeBitmap = new Bitmap(100, 100);
-            var fullDirectoryName = "/temporaryImages/" +
+            var fullDirectoryName = baseStorageLink +
                                     cameraId + "/" +
                                     captureDateTime.Year.ToString() + "/" +
                                     captureDateTime.Month.ToString() + "/" +

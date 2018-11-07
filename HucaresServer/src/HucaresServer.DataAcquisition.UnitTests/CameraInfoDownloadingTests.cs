@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using FakeItEasy;
 using HucaresServer.Storage.Helpers;
 using HucaresServer.Storage.Models;
@@ -51,12 +52,13 @@ namespace HucaresServer.DataAcquisition.UnitTests
             // Assert
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(true)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustHaveHappenedOnceExactly();
-//            A.CallTo(() => fakeImageSaver.SaveImage(fakeBitmap, 0, new DateTime(2018, 11, 01))).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, 0, new DateTime(2018, 11, 01))).MustHaveHappenedOnceExactly();
+            
             resultCameraCount.ShouldBe(1);
         }
         
         [Test]
-        public void DownloadImagesFromCameraInfoSources_WithNoTrust_ShouldDownloadAndReturn()
+        public void DownloadImagesFromCameraInfoSources_WhenIsTrustedNull_ShouldDownloadAndReturn()
         {
             // Arrange
             var fakeBitmap = new Bitmap(100, 100);
@@ -94,8 +96,41 @@ namespace HucaresServer.DataAcquisition.UnitTests
             // Assert
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustHaveHappenedTwiceExactly();
-//            A.CallTo(() => fakeImageSaver.SaveImage(fakeBitmap, 0, new DateTime(2018, 11, 01))).MustHaveHappenedOnceExactly();
+            
+            A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, 0, new DateTime(2018, 11, 01))).MustHaveHappenedTwiceExactly();
             resultCameraCount.ShouldBe(2);
+        }
+        
+        [Test]
+        public void DownloadImagesFromCameraInfoSources_WhenNoCameras_ShouldDownloadAndReturn()
+        {
+            // Arrange
+            var url = "https://some.url";
+            
+            var fakeWebClient = A.Fake<IWebClient>();
+            
+            var fakeWebClientFactory = A.Fake<IWebClientFactory>();
+            A.CallTo(() => fakeWebClientFactory.BuildWebClient())
+                .Returns(fakeWebClient);
+            
+            var fakeImageSaver = A.Fake<IImageSaver>();
+            
+            var fakeMissingPlates = new List<CameraInfo>();
+            
+            var fakeCameraInfoHelper = A.Fake<ICameraInfoHelper>();
+            A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null))
+                .Returns(fakeMissingPlates);
+            
+            var cameraImageDownloading = new CameraImageDownloading(fakeCameraInfoHelper, fakeImageSaver, fakeWebClientFactory);
+            
+            // Act
+            var resultCameraCount = cameraImageDownloading.DownloadImagesFromCameraInfoSources(downloadDateTime: new DateTime(2018, 11, 01));
+            
+            // Assert
+            A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null)).MustHaveHappened();
+            A.CallTo(() => fakeWebClient.DownloadData(url)).MustNotHaveHappened();
+            A.CallTo(() => fakeImageSaver.SaveImage(A<Bitmap>.Ignored, 0, new DateTime(2018, 11, 01))).MustNotHaveHappened();
+            resultCameraCount.ShouldBe(0);
         }
     }
 }

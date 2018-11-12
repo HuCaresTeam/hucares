@@ -162,10 +162,6 @@
       <Project>{8A79D1D0-A355-4FF9-9269-7EBBC4A615A0}</Project>
       <Name>HucaresServer.Utils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenAlprApi\OpenAlprApi.csproj">
-      <Project>{28674e2c-c26d-4e6d-a26c-efb062e9348e}</Project>
-      <Name>OpenAlprApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

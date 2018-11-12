@@ -8,9 +8,9 @@ namespace HucaresServer.DataAcquisition
         /// <summary>
         /// Method saves the specified image
         /// </summary>
-        /// <param name="imageToSave"> Bitmap of an image to save.</param>
-        /// <param name="cameraId"> Id of the camera that took the picture.</param>
-        /// <param name="captureDateTime"> Datetime when the picture was taken.</param>
-        void SaveImage(Bitmap imageToSave, int cameraId, DateTime? captureDateTime);
+        /// <param name="cameraId"> Id of a camera</param>
+        /// <param name="captureDateTime">DateTime when the photo was taken</param>
+        /// <param name="imageToSave"> Bitmap of an image to save</param>
+        void SaveImage(int cameraId, DateTime captureDateTime, Bitmap imageToSave);
     }
 }

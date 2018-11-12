@@ -11,7 +11,6 @@ namespace HucaresServer.TimedProcess
         public static async Task StartProccess()
         {
             await Task.Delay(1);
-            throw new NotImplementedException();
         }
     }
 }

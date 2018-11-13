@@ -15,7 +15,8 @@ namespace HucaresServer
             }
 
             System.Web.Http.GlobalConfiguration.Configure(WebApiConfig.Register);
-            RecurringJob.AddOrUpdate(() => DlpCollectionProcess.StartProccess(), Cron.Minutely);
+            var dlpTimedProcess = new DlpCollectionProcess();
+            RecurringJob.AddOrUpdate(() => dlpTimedProcess.StartProccess(), Cron.Minutely);
         }
     }
 }

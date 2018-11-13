@@ -16,13 +16,14 @@ namespace HucaresServer.DataAcquisition
             _pathToStorageLocation = pathToStorageLocation;
         }
 
-        public void SaveImage(int cameraId, DateTime captureDateTime, Bitmap imageToSave)
+        public string SaveImage(int cameraId, DateTime captureDateTime, Image imageToSave)
         {
             var folderLocationPath = GenerateFolderLocationPath(captureDateTime);
             var fileName = GenerateFileName(cameraId, captureDateTime);
             var fullImageLocation = Path.Combine(folderLocationPath, fileName, ".jpg");
                         
             imageToSave.Save(fullImageLocation, ImageFormat.Jpeg);
+            return fullImageLocation;
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace HucaresServer.DataAcquisition
         /// <returns> The generated filename for the image.</returns>
         private string GenerateFileName(int cameraId, DateTime captureDateTime)
         {
-            return string.Concat(cameraId, captureDateTime.ToString("yyyy-MM-dd"));
+            return $"{cameraId}_{captureDateTime.ToString("yyyy-MM-dd")}";
         }
 
         /// <summary>

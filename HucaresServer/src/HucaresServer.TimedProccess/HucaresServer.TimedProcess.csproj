@@ -39,10 +39,27 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="OpenAlprApi, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\HucaresServer\OpenAlprApi.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DlpCollectionProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HucaresServer.DataAcquisition\HucaresServer.DataAcquisition.csproj">
+      <Project>{5358ED9E-F9D6-45A7-B374-9CD22C538106}</Project>
+      <Name>HucaresServer.DataAcquisition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HucaresServer.Storage\HucaresServer.Storage.csproj">
+      <Project>{825695A4-3E4B-4F60-A69D-07D6D3AE3A1A}</Project>
+      <Name>HucaresServer.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HucaresServer.Utils\HucaresServer.Utils.csproj">
+      <Project>{8A79D1D0-A355-4FF9-9269-7EBBC4A615A0}</Project>
+      <Name>HucaresServer.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

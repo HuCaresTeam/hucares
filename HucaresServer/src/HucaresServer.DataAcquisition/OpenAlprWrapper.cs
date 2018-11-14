@@ -61,26 +61,33 @@ namespace HucaresServer.DataAcquisition
         private readonly string prewarp = String.Empty;
         #endregion
 
-        private readonly IDefaultApi defaultApi;
-        private readonly IMemoryStreamFactory streamFactory;
+        private readonly IDefaultApi _defaultApi;
+        private readonly IMemoryStreamFactory _streamFactory;
+        private readonly IImageWrapper _imageWrapper;
 
-        public OpenAlprWrapper(IDefaultApi defaultApi = null, IMemoryStreamFactory streamFactory = null)
+        public OpenAlprWrapper(IDefaultApi defaultApi = null, IMemoryStreamFactory streamFactory = null, IImageWrapper imageWrapper = null)
         {
-            this.defaultApi = defaultApi ?? new DefaultApi();
-            this.streamFactory = streamFactory ?? new MemoryStreamFactory();
+            _defaultApi = defaultApi ?? new DefaultApi();
+            _streamFactory = streamFactory ?? new MemoryStreamFactory();
+            _imageWrapper = imageWrapper ?? new ImageWrapper();
         }
 
         public async Task<InlineResponse200> DetectPlateAsync(string pathToPlateImage)
         {
-            using (Image image = Image.FromFile(pathToPlateImage))
+            if (string.IsNullOrEmpty(pathToPlateImage))
             {
-                using (MemoryStream m = streamFactory.Create())
+                throw new ArgumentException("Argument should not be null or empty");
+            }
+
+            using (Image image = _imageWrapper.GetImageFromFile(pathToPlateImage))
+            {
+                using (MemoryStream m = _streamFactory.Create())
                 {
                     image.Save(m, image.RawFormat);
                     var imageBytes = m.ToArray();
                     string base64String = Convert.ToBase64String(imageBytes);
 
-                    return await defaultApi.RecognizeBytesAsync(base64String, secretKey, country, recognizeVehicle, state, returnImage, topn, prewarp);
+                    return await _defaultApi.RecognizeBytesAsync(base64String, secretKey, country, recognizeVehicle, state, returnImage, topn, prewarp);
                 }
             }
         }

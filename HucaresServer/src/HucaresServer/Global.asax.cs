@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Hangfire;
+using HucaresServer.Storage;
+using HucaresServer.TimedProcess;
 using System.Web;
-using System.Web.Http;
-using System.Web.Routing;
 
 namespace HucaresServer
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+            using (var ctx = new HucaresContext())
+            {
+                GlobalConfiguration.Configuration.UseSqlServerStorage(ctx.Database.Connection.ConnectionString);
+            }
+
+            System.Web.Http.GlobalConfiguration.Configure(WebApiConfig.Register);
+            RecurringJob.AddOrUpdate(() => DlpCollectionProcess.StartProccess(), Cron.Minutely);
         }
     }
 }

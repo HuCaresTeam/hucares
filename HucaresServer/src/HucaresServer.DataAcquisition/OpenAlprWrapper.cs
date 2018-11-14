@@ -16,7 +16,7 @@ namespace HucaresServer.DataAcquisition
         /// The secret key used to authenticate your account.  
         /// You can view your  secret key by visiting  https://cloud.openalpr.com/ 
         /// </summary>
-        private readonly string secretKey = "INSERT_SECRET_KEY_HERE";
+        private readonly string secretKey = Config.AlprSecretKey;
 
         /// <summary>
         /// Defines the training data used by OpenALPR.  
@@ -27,38 +27,38 @@ namespace HucaresServer.DataAcquisition
         /// For example, 'au,auwide' would analyze using both the  Australian plate styles.
         /// A full list of supported country codes  can be found here https://github.com/openalpr/openalpr/tree/master/runtime_data/config 
         /// </summary>
-        private readonly string country = "EU";
+        private readonly string country = Config.AlprCountry;
 
         /// <summary>
         /// If set to 1, the vehicle will also be recognized in the image 
         /// This requires an additional credit per request  (optional)  (default to 0)
         /// </summary>
-        private readonly int? recognizeVehicle = 0;
+        private readonly int? recognizeVehicle = Config.AlprRecognizeVehicle;
 
         /// <summary>
         /// Corresponds to a US state or EU country code used by OpenALPR pattern recognition.  
         /// For example, using \"md\" matches US plates against the  Maryland plate patterns.  
         /// Using \"fr\" matches European plates against the French plate patterns.
         /// </summary>
-        private readonly string state = "LT";
+        private readonly string state = Config.AlprState;
 
         /// <summary>
         /// If set to 1, the image you uploaded will be encoded in base64 and  sent back along with the response.
         /// </summary>
-        private readonly int? returnImage = 0;
+        private readonly int? returnImage = Config.AlprReturnImage;
 
         /// <summary>
         /// The number of results you would like to be returned for plate  candidates and vehicle classifications  
         /// optional, default to 10
         /// </summary>
-        private readonly int? topn = 5;
+        private readonly int? topn = Config.AlprTopn;
 
         /// <summary>
         /// Prewarp configuration is used to calibrate the analyses for the  angle of a particular camera.
         /// More information is available here http://doc.openalpr.com/accuracy_improvements.html#calibration  
         /// (optional)  (default to String.Empty)
         /// </summary>
-        private readonly string prewarp = String.Empty;
+        private readonly string prewarp = Config.AlprPrewarp;
         #endregion
 
         private readonly IDefaultApi _defaultApi;

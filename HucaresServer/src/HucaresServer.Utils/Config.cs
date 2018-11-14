@@ -38,5 +38,11 @@ namespace HucaresServer.Utils
                 return ConfigurationManager.AppSettings["AlprPrewarp"];
             }
         }
+
+        public static string TemporaryStorageUrl {
+            get {
+                return ConfigurationManager.AppSettings["TemporaryStorageUrl"];
+            }
+        }
     }
 }

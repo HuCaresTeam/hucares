@@ -17,8 +17,6 @@ namespace HucaresServer
 
             System.Web.Http.GlobalConfiguration.Configure(WebApiConfig.Register);
             RecurringJob.AddOrUpdate(() => DlpCollectionProcess.StartProccess(), Cron.Minutely);
-
-            new OpenAlprWrapper().DetectPlateAsync("hi");
         }
     }
 }

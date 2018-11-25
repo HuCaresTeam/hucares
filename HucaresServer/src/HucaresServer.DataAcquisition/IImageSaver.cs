@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -19,19 +20,19 @@ namespace HucaresServer.DataAcquisition
         /// </summary>
         /// <param name="file">File to move</param>
         /// <returns>New file location</returns>
-        string MoveFileToPerm(FileInfo file);
+        string MoveFileToPerm(FileSystemInfo file);
 
         /// <summary>
         /// Extracts Camera ID from passed fileinfo name 
         /// </summary>
         /// <param name="file">Fileinfo to parse</param>
         /// <returns>Camera id</returns>
-        int ExtractCameraId(FileInfo file);
+        int ExtractCameraId(FileSystemInfo file);
 
         /// <summary>
         /// Returns all files in temp sotrage
         /// </summary>
         /// <returns>Returns all files in temp sotrage</returns>
-        FileInfo[] GetTempFiles();
+        IEnumerable<FileSystemInfo> GetTempFiles();
     }
 }

@@ -1,5 +1,6 @@
 using HucaresServer.Utils;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -18,7 +19,7 @@ namespace HucaresServer.DataAcquisition
             _pathToStorageLocation = pathToStorageLocation ?? _pathToStorageLocation;
         }
 
-        public string MoveFileToPerm(FileInfo file)
+        public string MoveFileToPerm(FileSystemInfo file)
         {
             var newFileLocation = Path.Combine(Config.FullPermStoragePath, file.Name);
             Directory.Move(file.FullName, newFileLocation);
@@ -63,7 +64,7 @@ namespace HucaresServer.DataAcquisition
             return Path.Combine(_pathToStorageLocation, year, month, day);
         }
 
-        public int ExtractCameraId(FileInfo file)
+        public int ExtractCameraId(FileSystemInfo file)
         {
             var fileCamIdMatch = Regex.Match(file.Name, @"^(\d+)_.+");
             if (!fileCamIdMatch.Success)
@@ -75,7 +76,7 @@ namespace HucaresServer.DataAcquisition
             return camId;
         }
 
-        public FileInfo[] GetTempFiles()
+        public IEnumerable<FileSystemInfo> GetTempFiles()
         {
             DirectoryInfo dir = new DirectoryInfo(Config.FullTemporaryStoragePath);
             return dir.GetFiles();

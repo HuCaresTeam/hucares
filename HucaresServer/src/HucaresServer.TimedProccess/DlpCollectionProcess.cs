@@ -33,7 +33,7 @@ namespace HucaresServer.TimedProcess
             await _cameraImageDownloading.DownloadImagesFromCameraInfoSources(true, dateNow);
 
             //Sends all images to API and puts results in task list
-            var fileToTaskMap = new Dictionary<FileInfo, Task<InlineResponse200>>();
+            var fileToTaskMap = new Dictionary<FileSystemInfo, Task<InlineResponse200>>();
             foreach (var file in _imageSaver.GetTempFiles())
             {
                 fileToTaskMap.Add(file, _openAlprWrapper.DetectPlateAsync(file.FullName));
@@ -42,13 +42,12 @@ namespace HucaresServer.TimedProcess
             await ProcessResults(dateNow, fileToTaskMap);
         }
 
-        private async Task ProcessResults(DateTime dateNow, Dictionary<FileInfo, Task<InlineResponse200>> fileToTaskMap)
+        private async Task ProcessResults(DateTime dateNow, Dictionary<FileSystemInfo, Task<InlineResponse200>> fileToTaskMap)
         {
             await Task.WhenAll(fileToTaskMap.Values);
 
             foreach (var fileTaskPair in fileToTaskMap)
             {
-                var inlineResponse = await fileTaskPair.Value;
                 var resultList = (await fileTaskPair.Value).Results;
 
                 string newFileLocation = null;

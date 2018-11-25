@@ -71,14 +71,6 @@ namespace HucaresServer.TimedProcess
             }
         }
 
-        private string MoveFileToPerm(FileInfo file)
-        {
-            var newFileLocation = Path.Combine(GetPermStorage(), file.Name);
-            Directory.Move(file.FullName, newFileLocation);
-
-            return newFileLocation;
-        }
-
         private int ExtractCameraId(FileInfo file)
         {
             var fileCamIdMatch = Regex.Match(file.Name, @"^(\d+)_.+");
@@ -94,11 +86,6 @@ namespace HucaresServer.TimedProcess
         private string GetTempStorage()
         {
             return Path.Combine(Directory.GetCurrentDirectory(), TemporaryStorageUrl);
-        }
-
-        private string GetPermStorage()
-        {
-            return Path.Combine(Directory.GetCurrentDirectory(), PermanentStorageUrl);
         }
     }
 }

@@ -16,6 +16,14 @@ namespace HucaresServer.DataAcquisition
             _pathToStorageLocation = pathToStorageLocation;
         }
 
+        public string MoveFileToPerm(FileInfo file)
+        {
+            var newFileLocation = Path.Combine(GetPermStorage(), file.Name);
+            Directory.Move(file.FullName, newFileLocation);
+
+            return newFileLocation;
+        }
+
         public string SaveImage(int cameraId, DateTime captureDateTime, Image imageToSave)
         {
             var folderLocationPath = GenerateFolderLocationPath(captureDateTime);
@@ -51,6 +59,11 @@ namespace HucaresServer.DataAcquisition
             var day = captureDateTime.Day.ToString();
 
             return Path.Combine(_pathToStorageLocation, year, month, day);
+        }
+
+        private string GetPermStorage()
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), PermanentStorageUrl);
         }
     }
 }

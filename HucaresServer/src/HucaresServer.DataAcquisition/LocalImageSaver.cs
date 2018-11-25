@@ -1,3 +1,4 @@
+using HucaresServer.Utils;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -8,12 +9,12 @@ namespace HucaresServer.DataAcquisition
     //TODO seperate "Normal" and "Temp" image saver logic
     public class LocalImageSaver : IImageSaver
     {
-        private readonly string _pathToStorageLocation;
+        private readonly string _pathToStorageLocation = Config.TemporaryStorageUrl;
         
         //TODO will be deprecated due to config file
-        public LocalImageSaver(string pathToStorageLocation)
+        public LocalImageSaver(string pathToStorageLocation = null)
         {
-            _pathToStorageLocation = pathToStorageLocation;
+            _pathToStorageLocation = pathToStorageLocation ?? _pathToStorageLocation;
         }
 
         public string MoveFileToPerm(FileInfo file)

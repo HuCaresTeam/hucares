@@ -5,13 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HucaresServer.Storage.Helpers;
+using HucaresServer.Utils;
 
 namespace HucaresServer.DataAcquisition
 {
     public class CameraImageDownloading : ICameraImageDownloading
     {
         // TODO: Take this value from a configuration file or somewhere else
-        private const string TemporaryStorageUrl = "/temporaryImages";
+        private readonly string TemporaryStorageUrl = Config.TemporaryStorageUrl;
 
         private ICameraInfoHelper _cameraInfoHelper;
         private IImageSaver _imageSaver;

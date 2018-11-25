@@ -1,4 +1,5 @@
 ﻿using Hangfire;
+using HucaresServer.DataAcquisition;
 using HucaresServer.Storage;
 using HucaresServer.TimedProcess;
 using System.Web;

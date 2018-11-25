@@ -14,11 +14,12 @@ namespace HucaresServer.DataAcquisition
     {
         public string MoveFileToPerm(FileSystemInfo file, DateTime captureDateTime)
         {
-            var newFileLocation = GenerateFolderLocationPath(captureDateTime);
-            EnsureFolder(newFileLocation);
-            Directory.Move(file.FullName, newFileLocation);
+            var newFilePath = GenerateFolderLocationPath(captureDateTime);
+            EnsureFolder(newFilePath);
+            var newFileLocation = Path.Combine(newFilePath, file.Name);
+            File.Move(file.FullName, newFileLocation);
 
-            return newFileLocation;
+            return newFilePath;
         }
 
         public string SaveImage(int cameraId, DateTime captureDateTime, MemoryStream imageToSave)

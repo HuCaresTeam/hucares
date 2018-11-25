@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace HucaresServer.DataAcquisition
@@ -11,30 +12,35 @@ namespace HucaresServer.DataAcquisition
     //TODO seperate "Normal" and "Temp" image saver logic
     public class LocalImageSaver : IImageSaver
     {
-        private readonly string _pathToStorageLocation = Config.TemporaryStorageUrl;
-
-        //TODO will be deprecated due to config file
-        public LocalImageSaver(string pathToStorageLocation = null)
+        public string MoveFileToPerm(FileSystemInfo file, DateTime captureDateTime)
         {
-            _pathToStorageLocation = pathToStorageLocation ?? _pathToStorageLocation;
-        }
-
-        public string MoveFileToPerm(FileSystemInfo file)
-        {
-            var newFileLocation = Path.Combine(Config.FullPermStoragePath, file.Name);
+            var newFileLocation = GenerateFolderLocationPath(captureDateTime);
+            EnsureFolder(newFileLocation);
             Directory.Move(file.FullName, newFileLocation);
 
             return newFileLocation;
         }
 
-        public string SaveImage(int cameraId, DateTime captureDateTime, Image imageToSave)
+        public string SaveImage(int cameraId, DateTime captureDateTime, MemoryStream imageToSave)
         {
-            var folderLocationPath = GenerateFolderLocationPath(captureDateTime);
             var fileName = GenerateFileName(cameraId, captureDateTime);
-            var fullImageLocation = Path.Combine(folderLocationPath, fileName, ".jpg");
+            var fullImageLocation = Path.Combine(Config.TemporaryStorage, fileName + ".jpg");
 
-            imageToSave.Save(fullImageLocation, ImageFormat.Jpeg);
+            EnsureFolder(Config.TemporaryStorage);
+            using (FileStream fs = new FileStream(fullImageLocation, FileMode.Create, FileAccess.ReadWrite))
+            {
+                byte[] bytes = imageToSave.ToArray();
+                fs.Write(bytes, 0, bytes.Length);
+            }
             return fullImageLocation;
+        }
+
+        private void EnsureFolder(string path)
+        {
+            if ((path.Length > 0) && (!Directory.Exists(path)))
+            {
+                Directory.CreateDirectory(path);
+            }
         }
 
         /// <summary>
@@ -46,7 +52,7 @@ namespace HucaresServer.DataAcquisition
         /// <returns> The generated filename for the image.</returns>
         private string GenerateFileName(int cameraId, DateTime captureDateTime)
         {
-            return $"{cameraId}_{captureDateTime.ToString("yyyy-MM-dd")}";
+            return $"{cameraId}_{captureDateTime.ToString("yyyy-MM-dd-HH-mm-ss")}_{Guid.NewGuid().ToString()}";
         }
 
         /// <summary>
@@ -61,7 +67,7 @@ namespace HucaresServer.DataAcquisition
             var month = captureDateTime.Month.ToString();
             var day = captureDateTime.Day.ToString();
 
-            return Path.Combine(_pathToStorageLocation, year, month, day);
+            return Path.Combine(Config.PermStorage, year, month, day);
         }
 
         public int ExtractCameraId(FileSystemInfo file)
@@ -78,8 +84,16 @@ namespace HucaresServer.DataAcquisition
 
         public IEnumerable<FileSystemInfo> GetTempFiles()
         {
-            DirectoryInfo dir = new DirectoryInfo(Config.FullTemporaryStoragePath);
-            return dir.GetFiles();
+            DirectoryInfo dir = new DirectoryInfo(Config.TemporaryStorage);
+            return dir.GetFiles("*");
+        }
+
+        public void DeleteTempFiles()
+        {
+            foreach (var file in GetTempFiles())
+            {
+                File.Delete(file.FullName);
+            }
         }
     }
 }

@@ -15,6 +15,14 @@ namespace HucaresServer.TimedProcess
         private readonly IDetectedPlateHelper _dlpHelper;
         private readonly IImageSaver _imageSaver;
 
+        public DlpCollectionProcess()
+        {
+            _cameraImageDownloading = new CameraImageDownloading();
+            _openAlprWrapper = new OpenAlprWrapper();
+            _dlpHelper =  new DetectedPlateHelper();
+            _imageSaver = new LocalImageSaver();
+        }
+
         public DlpCollectionProcess(ICameraImageDownloading cameraImageDownloading = null, 
                                     IOpenAlprWrapper openAlprWrapper = null, 
                                     IDetectedPlateHelper dlpHelper = null,
@@ -30,16 +38,24 @@ namespace HucaresServer.TimedProcess
         {
             //Downloads images and saves to temp folder
             var dateNow = DateTime.Now;
-            await _cameraImageDownloading.DownloadImagesFromCameraInfoSources(true, dateNow);
-
-            //Sends all images to API and puts results in task list
-            var fileToTaskMap = new Dictionary<FileSystemInfo, Task<InlineResponse200>>();
-            foreach (var file in _imageSaver.GetTempFiles())
+            try
             {
-                fileToTaskMap.Add(file, _openAlprWrapper.DetectPlateAsync(file.FullName));
-            }
+                await _cameraImageDownloading.DownloadImagesFromCameraInfoSources(true, dateNow);
 
-            await ProcessResults(dateNow, fileToTaskMap);
+                //Sends all images to API and puts results in task list
+                var fileToTaskMap = new Dictionary<FileSystemInfo, Task<InlineResponse200>>();
+                var images = _imageSaver.GetTempFiles();
+                foreach (var file in images)
+                {
+                    fileToTaskMap.Add(file, _openAlprWrapper.DetectPlateAsync(file.FullName));
+                }
+
+                await ProcessResults(dateNow, fileToTaskMap);
+            }
+            finally
+            {
+                _imageSaver.DeleteTempFiles();
+            }
         }
 
         private async Task ProcessResults(DateTime dateNow, Dictionary<FileSystemInfo, Task<InlineResponse200>> fileToTaskMap)
@@ -56,7 +72,7 @@ namespace HucaresServer.TimedProcess
                 {
                     var file = fileTaskPair.Key;
 
-                    newFileLocation = _imageSaver.MoveFileToPerm(file);
+                    newFileLocation = _imageSaver.MoveFileToPerm(file, dateNow);
                     camId = _imageSaver.ExtractCameraId(file);
                 }
 

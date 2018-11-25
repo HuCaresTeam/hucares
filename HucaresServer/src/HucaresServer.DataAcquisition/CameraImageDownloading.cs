@@ -11,8 +11,6 @@ namespace HucaresServer.DataAcquisition
 {
     public class CameraImageDownloading : ICameraImageDownloading
     {
-        private readonly string TemporaryStorageUrl = Config.TemporaryStorageUrl;
-
         private ICameraInfoHelper _cameraInfoHelper;
         private IImageSaver _imageSaver;
         private IWebClientFactory _webClientFactory;
@@ -21,7 +19,7 @@ namespace HucaresServer.DataAcquisition
             IWebClientFactory webClientFactory = null)
         {
             _cameraInfoHelper = cameraInfoHelper ?? new CameraInfoHelper();
-            _imageSaver = imageSaver ?? new LocalImageSaver(TemporaryStorageUrl);
+            _imageSaver = imageSaver ?? new LocalImageSaver();
             _webClientFactory = webClientFactory ?? new CustomWebClientFactory();
         }
 
@@ -51,7 +49,7 @@ namespace HucaresServer.DataAcquisition
 
                 using (var memoryStream = new MemoryStream(imageData))
                 {
-                    _imageSaver.SaveImage(cameraId, captureDateTime, new Bitmap(memoryStream));
+                    _imageSaver.SaveImage(cameraId, captureDateTime, memoryStream);
                 }
             }
         }

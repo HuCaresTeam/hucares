@@ -52,7 +52,7 @@ namespace HucaresServer.TimedProcess.UnitTests
                 new Tuple<string, int>("location1", 1)
             };
 
-            A.CallTo(() => _fakeImageSaver.MoveFileToPerm(A<FileSystemInfo>.That.Matches(f => returnedFiles.Contains(f))))
+            A.CallTo(() => _fakeImageSaver.MoveFileToPerm(A<FileSystemInfo>.That.Matches(f => returnedFiles.Contains(f)), A<DateTime>._))
                 .ReturnsNextFromSequence(filePathAndCamId
                     .Select(pc => pc.Item1)
                     .ToArray());

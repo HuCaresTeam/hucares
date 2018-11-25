@@ -13,14 +13,14 @@ namespace HucaresServer.DataAcquisition
         /// <param name="cameraId"> Id of a camera</param>
         /// <param name="captureDateTime">DateTime when the photo was taken</param>
         /// <param name="imageToSave"> Bitmap of an image to save</param>
-        string SaveImage(int cameraId, DateTime captureDateTime, Image imageToSave);
+        string SaveImage(int cameraId, DateTime captureDateTime, MemoryStream imageToSave);
 
         /// <summary>
         /// Moves passed file to permanent storage directory
         /// </summary>
         /// <param name="file">File to move</param>
         /// <returns>New file location</returns>
-        string MoveFileToPerm(FileSystemInfo file);
+        string MoveFileToPerm(FileSystemInfo file, DateTime captureDateTime);
 
         /// <summary>
         /// Extracts Camera ID from passed fileinfo name 
@@ -34,5 +34,10 @@ namespace HucaresServer.DataAcquisition
         /// </summary>
         /// <returns>Returns all files in temp sotrage</returns>
         IEnumerable<FileSystemInfo> GetTempFiles();
+
+        /// <summary>
+        /// Deletes all temp folder files
+        /// </summary>
+        void DeleteTempFiles();
     }
 }

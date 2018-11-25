@@ -40,27 +40,21 @@ namespace HucaresServer.Utils
             }
         }
 
-        public static string TemporaryStorageUrl {
+        public static string TemporaryStorage {
             get {
-                return ConfigurationManager.AppSettings["TemporaryStorageUrl"];
+                return ConfigurationManager.AppSettings["TemporaryStorage"];
             }
         }
 
-        public static string FullTemporaryStoragePath {
+        public static string PermStorage {
             get {
-                return Path.Combine(Directory.GetCurrentDirectory(), TemporaryStorageUrl);
+                return ConfigurationManager.AppSettings["PermStorage"];
             }
         }
 
-        public static string PermStorageUrl {
+        public static int HangfireRetry {
             get {
-                return ConfigurationManager.AppSettings["PermStorageUrl"];
-            }
-        }
-
-        public static string FullPermStoragePath {
-            get {
-                return Path.Combine(Directory.GetCurrentDirectory(), PermStorageUrl);
+                return int.Parse(ConfigurationManager.AppSettings["HangfireRetry"]);
             }
         }
     }

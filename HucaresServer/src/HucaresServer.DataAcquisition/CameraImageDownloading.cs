@@ -11,7 +11,6 @@ namespace HucaresServer.DataAcquisition
 {
     public class CameraImageDownloading : ICameraImageDownloading
     {
-        // TODO: Take this value from a configuration file or somewhere else
         private readonly string TemporaryStorageUrl = Config.TemporaryStorageUrl;
 
         private ICameraInfoHelper _cameraInfoHelper;

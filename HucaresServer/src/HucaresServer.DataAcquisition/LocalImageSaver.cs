@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace HucaresServer.DataAcquisition
 {
@@ -10,7 +11,7 @@ namespace HucaresServer.DataAcquisition
     public class LocalImageSaver : IImageSaver
     {
         private readonly string _pathToStorageLocation = Config.TemporaryStorageUrl;
-        
+
         //TODO will be deprecated due to config file
         public LocalImageSaver(string pathToStorageLocation = null)
         {
@@ -19,7 +20,7 @@ namespace HucaresServer.DataAcquisition
 
         public string MoveFileToPerm(FileInfo file)
         {
-            var newFileLocation = Path.Combine(GetPermStorage(), file.Name);
+            var newFileLocation = Path.Combine(Config.FullPermStoragePath, file.Name);
             Directory.Move(file.FullName, newFileLocation);
 
             return newFileLocation;
@@ -30,7 +31,7 @@ namespace HucaresServer.DataAcquisition
             var folderLocationPath = GenerateFolderLocationPath(captureDateTime);
             var fileName = GenerateFileName(cameraId, captureDateTime);
             var fullImageLocation = Path.Combine(folderLocationPath, fileName, ".jpg");
-                        
+
             imageToSave.Save(fullImageLocation, ImageFormat.Jpeg);
             return fullImageLocation;
         }
@@ -55,16 +56,29 @@ namespace HucaresServer.DataAcquisition
         /// <returns> Creates directory name based on capture date.</returns>
         private string GenerateFolderLocationPath(DateTime captureDateTime)
         {
-            var year = captureDateTime.Year.ToString(); 
-            var month = captureDateTime.Month.ToString(); 
+            var year = captureDateTime.Year.ToString();
+            var month = captureDateTime.Month.ToString();
             var day = captureDateTime.Day.ToString();
 
             return Path.Combine(_pathToStorageLocation, year, month, day);
         }
 
-        private string GetPermStorage()
+        public int ExtractCameraId(FileInfo file)
         {
-            return Path.Combine(Directory.GetCurrentDirectory(), PermanentStorageUrl);
+            var fileCamIdMatch = Regex.Match(file.Name, @"^(\d+)_.+");
+            if (!fileCamIdMatch.Success)
+            {
+                throw new Exception("Bad file name");
+            }
+
+            int.TryParse(fileCamIdMatch.Groups[1].Value, out int camId);
+            return camId;
+        }
+
+        public FileInfo[] GetTempFiles()
+        {
+            DirectoryInfo dir = new DirectoryInfo(Config.FullTemporaryStoragePath);
+            return dir.GetFiles();
         }
     }
 }

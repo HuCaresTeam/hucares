@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.IO;
 
 namespace HucaresServer.Utils
 {
@@ -42,6 +43,24 @@ namespace HucaresServer.Utils
         public static string TemporaryStorageUrl {
             get {
                 return ConfigurationManager.AppSettings["TemporaryStorageUrl"];
+            }
+        }
+
+        public static string FullTemporaryStoragePath {
+            get {
+                return Path.Combine(Directory.GetCurrentDirectory(), TemporaryStorageUrl);
+            }
+        }
+
+        public static string PermStorageUrl {
+            get {
+                return ConfigurationManager.AppSettings["PermStorageUrl"];
+            }
+        }
+
+        public static string FullPermStoragePath {
+            get {
+                return Path.Combine(Directory.GetCurrentDirectory(), PermStorageUrl);
             }
         }
     }

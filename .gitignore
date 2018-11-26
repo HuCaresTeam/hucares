@@ -136,3 +136,10 @@ $RECYCLE.BIN/
 .DS_Store
 
 _NCrunch*
+
+##For frontend && PHPStorm
+.idea
+.vscode
+/node_modules
+/dist
+/.cache

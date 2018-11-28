@@ -22,7 +22,7 @@ namespace HucaresServer.DataAcquisition
             return newFilePath;
         }
 
-        public string SaveImage(int cameraId, DateTime captureDateTime, MemoryStream imageToSave)
+        public string SaveImage(int cameraId, DateTime captureDateTime, byte[] imgToSaveBytes)
         {
             var fileName = GenerateFileName(cameraId, captureDateTime);
             var fullImageLocation = Path.Combine(Config.TemporaryStorage, fileName + ".jpg");
@@ -30,8 +30,7 @@ namespace HucaresServer.DataAcquisition
             EnsureFolder(Config.TemporaryStorage);
             using (FileStream fs = new FileStream(fullImageLocation, FileMode.Create, FileAccess.ReadWrite))
             {
-                byte[] bytes = imageToSave.ToArray();
-                fs.Write(bytes, 0, bytes.Length);
+                fs.Write(imgToSaveBytes, 0, imgToSaveBytes.Length);
             }
             return fullImageLocation;
         }

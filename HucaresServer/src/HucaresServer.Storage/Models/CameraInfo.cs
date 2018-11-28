@@ -42,7 +42,7 @@ namespace HucaresServer.Storage.Models
         {
             if (ReferenceEquals(this, other))
                 return true;
-            if (ReferenceEquals(null, other))
+            if (other is null)
                 return false;
             return (Id == other.Id
                     && HostUrl == other.HostUrl

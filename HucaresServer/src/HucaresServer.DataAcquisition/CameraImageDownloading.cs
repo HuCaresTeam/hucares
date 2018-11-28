@@ -15,12 +15,14 @@ namespace HucaresServer.DataAcquisition
         private IImageSaver _imageSaver;
         private IWebClientFactory _webClientFactory;
 
-        public CameraImageDownloading(ICameraInfoHelper cameraInfoHelper = null, IImageSaver imageSaver = null,
+        public CameraImageDownloading(ICameraInfoHelper cameraInfoHelper = null, 
+            IImageSaver imageSaver = null,
             IWebClientFactory webClientFactory = null)
         {
             _cameraInfoHelper = cameraInfoHelper ?? new CameraInfoHelper();
             _imageSaver = imageSaver ?? new LocalImageSaver();
             _webClientFactory = webClientFactory ?? new CustomWebClientFactory();
+
         }
 
         public async Task<int> DownloadImagesFromCameraInfoSources(bool? isTrusted = null, DateTime? downloadDateTime = null)
@@ -46,11 +48,7 @@ namespace HucaresServer.DataAcquisition
             using (var webClient = _webClientFactory.BuildWebClient())
             {
                 var imageData = webClient.DownloadData(imageUrl);
-
-                using (var memoryStream = new MemoryStream(imageData))
-                {
-                    _imageSaver.SaveImage(cameraId, captureDateTime, memoryStream);
-                }
+                _imageSaver.SaveImage(cameraId, captureDateTime, imageData);
             }
         }
     }

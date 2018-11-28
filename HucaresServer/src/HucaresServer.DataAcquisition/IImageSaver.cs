@@ -13,7 +13,7 @@ namespace HucaresServer.DataAcquisition
         /// <param name="cameraId"> Id of a camera</param>
         /// <param name="captureDateTime">DateTime when the photo was taken</param>
         /// <param name="imageToSave"> Bitmap of an image to save</param>
-        string SaveImage(int cameraId, DateTime captureDateTime, MemoryStream imageToSave);
+        string SaveImage(int cameraId, DateTime captureDateTime, byte[] imgToSaveBytes);
 
         /// <summary>
         /// Moves passed file to permanent storage directory

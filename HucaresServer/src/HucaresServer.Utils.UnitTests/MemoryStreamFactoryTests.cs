@@ -18,6 +18,7 @@ namespace HucaresServer.Utils.UnitTests
 
             //Assert
             result.ShouldBeOfType(typeof(MemoryStream));
+            result.ToArray().ShouldBeEmpty();
         }
     }
 }

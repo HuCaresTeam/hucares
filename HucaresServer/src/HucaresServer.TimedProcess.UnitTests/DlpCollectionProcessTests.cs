@@ -35,8 +35,8 @@ namespace HucaresServer.TimedProcess.UnitTests
 
             var returnedFiles = new List<FileSystemInfo>
             {
-                BuildFakeFileSystemInfo("fullName0"),
-                BuildFakeFileSystemInfo("fullName1")
+                BuildFakeFileSystemInfo("fullName0", "name0"),
+                BuildFakeFileSystemInfo("fullName1", "name1")
             };
             A.CallTo(() => _fakeImageSaver.GetTempFiles())
                 .Returns(returnedFiles);
@@ -56,7 +56,7 @@ namespace HucaresServer.TimedProcess.UnitTests
                     .Select(pc => pc.Item1)
                     .ToArray());
 
-            A.CallTo(() => _fakeImageSaver.ExtractCameraId(A<FileSystemInfo>.That.Matches(f => returnedFiles.Contains(f))))
+            A.CallTo(() => _fakeImageSaver.ExtractCameraId(A<string>.That.Matches(fn => returnedFiles.Select(r => r.Name).Contains(fn))))
                 .ReturnsNextFromSequence(filePathAndCamId
                     .Select(pc => pc.Item2)
                     .ToArray());
@@ -94,11 +94,14 @@ namespace HucaresServer.TimedProcess.UnitTests
             }
         }
 
-        private FileSystemInfo BuildFakeFileSystemInfo(string fullName)
+        private FileSystemInfo BuildFakeFileSystemInfo(string fullName, string name)
         {
             var fakeFileSystemInfo = A.Fake<FileSystemInfo>();
             A.CallTo(() => fakeFileSystemInfo.FullName)
                 .Returns(fullName);
+
+            A.CallTo(() => fakeFileSystemInfo.Name)
+               .Returns(name);
 
             return fakeFileSystemInfo;
         }

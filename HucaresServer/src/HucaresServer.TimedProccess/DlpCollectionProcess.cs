@@ -73,7 +73,7 @@ namespace HucaresServer.TimedProcess
                     var file = fileTaskPair.Key;
 
                     newFileLocation = _imageSaver.MoveFileToPerm(file, dateNow);
-                    camId = _imageSaver.ExtractCameraId(file);
+                    camId = _imageSaver.ExtractCameraId(file.Name);
                 }
 
                 foreach (var result in resultList)

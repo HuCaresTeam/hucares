@@ -68,9 +68,9 @@ namespace HucaresServer.DataAcquisition
             return Path.Combine(Config.PermStorage, year, month, day);
         }
 
-        public int ExtractCameraId(FileSystemInfo file)
+        public int ExtractCameraId(string fileName)
         {
-            var fileCamIdMatch = Regex.Match(file.Name, @"^(\d+)_.+");
+            var fileCamIdMatch = Regex.Match(fileName, @"^(\d+)_.+");
             if (!fileCamIdMatch.Success)
             {
                 throw new Exception("Bad file name");

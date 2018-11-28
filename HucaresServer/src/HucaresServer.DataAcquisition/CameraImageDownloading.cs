@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HucaresServer.Storage.Helpers;
-using HucaresServer.Utils;
 
 namespace HucaresServer.DataAcquisition
 {

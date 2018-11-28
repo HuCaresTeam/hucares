@@ -41,7 +41,7 @@ namespace HucaresServer.DataAcquisition.UnitTests
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(true))
                 .Returns(fakeMissingPlates);
 
-            var fakeImageSaver = A.Fake<IImageSaver>();
+            var fakeImageSaver = A.Fake<IImageManipulator>();
 
             var cameraImageDownloading = new CameraImageDownloading(fakeCameraInfoHelper, fakeImageSaver, fakeWebClientFactory);
 
@@ -85,7 +85,7 @@ namespace HucaresServer.DataAcquisition.UnitTests
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null))
                 .Returns(fakeMissingPlates);
 
-            var fakeImageSaver = A.Fake<IImageSaver>();
+            var fakeImageSaver = A.Fake<IImageManipulator>();
 
             var cameraImageDownloading = new CameraImageDownloading(fakeCameraInfoHelper, fakeImageSaver, fakeWebClientFactory);
             
@@ -112,7 +112,7 @@ namespace HucaresServer.DataAcquisition.UnitTests
             A.CallTo(() => fakeWebClientFactory.BuildWebClient())
                 .Returns(fakeWebClient);
             
-            var fakeImageSaver = A.Fake<IImageSaver>();
+            var fakeImageSaver = A.Fake<IImageManipulator>();
             
             var fakeCameras = new List<CameraInfo>();
             

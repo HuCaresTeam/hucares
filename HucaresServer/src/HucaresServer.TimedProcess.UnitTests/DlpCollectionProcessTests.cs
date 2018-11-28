@@ -17,7 +17,8 @@ namespace HucaresServer.TimedProcess.UnitTests
         private ICameraImageDownloading _fakeCameraImageDownloading;
         private IOpenAlprWrapper _fakeOpenAlprWrapper;
         private IDetectedPlateHelper _fakeDlpHelper;
-        private IImageSaver _fakeImageSaver;
+        private IImageManipulator _fakeImageSaver;
+        private IImageFileNamer _fakeFileNamer;
 
         [SetUp]
         public void TestSetup()
@@ -25,7 +26,8 @@ namespace HucaresServer.TimedProcess.UnitTests
             _fakeCameraImageDownloading = A.Fake<ICameraImageDownloading>();
             _fakeOpenAlprWrapper = A.Fake<IOpenAlprWrapper>();
             _fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
-            _fakeImageSaver = A.Fake<IImageSaver>();
+            _fakeImageSaver = A.Fake<IImageManipulator>();
+            _fakeFileNamer = A.Fake<IImageFileNamer>();
         }
 
         [Test]
@@ -47,8 +49,8 @@ namespace HucaresServer.TimedProcess.UnitTests
 
             var filePathAndCamId = new List<Tuple<string, int>>()
             {
-                new Tuple<string, int>("location0", 0),
-                new Tuple<string, int>("location1", 1)
+                new Tuple<string, int>("0_location", 0),
+                new Tuple<string, int>("1_location", 1)
             };
 
             A.CallTo(() => _fakeImageSaver.MoveFileToPerm(A<FileSystemInfo>.That.Matches(f => returnedFiles.Contains(f)), A<DateTime>._))
@@ -56,12 +58,12 @@ namespace HucaresServer.TimedProcess.UnitTests
                     .Select(pc => pc.Item1)
                     .ToArray());
 
-            A.CallTo(() => _fakeImageSaver.ExtractCameraId(A<string>.That.Matches(fn => returnedFiles.Select(r => r.Name).Contains(fn))))
+            A.CallTo(() => _fakeFileNamer.ExtractCameraId(A<string>.That.Matches(fn => returnedFiles.Select(r => r.Name).Contains(fn))))
                 .ReturnsNextFromSequence(filePathAndCamId
                     .Select(pc => pc.Item2)
                     .ToArray());
 
-            var dlpProcess = new DlpCollectionProcess(_fakeCameraImageDownloading, _fakeOpenAlprWrapper, _fakeDlpHelper, _fakeImageSaver);
+            var dlpProcess = new DlpCollectionProcess(_fakeCameraImageDownloading, _fakeOpenAlprWrapper, _fakeDlpHelper, _fakeFileNamer, _fakeImageSaver);
 
             //Act
             await dlpProcess.StartProccess();

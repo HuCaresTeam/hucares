@@ -9,15 +9,15 @@ namespace HucaresServer.DataAcquisition
     public class CameraImageDownloading : ICameraImageDownloading
     {
         private ICameraInfoHelper _cameraInfoHelper;
-        private IImageSaver _imageSaver;
+        private IImageManipulator _imageSaver;
         private IWebClientFactory _webClientFactory;
 
         public CameraImageDownloading(ICameraInfoHelper cameraInfoHelper = null, 
-            IImageSaver imageSaver = null,
+            IImageManipulator imageSaver = null,
             IWebClientFactory webClientFactory = null)
         {
             _cameraInfoHelper = cameraInfoHelper ?? new CameraInfoHelper();
-            _imageSaver = imageSaver ?? new LocalImageSaver();
+            _imageSaver = imageSaver ?? new LocalImageManipulator();
             _webClientFactory = webClientFactory ?? new CustomWebClientFactory();
 
         }

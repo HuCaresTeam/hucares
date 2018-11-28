@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -39,6 +40,11 @@ namespace HucaresWF
                 var value = dlpTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                 System.Diagnostics.Process.Start(value);
             }
+        }
+
+        public async void refresh_Click(object sender, EventArgs e)
+        {
+            await UpdateDlpDataSource();
         }
     }
 }

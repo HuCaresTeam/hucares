@@ -4,7 +4,7 @@ using System.IO;
 
 namespace HucaresServer.DataAcquisition
 {
-    public interface IImageSaver
+    public interface IImageManipulator
     {
         /// <summary>
         /// Method saves the specified image
@@ -20,13 +20,6 @@ namespace HucaresServer.DataAcquisition
         /// <param name="file">File to move</param>
         /// <returns>New file location</returns>
         string MoveFileToPerm(FileSystemInfo file, DateTime captureDateTime);
-
-        /// <summary>
-        /// Extracts Camera ID from passed fileinfo name 
-        /// </summary>
-        /// <param name="fileName">file name to parse</param>
-        /// <returns>Camera id</returns>
-        int ExtractCameraId(string fileName);
 
         /// <summary>
         /// Returns all files in temp sotrage

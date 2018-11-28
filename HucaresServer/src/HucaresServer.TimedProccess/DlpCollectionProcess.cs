@@ -13,25 +13,29 @@ namespace HucaresServer.TimedProcess
         private readonly ICameraImageDownloading _cameraImageDownloading;
         private readonly IOpenAlprWrapper _openAlprWrapper;
         private readonly IDetectedPlateHelper _dlpHelper;
-        private readonly IImageSaver _imageSaver;
+        private readonly IImageFileNamer _fileNamer;
+        private readonly IImageManipulator _imageManipulator;
 
         public DlpCollectionProcess()
         {
             _cameraImageDownloading = new CameraImageDownloading();
             _openAlprWrapper = new OpenAlprWrapper();
             _dlpHelper =  new DetectedPlateHelper();
-            _imageSaver = new LocalImageSaver();
+            _fileNamer = new ImageFileNamer();
+            _imageManipulator = new LocalImageManipulator(_fileNamer);
         }
 
         public DlpCollectionProcess(ICameraImageDownloading cameraImageDownloading = null, 
                                     IOpenAlprWrapper openAlprWrapper = null, 
                                     IDetectedPlateHelper dlpHelper = null,
-                                    IImageSaver imageSaver = null)
+                                    IImageFileNamer fileNamer = null,
+                                    IImageManipulator imageSaver = null)
         {
             _cameraImageDownloading = cameraImageDownloading ?? new CameraImageDownloading();
             _openAlprWrapper = openAlprWrapper ?? new OpenAlprWrapper();
             _dlpHelper = dlpHelper ?? new DetectedPlateHelper();
-            _imageSaver = imageSaver ?? new LocalImageSaver();
+            _fileNamer = fileNamer ?? new ImageFileNamer();
+            _imageManipulator = imageSaver ?? new LocalImageManipulator(fileNamer);
         }
 
         public async Task StartProccess()
@@ -44,7 +48,7 @@ namespace HucaresServer.TimedProcess
 
                 //Sends all images to API and puts results in task list
                 var fileToTaskMap = new Dictionary<FileSystemInfo, Task<InlineResponse200>>();
-                var images = _imageSaver.GetTempFiles();
+                var images = _imageManipulator.GetTempFiles();
                 foreach (var file in images)
                 {
                     fileToTaskMap.Add(file, _openAlprWrapper.DetectPlateAsync(file.FullName));
@@ -54,7 +58,7 @@ namespace HucaresServer.TimedProcess
             }
             finally
             {
-                _imageSaver.DeleteTempFiles();
+                _imageManipulator.DeleteTempFiles();
             }
         }
 
@@ -72,8 +76,8 @@ namespace HucaresServer.TimedProcess
                 {
                     var file = fileTaskPair.Key;
 
-                    newFileLocation = _imageSaver.MoveFileToPerm(file, dateNow);
-                    camId = _imageSaver.ExtractCameraId(file.Name);
+                    newFileLocation = _imageManipulator.MoveFileToPerm(file, dateNow);
+                    camId = _fileNamer.ExtractCameraId(file.Name);
                 }
 
                 foreach (var result in resultList)

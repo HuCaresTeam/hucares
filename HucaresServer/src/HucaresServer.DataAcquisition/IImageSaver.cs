@@ -24,9 +24,9 @@ namespace HucaresServer.DataAcquisition
         /// <summary>
         /// Extracts Camera ID from passed fileinfo name 
         /// </summary>
-        /// <param name="file">Fileinfo to parse</param>
+        /// <param name="fileName">file name to parse</param>
         /// <returns>Camera id</returns>
-        int ExtractCameraId(FileSystemInfo file);
+        int ExtractCameraId(string fileName);
 
         /// <summary>
         /// Returns all files in temp sotrage

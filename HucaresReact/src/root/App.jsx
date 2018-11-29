@@ -1,42 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Switch } from 'react-router';
+import { Route } from './Route';
+import { LandingPage } from '../pages/LandingPage/LandingPage';
 
-const styles = {
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginLeft: -18,
-        marginRight: 10,
-    },
-};
+import 'bulma/bulma.sass';
+import 'font-awesome/scss/font-awesome.scss';
 
-function DenseAppBar(props) {
-    const { classes } = props;
+export default class App extends React.Component {
+  render() {
     return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar variant="dense">
-                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" color="inherit">
-                        Hucares
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-        </div>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={LandingPage} />
+          <Route path="/mlp" component={MlpPage} />
+          <Route path="/dlp" component={DlpPage} />
+          <Route path="/cameras" component={CamerasPage} />
+        </Switch>
+      </Router>
     );
+  }
 }
-
-DenseAppBar.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(DenseAppBar);

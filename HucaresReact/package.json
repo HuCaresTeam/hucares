@@ -28,7 +28,8 @@
     "sass": "^1.15.1",
     "stylelint": "^9.8.0",
     "stylelint-config-recommended": "^2.1.0",
-    "typeface-roboto": "0.0.54"
+    "typeface-roboto": "0.0.54",
+    "prop-types": "latest"
   },
   "lint-staged": {
     "src/**/*.jsx": [

@@ -44,7 +44,7 @@ function ClippedDrawer(props) {
         <div className={classes.root}>
             <CssBaseline />
             <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
+                <Toolbar variant="dense">
                     <Typography variant="h6" color="inherit" noWrap>
                         Hucares
                     </Typography>

@@ -33,7 +33,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit,
   },
   toolbar: theme.mixins.toolbar,
 });
@@ -88,10 +88,6 @@ function ClippedDrawer(props) {
       </main>
     </div>
   );
-}
-
-function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />;
 }
 
 ClippedDrawer.propTypes = {

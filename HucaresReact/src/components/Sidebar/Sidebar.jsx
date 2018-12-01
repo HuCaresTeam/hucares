@@ -8,6 +8,10 @@ export class SidebarExampleVisible extends React.Component {
     return (
       <Sidebar.Pushable as={Segment}>
         <Sidebar as={Menu} animation="push" icon="labeled" direction="" inverted vertical visible>
+          <Menu.Item as="a" href="/">
+            <Icon name="home" />
+            Home
+          </Menu.Item>
           <Menu.Item as="a" href="/mlp">
             <Icon name="play" />
             Missing license plates

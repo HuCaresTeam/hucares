@@ -6,6 +6,7 @@
   "dependencies": {
     "acorn": "^6.0.4",
     "bulma": "^0.7.2",
+    "components": "^0.1.0",
     "csslint": "^1.0.5",
     "eslint": "^5.9.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -23,6 +24,8 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "sass": "^1.15.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.83.0",
     "stylelint": "^9.8.0",
     "stylelint-config-recommended": "^2.1.0"
   },

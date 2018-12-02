@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { SidebarContainer } from '../../components/Sidebar/Sidebar';
+import MapContainer from '../../components/Map/MapContainer';
 
 export class LandingPage extends React.Component {
   render() {
-    return <SidebarContainer />;
+    return <MapContainer />;
   }
 }

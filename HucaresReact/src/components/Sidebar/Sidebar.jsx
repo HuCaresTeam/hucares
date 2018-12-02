@@ -3,7 +3,7 @@ import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
 import MapContainer from '../Map/MapContainer';
 import 'semantic-ui-css/semantic.min.css';
 
-export class SidebarExampleVisible extends React.Component {
+export class SidebarContainer extends React.Component {
   render() {
     return (
       <Sidebar.Pushable as={Segment}>

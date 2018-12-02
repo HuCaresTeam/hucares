@@ -1,5 +1,5 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { SidebarExampleVisible } from './components/Sidebar/Sidebar';
+import App from './root/App';
 
-render(<SidebarExampleVisible />, document.getElementById('app'));
+render(<App />, document.getElementById('app'));

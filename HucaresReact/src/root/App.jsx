@@ -12,9 +12,6 @@ export default class App extends React.Component {
       <Router>
         <Switch>
           <Route exact path="/" component={LandingPage} />
-          <Route path="/mlp" component={MlpPage} />
-          <Route path="/dlp" component={DlpPage} />
-          <Route path="/cameras" component={CamerasPage} />
         </Switch>
       </Router>
     );

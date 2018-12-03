@@ -57,5 +57,11 @@ namespace HucaresServer.Utils
                 return int.Parse(ConfigurationManager.AppSettings["HangfireRetry"]);
             }
         }
+
+        public static string HostAddress {
+            get {
+                return ConfigurationManager.AppSettings["HostAddress"];
+            }
+        }
     }
 }

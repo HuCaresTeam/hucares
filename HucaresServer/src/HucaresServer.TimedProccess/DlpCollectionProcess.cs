@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using HucaresServer.Storage.Helpers;
+using HucaresServer.TimedProccess;
 
 namespace HucaresServer.TimedProcess
 {
@@ -15,6 +16,7 @@ namespace HucaresServer.TimedProcess
         private readonly IDetectedPlateHelper _dlpHelper;
         private readonly IImageFileNamer _fileNamer;
         private readonly IImageManipulator _imageManipulator;
+        private readonly ILocationToUrlConverter _locationToUrl;
 
         public DlpCollectionProcess()
         {
@@ -29,13 +31,15 @@ namespace HucaresServer.TimedProcess
                                     IOpenAlprWrapper openAlprWrapper = null, 
                                     IDetectedPlateHelper dlpHelper = null,
                                     IImageFileNamer fileNamer = null,
-                                    IImageManipulator imageSaver = null)
+                                    IImageManipulator imageSaver = null, 
+                                    ILocationToUrlConverter locationToUrl = null)
         {
             _cameraImageDownloading = cameraImageDownloading ?? new CameraImageDownloading();
             _openAlprWrapper = openAlprWrapper ?? new OpenAlprWrapper();
             _dlpHelper = dlpHelper ?? new DetectedPlateHelper();
             _fileNamer = fileNamer ?? new ImageFileNamer();
             _imageManipulator = imageSaver ?? new LocalImageManipulator(fileNamer);
+            _locationToUrl = locationToUrl ?? new LocationToUrlConverter();
         }
 
         public async Task StartProccess()
@@ -72,10 +76,9 @@ namespace HucaresServer.TimedProcess
 
                 string newFileLocation = null;
                 int camId = 0;
+                var file = fileTaskPair.Key;
                 if (0 != resultList.Count)
                 {
-                    var file = fileTaskPair.Key;
-
                     newFileLocation = _imageManipulator.MoveFileToPerm(file, dateNow);
                     camId = _fileNamer.ExtractCameraId(file.Name);
                 }
@@ -83,7 +86,8 @@ namespace HucaresServer.TimedProcess
                 foreach (var result in resultList)
                 {
                     var confidenceResult = result.Confidence ?? 0;
-                    _dlpHelper.InsertNewDetectedPlate(result.Plate, dateNow, camId, newFileLocation, decimal.ToDouble(confidenceResult));
+                    var fileApiPath = _locationToUrl.ConvertPathToUrl(file.Name, dateNow);
+                    _dlpHelper.InsertNewDetectedPlate(result.Plate, dateNow, camId, fileApiPath, decimal.ToDouble(confidenceResult));
                 }
             }
         }

@@ -1,55 +1,28 @@
 import React from 'react';
-import { Icon, Label, Menu, Table } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
+import styles from './CamerasTable.scss';
 
 const CamerasTable = () => (
-  <Table celled>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>Header</Table.HeaderCell>
-        <Table.HeaderCell>Header</Table.HeaderCell>
-        <Table.HeaderCell>Header</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
-
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell>
-          <Label ribbon>First</Label>
-        </Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-      </Table.Row>
-    </Table.Body>
-
-    <Table.Footer>
-      <Table.Row>
-        <Table.HeaderCell colSpan="3">
-          <Menu floated="right" pagination>
-            <Menu.Item as="a" icon>
-              <Icon name="chevron left" />
-            </Menu.Item>
-            <Menu.Item as="a">1</Menu.Item>
-            <Menu.Item as="a">2</Menu.Item>
-            <Menu.Item as="a">3</Menu.Item>
-            <Menu.Item as="a">4</Menu.Item>
-            <Menu.Item as="a" icon>
-              <Icon name="chevron right" />
-            </Menu.Item>
-          </Menu>
-        </Table.HeaderCell>
-      </Table.Row>
-    </Table.Footer>
-  </Table>
+  <div className={styles.camerasTable}>
+    <Table celled padded>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Kameros adresas</Table.HeaderCell>
+          <Table.HeaderCell>Ilguma</Table.HeaderCell>
+          <Table.HeaderCell>Platuma</Table.HeaderCell>
+          <Table.HeaderCell>Patikimimumas šaltinis</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>J. Basanavičiaus gatvė 8</Table.Cell>
+          <Table.Cell>40.854885</Table.Cell>
+          <Table.Cell>-88.081807</Table.Cell>
+          <Table.Cell>Patikimas</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+  </div>
 );
 
 export default CamerasTable;

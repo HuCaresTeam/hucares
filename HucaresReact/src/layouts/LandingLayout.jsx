@@ -13,7 +13,15 @@ export class LandingLayout extends React.Component {
   render() {
     return (
       <Sidebar.Pushable as={Segment}>
-        <Sidebar as={Menu} animation="push" icon="labeled" direction="" inverted vertical visible>
+        <Sidebar
+          as={Menu}
+          animation="push"
+          icon="labeled"
+          direction="left"
+          inverted
+          vertical
+          visible
+        >
           <Menu.Item as="a" href="/">
             <Icon name="home" />
             Home

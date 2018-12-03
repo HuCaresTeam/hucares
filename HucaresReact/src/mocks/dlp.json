@@ -1,0 +1,50 @@
+[
+  {
+    "Id": 1,
+    "PlateNumber": "DAE123",
+    "DetectedDateTime": "2018-10-18T00:24:30.543431",
+    "CamId": 1,
+    "ImgUrl": "http://someurl.com",
+    "Confidence": 0.15
+  },
+  {
+    "Id": 2,
+    "PlateNumber": "TST123",
+    "DetectedDateTime": "2018-11-18T00:24:30.543431",
+    "CamId": 3,
+    "ImgUrl": "http://another.com",
+    "Confidence": 0.8
+  },
+  {
+    "Id": 3,
+    "PlateNumber": "TVN180",
+    "DetectedDateTime": "2018-11-25T21:10:52.9334338",
+    "CamId": 6,
+    "ImgUrl": "D:\\uni\\images\\2018\\11\\25",
+    "Confidence": 94.528861999511719
+  },
+  {
+    "Id": 4,
+    "PlateNumber": "TVN180",
+    "DetectedDateTime": "2018-11-28T23:20:01.0523858",
+    "CamId": 6,
+    "ImgUrl": "D:\\uni\\images\\2018\\11\\28",
+    "Confidence": 94.528861999511719
+  },
+  {
+    "Id": 5,
+    "PlateNumber": "TVN180",
+    "DetectedDateTime": "2018-11-28T23:36:46.7570709",
+    "CamId": 6,
+    "ImgUrl": "D:\\uni\\images\\2018\\11\\28",
+    "Confidence": 94.528861999511719
+  },
+  {
+    "Id": 6,
+    "PlateNumber": "TVN180",
+    "DetectedDateTime": "2018-11-29T00:07:10.817035",
+    "CamId": 6,
+    "ImgUrl": "D:\\uni\\images\\2018\\11\\29",
+    "Confidence": 94.528861999511719
+  }
+]

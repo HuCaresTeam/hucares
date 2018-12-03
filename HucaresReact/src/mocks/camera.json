@@ -1,0 +1,18 @@
+[
+  {
+    "Id": 6,
+    "HostUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_016.jpg",
+    "Latitude": 53.0,
+    "Longitude": 27.0,
+    "IsTrustedSource": true,
+    "IsActive": true
+  },
+  {
+    "Id": 7,
+    "HostUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_017.jpg",
+    "Latitude": 53.0,
+    "Longitude": 27.0,
+    "IsTrustedSource": true,
+    "IsActive": true
+  }
+]

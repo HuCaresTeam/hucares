@@ -1,28 +1,35 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
 import styles from './CamerasTable.scss';
+import mock from '../../mocks/camera';
 
-const CamerasTable = () => (
-  <div className={styles.camerasTable}>
-    <Table celled padded>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Kameros adresas</Table.HeaderCell>
-          <Table.HeaderCell>Ilguma</Table.HeaderCell>
-          <Table.HeaderCell>Platuma</Table.HeaderCell>
-          <Table.HeaderCell>Patikimimumas šaltinis</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        <Table.Row>
-          <Table.Cell>J. Basanavičiaus gatvė 8</Table.Cell>
-          <Table.Cell>40.854885</Table.Cell>
-          <Table.Cell>-88.081807</Table.Cell>
-          <Table.Cell>Patikimas</Table.Cell>
-        </Table.Row>
-      </Table.Body>
-    </Table>
-  </div>
-);
-
-export default CamerasTable;
+export class CamerasTable extends React.Component {
+  render() {
+    return (
+      <div className={styles.camerasTable}>
+        <Table celled padded>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Kameros URL</Table.HeaderCell>
+              <Table.HeaderCell>Ilguma</Table.HeaderCell>
+              <Table.HeaderCell>Platuma</Table.HeaderCell>
+              <Table.HeaderCell>Patikimas šaltinis</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {mock.map(obj => (
+              <Table.Row>
+                <Table.Cell key={obj.HostUrl}>{obj.HostUrl}</Table.Cell>
+                <Table.Cell key={obj.Latitude}>{obj.Latitude}</Table.Cell>
+                <Table.Cell key={obj.Longitude}>{obj.Longitude}</Table.Cell>
+                <Table.Cell key={obj.IsTrustedSource}>
+                  {obj.IsTrustedSource ? `Patikima` : `Nepatikima`}
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </div>
+    );
+  }
+}

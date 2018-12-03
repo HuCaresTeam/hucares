@@ -1,13 +1,13 @@
 import React from 'react';
-import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import 'semantic-ui-css/semantic.min.css';
 import { Switch } from 'react-router';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
 import MapContainer from '../components/Map/MapContainer';
 import { Route } from '../root/Route';
-import DLPTable from '../pages/DLP/DLPTable';
-import MLPTable from '../pages/MLP/MLPTable';
-import CamerasTable from '../pages/Cameras/CamerasTable';
+import { DLPTable } from '../pages/DLP/DLPTable';
+import { MLPTable } from '../pages/MLP/MLPTable';
+import { CamerasTable } from '../pages/Cameras/CamerasTable';
 
 export class LandingLayout extends React.Component {
   render() {

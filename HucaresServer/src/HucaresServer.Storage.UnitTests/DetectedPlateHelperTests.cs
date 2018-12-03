@@ -39,7 +39,7 @@ namespace HucaresServer.Storage.UnitTests
                 DetectedDateTime = new DateTime(2018, 09, 29),
                 CamId = 1,
                 ImgUrl = "http://localhost:6969/images/cam01_21080929_235959",
-                Confidence = 0.75
+                Confidence = 75.75
             };
             
             var result = detectedPlateHelper.InsertNewDetectedPlate(expectedDetectedPlate.PlateNumber, 
@@ -81,36 +81,7 @@ namespace HucaresServer.Storage.UnitTests
             //Act and Assert
             Assert.Throws<ArgumentException>(() => detectedPlateHelper.InsertNewDetectedPlate(
                 "ABC001", new DateTime(2018, 09, 29),
-                1, "http://localhost:6969/images/cam01_21080929_235959", 1.1));
-            
-            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
-                .MustNotHaveHappened();
-
-        }
-        
-        [Test]
-        public void InsertNewDetectedPlate_WhenUriNotCorrect_ShouldThrowError()
-        {
-
-            //Arrange
-            var fakeIQueryable = new List<DetectedLicensePlate>().AsQueryable();
-            var fakeDbSet = A.Fake<DbSet<DetectedLicensePlate>>();
-
-            var fakeHucaresContext = A.Fake<HucaresContext>();
-            A.CallTo(() => fakeHucaresContext.DetectedLicensePlates)
-                .Returns(fakeDbSet);
-
-            var fakeDbContextFactory = A.Fake<IDbContextFactory>();
-            A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
-                .Returns(fakeHucaresContext);
-            
-            var fakeMissingPlateHelper = A.Fake<IMissingPlateHelper>();
-            var detectedPlateHelper = new DetectedPlateHelper(fakeDbContextFactory, fakeMissingPlateHelper);
-
-            //Act and Assert
-            Assert.Throws<UriFormatException>(() => detectedPlateHelper.InsertNewDetectedPlate(
-                "ABC001", new DateTime(2018, 09, 29),
-                1, "notValidUri", 0.75));
+                1, "http://localhost:6969/images/cam01_21080929_235959", 101));
             
             A.CallTo(() => fakeDbContextFactory.BuildHucaresContext())
                 .MustNotHaveHappened();
@@ -133,12 +104,12 @@ namespace HucaresServer.Storage.UnitTests
                 new DetectedLicensePlate()
                 {
                     Id = 0, PlateNumber = "ABC001", DetectedDateTime = new DateTime(2018, 09, 29), 
-                    CamId = 1, ImgUrl = "http://localhost:6969/images", Confidence = 0.75
+                    CamId = 1, ImgUrl = "http://localhost:6969/images", Confidence = 80
                 },
                 new DetectedLicensePlate()
                 {
                     Id = 2, PlateNumber = "ABC003", DetectedDateTime = new DateTime(2018, 09, 30), 
-                    CamId = 2, ImgUrl = "http://localhost:6969/images", Confidence = 0.80
+                    CamId = 2, ImgUrl = "http://localhost:6969/images", Confidence = 90.0
                 }
             };
             

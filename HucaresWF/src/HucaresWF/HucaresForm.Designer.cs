@@ -39,6 +39,12 @@
             this.digitsBox = new System.Windows.Forms.TextBox();
             this.dlpTab = new System.Windows.Forms.TabPage();
             this.dlpTable = new System.Windows.Forms.DataGridView();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LicenseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImageUrl = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.Confidence = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gMapUri = new System.Windows.Forms.DataGridViewLinkColumn();
             this.cameraTab = new System.Windows.Forms.TabPage();
             this.longField = new System.Windows.Forms.NumericUpDown();
             this.latField = new System.Windows.Forms.NumericUpDown();
@@ -56,12 +62,7 @@
             this.longLabel = new System.Windows.Forms.Label();
             this.latLabel = new System.Windows.Forms.Label();
             this.hostUrlLabel = new System.Windows.Forms.Label();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LicenseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ImageUrl = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.Confidence = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gMapUri = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.refresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).BeginInit();
             this.tabControlMain.SuspendLayout();
             this.mlpTab.SuspendLayout();
@@ -164,6 +165,7 @@
             // 
             // dlpTab
             // 
+            this.dlpTab.Controls.Add(this.refresh);
             this.dlpTab.Controls.Add(this.dlpTable);
             this.dlpTab.Location = new System.Drawing.Point(4, 22);
             this.dlpTab.Name = "dlpTab";
@@ -190,7 +192,57 @@
             this.dlpTable.TabIndex = 0;
             this.dlpTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dlpTable_CellContentClick);
             // 
-            // camTab
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Width = 50;
+            // 
+            // LicenseNumber
+            // 
+            this.LicenseNumber.DataPropertyName = "PlateNumber";
+            this.LicenseNumber.HeaderText = "License Number";
+            this.LicenseNumber.Name = "LicenseNumber";
+            this.LicenseNumber.ReadOnly = true;
+            // 
+            // Date
+            // 
+            this.Date.DataPropertyName = "DetectedDateTime";
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            this.Date.Width = 150;
+            // 
+            // ImageUrl
+            // 
+            this.ImageUrl.DataPropertyName = "ImgUrl";
+            this.ImageUrl.HeaderText = "Image URL";
+            this.ImageUrl.Name = "ImageUrl";
+            this.ImageUrl.ReadOnly = true;
+            this.ImageUrl.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ImageUrl.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.ImageUrl.Width = 150;
+            // 
+            // Confidence
+            // 
+            this.Confidence.DataPropertyName = "Confidence";
+            this.Confidence.HeaderText = "Confidence";
+            this.Confidence.Name = "Confidence";
+            this.Confidence.ReadOnly = true;
+            // 
+            // gMapUri
+            // 
+            this.gMapUri.DataPropertyName = "GMapsUri";
+            this.gMapUri.HeaderText = "GMapsUri";
+            this.gMapUri.Name = "gMapUri";
+            this.gMapUri.ReadOnly = true;
+            this.gMapUri.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.gMapUri.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.gMapUri.Width = 150;
+            // 
+            // cameraTab
             // 
             this.cameraTab.Controls.Add(this.longField);
             this.cameraTab.Controls.Add(this.latField);
@@ -367,63 +419,23 @@
             this.hostUrlLabel.TabIndex = 9;
             this.hostUrlLabel.Text = "HostUrl";
             // 
-            // Id
+            // button1
             // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Width = 50;
+            this.refresh.Location = new System.Drawing.Point(29, 277);
+            this.refresh.Name = "button1";
+            this.refresh.Size = new System.Drawing.Size(75, 23);
+            this.refresh.TabIndex = 1;
+            this.refresh.Text = "Refresh";
+            this.refresh.UseVisualStyleBackColor = true;
+            this.refresh.Click += new System.EventHandler(this.refresh_Click);
             // 
-            // LicenseNumber
-            // 
-            this.LicenseNumber.DataPropertyName = "PlateNumber";
-            this.LicenseNumber.HeaderText = "License Number";
-            this.LicenseNumber.Name = "LicenseNumber";
-            this.LicenseNumber.ReadOnly = true;
-            // 
-            // Date
-            // 
-            this.Date.DataPropertyName = "DetectedDateTime";
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            this.Date.ReadOnly = true;
-            this.Date.Width = 150;
-            // 
-            // ImageUrl
-            // 
-            this.ImageUrl.DataPropertyName = "ImgUrl";
-            this.ImageUrl.HeaderText = "Image URL";
-            this.ImageUrl.Name = "ImageUrl";
-            this.ImageUrl.ReadOnly = true;
-            this.ImageUrl.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ImageUrl.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.ImageUrl.Width = 150;
-            // 
-            // Confidence
-            // 
-            this.Confidence.DataPropertyName = "Confidence";
-            this.Confidence.HeaderText = "Confidence";
-            this.Confidence.Name = "Confidence";
-            this.Confidence.ReadOnly = true;
-            // 
-            // gMapUri
-            // 
-            this.gMapUri.DataPropertyName = "GMapsUri";
-            this.gMapUri.HeaderText = "GMapsUri";
-            this.gMapUri.Name = "gMapUri";
-            this.gMapUri.ReadOnly = true;
-            this.gMapUri.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.gMapUri.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.gMapUri.Width = 150;
-            // 
-            // MissingLicensePlateForm
+            // HucaresForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 337);
             this.Controls.Add(this.tabControlMain);
-            this.Name = "MissingLicensePlateForm";
+            this.Name = "HucaresForm";
             this.Text = "HUCARES";
             this.Load += new System.EventHandler(this.MissingLicensePlateForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.licensePlateImage)).EndInit();
@@ -476,6 +488,7 @@
         private System.Windows.Forms.DataGridViewLinkColumn ImageUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn Confidence;
         private System.Windows.Forms.DataGridViewLinkColumn gMapUri;
+        private System.Windows.Forms.Button refresh;
     }
 }
 

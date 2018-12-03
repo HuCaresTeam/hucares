@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3E6F9A07-5906-4FC3-B69C-2D25BC6DF04C}</ProjectGuid>
+    <ProjectGuid>{975FF482-CC95-443D-AF5B-2B6DCA7D4082}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HucaresServer.TimedProccess</RootNamespace>
-    <AssemblyName>HucaresServer.TimedProccess</AssemblyName>
+    <RootNamespace>HucaresServer.TimedProcess.UnitTests</RootNamespace>
+    <AssemblyName>HucaresServer.TimedProcess.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,35 +31,42 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="OpenAlprApi, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\HucaresServer\OpenAlprApi.dll</HintPath>
+    <Reference Include="FakeItEasy, Version=4.0.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeItEasy.4.9.1\lib\net45\FakeItEasy.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenAlprApi, Version=2.0.1.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DlpCollectionProcess.cs" />
+    <Compile Include="DlpCollectionProcessTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\HucaresServer.DataAcquisition\HucaresServer.DataAcquisition.csproj">
-      <Project>{5358ED9E-F9D6-45A7-B374-9CD22C538106}</Project>
+      <Project>{5358ed9e-f9d6-45a7-b374-9cd22c538106}</Project>
       <Name>HucaresServer.DataAcquisition</Name>
     </ProjectReference>
     <ProjectReference Include="..\HucaresServer.Storage\HucaresServer.Storage.csproj">
-      <Project>{825695A4-3E4B-4F60-A69D-07D6D3AE3A1A}</Project>
+      <Project>{825695a4-3e4b-4f60-a69d-07d6d3ae3a1a}</Project>
       <Name>HucaresServer.Storage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HucaresServer.Utils\HucaresServer.Utils.csproj">
-      <Project>{8A79D1D0-A355-4FF9-9269-7EBBC4A615A0}</Project>
-      <Name>HucaresServer.Utils</Name>
+    <ProjectReference Include="..\HucaresServer.TimedProccess\HucaresServer.TimedProcess.csproj">
+      <Project>{3e6f9a07-5906-4fc3-b69c-2d25bc6df04c}</Project>
+      <Name>HucaresServer.TimedProcess</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

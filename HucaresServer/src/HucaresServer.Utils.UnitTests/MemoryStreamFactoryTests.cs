@@ -18,6 +18,20 @@ namespace HucaresServer.Utils.UnitTests
 
             //Assert
             result.ShouldBeOfType(typeof(MemoryStream));
+            result.ToArray().ShouldBeEmpty();
+        }
+
+        [Test]
+        public void Create_WhenCalledWithByteArray_ShouldReturnMemoryStream()
+        {
+            //Arrange
+            var factory = new MemoryStreamFactory();
+
+            //Act
+            var result = factory.Create(new byte[] { });
+
+            //Assert
+            result.ShouldBeOfType(typeof(MemoryStream));
         }
     }
 }

@@ -2,6 +2,7 @@
 using HucaresServer.DataAcquisition;
 using HucaresServer.Storage;
 using HucaresServer.TimedProcess;
+using HucaresServer.Utils;
 using System.Web;
 
 namespace HucaresServer
@@ -16,7 +17,9 @@ namespace HucaresServer
             }
 
             System.Web.Http.GlobalConfiguration.Configure(WebApiConfig.Register);
-            RecurringJob.AddOrUpdate(() => DlpCollectionProcess.StartProccess(), Cron.Minutely);
+            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = Config.HangfireRetry });
+            var dlpTimedProcess = new DlpCollectionProcess();
+            RecurringJob.AddOrUpdate(() => dlpTimedProcess.StartProccess(), Cron.Minutely);
         }
     }
 }

@@ -1,29 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HucaresServer.Storage.Helpers;
-using HucaresServer.Utils;
 
 namespace HucaresServer.DataAcquisition
 {
     public class CameraImageDownloading : ICameraImageDownloading
     {
-        // TODO: Take this value from a configuration file or somewhere else
-        private readonly string TemporaryStorageUrl = Config.TemporaryStorageUrl;
-
         private ICameraInfoHelper _cameraInfoHelper;
-        private IImageSaver _imageSaver;
+        private IImageManipulator _imageSaver;
         private IWebClientFactory _webClientFactory;
 
-        public CameraImageDownloading(ICameraInfoHelper cameraInfoHelper = null, IImageSaver imageSaver = null,
+        public CameraImageDownloading(ICameraInfoHelper cameraInfoHelper = null, 
+            IImageManipulator imageSaver = null,
             IWebClientFactory webClientFactory = null)
         {
             _cameraInfoHelper = cameraInfoHelper ?? new CameraInfoHelper();
-            _imageSaver = imageSaver ?? new LocalImageSaver(TemporaryStorageUrl);
+            _imageSaver = imageSaver ?? new LocalImageManipulator();
             _webClientFactory = webClientFactory ?? new CustomWebClientFactory();
+
         }
 
         public async Task<int> DownloadImagesFromCameraInfoSources(bool? isTrusted = null, DateTime? downloadDateTime = null)
@@ -49,11 +45,7 @@ namespace HucaresServer.DataAcquisition
             using (var webClient = _webClientFactory.BuildWebClient())
             {
                 var imageData = webClient.DownloadData(imageUrl);
-
-                using (var memoryStream = new MemoryStream(imageData))
-                {
-                    _imageSaver.SaveImage(cameraId, captureDateTime, new Bitmap(memoryStream));
-                }
+                _imageSaver.SaveImage(cameraId, captureDateTime, imageData);
             }
         }
     }

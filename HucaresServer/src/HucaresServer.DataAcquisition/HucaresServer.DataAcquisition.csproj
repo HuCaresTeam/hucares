@@ -45,9 +45,11 @@
   <ItemGroup>
     <Compile Include="CameraImageDownloading.cs" />
     <Compile Include="ICameraImageDownloading.cs" />
-    <Compile Include="IImageSaver.cs" />
+    <Compile Include="IImageFileNamer.cs" />
+    <Compile Include="IImageManipulator.cs" />
+    <Compile Include="ImageFileNamer.cs" />
     <Compile Include="IOpenAlprWrapper.cs" />
-    <Compile Include="LocalImageSaver.cs" />
+    <Compile Include="LocalImageManipulator.cs" />
     <Compile Include="OpenAlprWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebClient\CustomWebClient.cs">

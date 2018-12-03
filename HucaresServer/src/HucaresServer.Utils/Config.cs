@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.IO;
 
 namespace HucaresServer.Utils
 {
@@ -39,9 +40,21 @@ namespace HucaresServer.Utils
             }
         }
 
-        public static string TemporaryStorageUrl {
+        public static string TemporaryStorage {
             get {
-                return ConfigurationManager.AppSettings["TemporaryStorageUrl"];
+                return ConfigurationManager.AppSettings["TemporaryStorage"];
+            }
+        }
+
+        public static string PermStorage {
+            get {
+                return ConfigurationManager.AppSettings["PermStorage"];
+            }
+        }
+
+        public static int HangfireRetry {
+            get {
+                return int.Parse(ConfigurationManager.AppSettings["HangfireRetry"]);
             }
         }
     }

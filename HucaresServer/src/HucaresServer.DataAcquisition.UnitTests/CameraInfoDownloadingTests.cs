@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using FakeItEasy;
 using HucaresServer.Storage.Helpers;
@@ -19,40 +20,40 @@ namespace HucaresServer.DataAcquisition.UnitTests
             // Arrange
             var fakeBitmap = new Bitmap(100, 100);
             var url = "https://some.url";
-            
+
             ImageConverter converter = new ImageConverter();
-            var fakeImageArray =  (byte[])converter.ConvertTo(fakeBitmap, typeof(byte[]));
-            
-            
+            var fakeImageArray = (byte[])converter.ConvertTo(fakeBitmap, typeof(byte[]));
+
             var fakeWebClient = A.Fake<IWebClient>();
             A.CallTo(() => fakeWebClient.DownloadData(url))
                 .Returns(fakeImageArray);
-            
+
             var fakeWebClientFactory = A.Fake<IWebClientFactory>();
             A.CallTo(() => fakeWebClientFactory.BuildWebClient())
                 .Returns(fakeWebClient);
-            
+
             var fakeMissingPlates = new List<CameraInfo>()
             {
                 new CameraInfo() {Id = 0, HostUrl = url, IsTrustedSource = true},
             };
-            
+
             var fakeCameraInfoHelper = A.Fake<ICameraInfoHelper>();
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(true))
                 .Returns(fakeMissingPlates);
 
-            var fakeImageSaver = A.Fake<IImageSaver>();
-            
+            var fakeImageSaver = A.Fake<IImageManipulator>();
+
             var cameraImageDownloading = new CameraImageDownloading(fakeCameraInfoHelper, fakeImageSaver, fakeWebClientFactory);
-            
+
             // Act
-            var resultCameraCount = await cameraImageDownloading.DownloadImagesFromCameraInfoSources(true, new DateTime(2018, 11, 01));
-            
+            var resultParsedCount = await cameraImageDownloading.DownloadImagesFromCameraInfoSources(true, new DateTime(2018, 11, 01));
+
             // Assert
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(true)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeImageSaver.SaveImage(0, new DateTime(2018, 11, 01), A<Bitmap>.Ignored)).MustHaveHappenedOnceExactly();
-            resultCameraCount.ShouldBe(1);
+            A.CallTo(() => fakeImageSaver.SaveImage(0, new DateTime(2018, 11, 01), fakeImageArray)).MustHaveHappenedOnceExactly();
+
+            resultParsedCount.ShouldBe(1);
         }
         
         [Test]
@@ -84,18 +85,19 @@ namespace HucaresServer.DataAcquisition.UnitTests
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null))
                 .Returns(fakeMissingPlates);
 
-            var fakeImageSaver = A.Fake<IImageSaver>();
-            
+            var fakeImageSaver = A.Fake<IImageManipulator>();
+
             var cameraImageDownloading = new CameraImageDownloading(fakeCameraInfoHelper, fakeImageSaver, fakeWebClientFactory);
             
             // Act
-            var resultCameraCount = await cameraImageDownloading.DownloadImagesFromCameraInfoSources(downloadDateTime: new DateTime(2018, 11, 01));
+            var resultParsedCount = await cameraImageDownloading.DownloadImagesFromCameraInfoSources(downloadDateTime: new DateTime(2018, 11, 01));
             
             // Assert
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustHaveHappenedTwiceExactly();
-            A.CallTo(() => fakeImageSaver.SaveImage(A<int>.Ignored, new DateTime(2018, 11, 01), A<Bitmap>.Ignored)).MustHaveHappenedTwiceExactly();
-            resultCameraCount.ShouldBe(2);
+            A.CallTo(() => fakeImageSaver.SaveImage(A<int>.Ignored, new DateTime(2018, 11, 01), fakeImageArray)).MustHaveHappenedTwiceExactly();
+
+            resultParsedCount.ShouldBe(2);
         }
         
         [Test]
@@ -110,24 +112,25 @@ namespace HucaresServer.DataAcquisition.UnitTests
             A.CallTo(() => fakeWebClientFactory.BuildWebClient())
                 .Returns(fakeWebClient);
             
-            var fakeImageSaver = A.Fake<IImageSaver>();
+            var fakeImageSaver = A.Fake<IImageManipulator>();
             
-            var fakeMissingPlates = new List<CameraInfo>();
+            var fakeCameras = new List<CameraInfo>();
             
             var fakeCameraInfoHelper = A.Fake<ICameraInfoHelper>();
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null))
-                .Returns(fakeMissingPlates);
+                .Returns(fakeCameras);
             
             var cameraImageDownloading = new CameraImageDownloading(fakeCameraInfoHelper, fakeImageSaver, fakeWebClientFactory);
             
             // Act
-            var resultCameraCount = await cameraImageDownloading.DownloadImagesFromCameraInfoSources(downloadDateTime: new DateTime(2018, 11, 01));
+            var resultParsedCount = await cameraImageDownloading.DownloadImagesFromCameraInfoSources(downloadDateTime: new DateTime(2018, 11, 01));
             
             // Assert
             A.CallTo(() => fakeCameraInfoHelper.GetActiveCameras(null)).MustHaveHappened();
             A.CallTo(() => fakeWebClient.DownloadData(url)).MustNotHaveHappened();
-            A.CallTo(() => fakeImageSaver.SaveImage(0, new DateTime(2018, 11, 01), A<Bitmap>.Ignored)).MustNotHaveHappened();
-            resultCameraCount.ShouldBe(0);
+            A.CallTo(() => fakeImageSaver.SaveImage(0, new DateTime(2018, 11, 01), A<Byte[]>.Ignored)).MustNotHaveHappened();
+
+            resultParsedCount.ShouldBe(0);
         }
     }
 }

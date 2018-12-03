@@ -1,11 +1,7 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HucaresServer.Storage.Models;
-using HucaresServer.Storage.Properties;
 
 namespace HucaresServer.Storage.Helpers
 {
@@ -25,16 +21,10 @@ namespace HucaresServer.Storage.Helpers
         public DetectedLicensePlate InsertNewDetectedPlate(string plateNumber, DateTime detectedDateTime, int camId, 
             string imgUrl, double confidence)
         {
-            
-            if (!Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute))
-            {
-                throw new UriFormatException(string.Format(Resources.Error_AbsoluteUriInvalid, nameof(imgUrl)));
-            }
-
-            if (confidence < 0 || confidence > 1)
+            if (confidence < 0 || confidence > 100)
             {
                 // It seems like I can't edit resource file on Rider
-                throw new ArgumentException(string.Format($"The confidence parameter must be between 0 and 1, is: {confidence}"));
+                throw new ArgumentException(string.Format($"The confidence parameter must be between 0 and 100, is: {confidence}"));
             }
             
             var detectedPlateToInsert = new DetectedLicensePlate()

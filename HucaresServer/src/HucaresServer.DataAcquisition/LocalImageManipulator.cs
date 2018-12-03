@@ -23,7 +23,7 @@ namespace HucaresServer.DataAcquisition
             var newFileLocation = Path.Combine(newFilePath, file.Name);
             File.Move(file.FullName, newFileLocation);
 
-            return newFilePath;
+            return newFileLocation;
         }
 
         public string SaveImage(int cameraId, DateTime captureDateTime, byte[] imgToSaveBytes)

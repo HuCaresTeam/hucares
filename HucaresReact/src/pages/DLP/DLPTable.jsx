@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
 import styles from './DLPTable.scss';
+import dlpMock from '../../mocks/dlp';
 
 export class DLPTable extends React.Component {
   render() {
@@ -9,21 +10,21 @@ export class DLPTable extends React.Component {
         <Table celled padded>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Numeris</Table.HeaderCell>
-              <Table.HeaderCell>Radimo data</Table.HeaderCell>
-              <Table.HeaderCell>Kameros adresas</Table.HeaderCell>
-              <Table.HeaderCell>Patikimas šaltinis</Table.HeaderCell>
-              <Table.HeaderCell>Patikimimumas %</Table.HeaderCell>
+              <Table.HeaderCell>License plate</Table.HeaderCell>
+              <Table.HeaderCell>Detected plate date</Table.HeaderCell>
+              <Table.HeaderCell>Image URL</Table.HeaderCell>
+              <Table.HeaderCell>Confidence %</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            <Table.Row>
-              <Table.Cell>RRR:150</Table.Cell>
-              <Table.Cell>2018-05-10 17:44:15</Table.Cell>
-              <Table.Cell>J. Basanavičiaus gatvė 8</Table.Cell>
-              <Table.Cell>Patikima</Table.Cell>
-              <Table.Cell>80%</Table.Cell>
-            </Table.Row>
+            {dlpMock.map(obj => (
+              <Table.Row>
+                <Table.Cell key={obj.PlateNumber}>{obj.PlateNumber}</Table.Cell>
+                <Table.Cell key={obj.DetectedDateTime}>{obj.DetectedDateTime}</Table.Cell>
+                <Table.Cell key={obj.ImgUrl}>{obj.ImgUrl}</Table.Cell>
+                <Table.Cell key={obj.Confidence}>{obj.Confidence}</Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
       </div>

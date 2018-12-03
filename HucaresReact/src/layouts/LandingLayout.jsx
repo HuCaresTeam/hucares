@@ -1,9 +1,14 @@
 import React from 'react';
 import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
+import { Switch } from 'react-router';
 import MapContainer from '../components/Map/MapContainer';
+import { Route } from '../root/Route';
+import DLPTable from '../pages/DLP/DLPTable';
+import MLPTable from '../pages/MLP/MLPTable';
+import CamerasTable from '../pages/Cameras/CamerasTable';
 
-/** TODO Make this class as HOC * */
 export class LandingLayout extends React.Component {
   render() {
     return (
@@ -27,7 +32,14 @@ export class LandingLayout extends React.Component {
           </Menu.Item>
         </Sidebar>
         <Sidebar.Pusher>
-          <MapContainer />
+          <Router>
+            <Switch>
+              <Route exact path="/" component={MapContainer} />
+              <Route path="/dlp" component={DLPTable} />
+              <Route path="/mlp" component={MLPTable} />
+              <Route path="/cameras" component={CamerasTable} />
+            </Switch>
+          </Router>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     );

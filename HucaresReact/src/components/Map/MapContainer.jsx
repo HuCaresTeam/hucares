@@ -58,17 +58,13 @@ export class MapContainer extends React.Component {
           />
         ))}
 
-        {/* <Marker */}
-        {/* name="First Camera" */}
-        {/* onClick={this.onMarkerClick} */}
-        {/* position={{ lat: 54.67100196, lng: 25.22392273 }} */}
-        {/* /> */}
-
         <InfoWindow marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
           <div>
             <h1>{this.state.selectedPlace.name}</h1>
+            <h1>{this.state.selectedPlace.isTrusted}</h1>
           </div>
         </InfoWindow>
+
       </Map>
     );
   }

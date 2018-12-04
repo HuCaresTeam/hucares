@@ -9,12 +9,16 @@ export class MapContainer extends React.Component {
   };
 
   markers = [
-      {name: "Gelezinio vilko ir Ukmerges sankryza.",
-          position: { lat: 54.67100196, lng: 25.22392273 },
-          isTrusted: true},
-      {name: "Ukmerges ir Naugarduko sankryza.",
-          position: { lat: 54.33100196, lng: 25.33392273 },
-          isTrusted: true},
+    {
+      name: 'Gelezinio vilko ir Ukmerges sankryza.',
+      position: { lat: 54.67100196, lng: 25.22392273 },
+      isTrusted: true,
+    },
+    {
+      name: 'Ukmerges ir Naugarduko sankryza.',
+      position: { lat: 54.33100196, lng: 25.33392273 },
+      isTrusted: true,
+    },
   ];
 
   onMarkerClick = (props, marker) =>
@@ -43,22 +47,22 @@ export class MapContainer extends React.Component {
         initialCenter={{
           lat: 54.7000898,
           lng: 25.1125082,
-        }}>
+        }}
+      >
+        {this.markers.map(obj => (
+          <Marker
+            key={obj.name}
+            name={obj.name}
+            position={obj.position}
+            onClick={this.onMarkerClick}
+          />
+        ))}
 
-          {this.markers.map(obj => (
-              <Marker key={obj.name}>
-                  name={obj.name}
-                  position={obj.position}
-                  onClick={this.onMarkerClick}
-                  {console.log(obj)}
-              </Marker>
-          ))}
-
-        {/*<Marker*/}
-          {/*name="First Camera"*/}
-          {/*onClick={this.onMarkerClick}*/}
-          {/*position={{ lat: 54.67100196, lng: 25.22392273 }}*/}
-        {/*/>*/}
+        {/* <Marker */}
+        {/* name="First Camera" */}
+        {/* onClick={this.onMarkerClick} */}
+        {/* position={{ lat: 54.67100196, lng: 25.22392273 }} */}
+        {/* /> */}
 
         <InfoWindow marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
           <div>

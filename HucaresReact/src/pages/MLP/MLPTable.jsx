@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
-
 import styles from './MLPTable.scss';
 import mlpMock from '../../mocks/mlp';
+import PaginationContainer from '../../components/Pagination/Pagination';
 
 export class MLPTable extends React.Component {
   render() {
@@ -19,16 +19,24 @@ export class MLPTable extends React.Component {
           </Table.Header>
           <Table.Body>
             {mlpMock.map(obj => (
-              <Table.Row>
-                <Table.Cell key={obj.PlateNumber}>{obj.PlateNumber}</Table.Cell>
-                <Table.Cell key={obj.SearchStartDateTime}>{obj.SearchStartDateTime}</Table.Cell>
-                <Table.Cell key={obj.SearchEndDateTime}>
+              <Table.Row key={obj.Id}>
+                <Table.Cell>{obj.PlateNumber}</Table.Cell>
+                <Table.Cell>{obj.SearchStartDateTime}</Table.Cell>
+                <Table.Cell>
                   {obj.SearchEndDateTime ? obj.SearchEndDateTime : `Not found`}
                 </Table.Cell>
-                <Table.Cell key={obj.PlateNumber}>{obj.Status ? `Found` : `Not found`}</Table.Cell>
+                <Table.Cell>{obj.Status ? `Found` : `Not found`}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
+
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan="4">
+                <PaginationContainer />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
         </Table>
       </div>
     );

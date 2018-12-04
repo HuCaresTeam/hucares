@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import Pagination from '../../components/Pagination/Pagination';
 import styles from './DLPTable.scss';
 import dlpMock from '../../mocks/dlp';
 
@@ -18,14 +19,22 @@ export class DLPTable extends React.Component {
           </Table.Header>
           <Table.Body>
             {dlpMock.map(obj => (
-              <Table.Row>
-                <Table.Cell key={obj.PlateNumber}>{obj.PlateNumber}</Table.Cell>
-                <Table.Cell key={obj.DetectedDateTime}>{obj.DetectedDateTime}</Table.Cell>
-                <Table.Cell key={obj.ImgUrl}>{obj.ImgUrl}</Table.Cell>
-                <Table.Cell key={obj.Confidence}>{obj.Confidence}</Table.Cell>
+              <Table.Row key={obj.Id}>
+                <Table.Cell>{obj.PlateNumber}</Table.Cell>
+                <Table.Cell>{obj.DetectedDateTime}</Table.Cell>
+                <Table.Cell>{obj.ImgUrl}</Table.Cell>
+                <Table.Cell>{obj.Confidence}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
+
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan="4">
+                <Pagination />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
         </Table>
       </div>
     );

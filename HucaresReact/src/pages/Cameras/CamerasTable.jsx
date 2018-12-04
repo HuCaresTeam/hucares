@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'semantic-ui-react';
 import styles from './CamerasTable.scss';
 import mock from '../../mocks/camera';
+import Pagination from '../../components/Pagination/Pagination';
 
 export class CamerasTable extends React.Component {
   render() {
@@ -18,16 +19,22 @@ export class CamerasTable extends React.Component {
           </Table.Header>
           <Table.Body>
             {mock.map(obj => (
-              <Table.Row>
-                <Table.Cell key={obj.HostUrl}>{obj.HostUrl}</Table.Cell>
-                <Table.Cell key={obj.Latitude}>{obj.Latitude}</Table.Cell>
-                <Table.Cell key={obj.Longitude}>{obj.Longitude}</Table.Cell>
-                <Table.Cell key={obj.IsTrustedSource}>
-                  {obj.IsTrustedSource ? `Trusted` : `Not trusted`}
-                </Table.Cell>
+              <Table.Row key={obj.Id}>
+                <Table.Cell>{obj.HostUrl}</Table.Cell>
+                <Table.Cell>{obj.Latitude}</Table.Cell>
+                <Table.Cell>{obj.Longitude}</Table.Cell>
+                <Table.Cell>{obj.IsTrustedSource ? `Trusted` : `Not trusted`}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
+
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan="4">
+                <Pagination />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
         </Table>
       </div>
     );

@@ -14,5 +14,13 @@
     "Longitude": 27.0,
     "IsTrustedSource": true,
     "IsActive": true
+  },
+  {
+    "Id": 8,
+    "HostUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_018.jpg",
+    "Latitude": 53.0,
+    "Longitude": 27.0,
+    "IsTrustedSource": true,
+    "IsActive": true
   }
 ]

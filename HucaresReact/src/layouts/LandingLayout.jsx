@@ -39,16 +39,18 @@ export class LandingLayout extends React.Component {
             Cameras
           </Menu.Item>
         </Sidebar>
-        <Sidebar.Pusher>
-          <Router>
-            <Switch>
-              <Route exact path="/" component={MapContainer} />
-              <Route path="/dlp" component={DLPTable} />
-              <Route path="/mlp" component={MLPTable} />
-              <Route path="/cameras" component={CamerasTable} />
-            </Switch>
-          </Router>
-        </Sidebar.Pusher>
+        <div className="landing-pusher">
+          <Sidebar.Pusher>
+            <Router>
+              <Switch>
+                <Route exact path="/" component={MapContainer} />
+                <Route path="/dlp" component={DLPTable} />
+                <Route path="/mlp" component={MLPTable} />
+                <Route path="/cameras" component={CamerasTable} />
+              </Switch>
+            </Router>
+          </Sidebar.Pusher>
+        </div>
       </Sidebar.Pushable>
     );
   }

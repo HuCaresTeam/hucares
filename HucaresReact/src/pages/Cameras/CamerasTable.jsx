@@ -10,10 +10,10 @@ export class CamerasTable extends React.Component {
         <Table celled padded>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Kameros URL</Table.HeaderCell>
-              <Table.HeaderCell>Ilguma</Table.HeaderCell>
-              <Table.HeaderCell>Platuma</Table.HeaderCell>
-              <Table.HeaderCell>Patikimas šaltinis</Table.HeaderCell>
+              <Table.HeaderCell>Camera URL</Table.HeaderCell>
+              <Table.HeaderCell>Latitude</Table.HeaderCell>
+              <Table.HeaderCell>Longitude</Table.HeaderCell>
+              <Table.HeaderCell>Is trusted source</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -23,7 +23,7 @@ export class CamerasTable extends React.Component {
                 <Table.Cell key={obj.Latitude}>{obj.Latitude}</Table.Cell>
                 <Table.Cell key={obj.Longitude}>{obj.Longitude}</Table.Cell>
                 <Table.Cell key={obj.IsTrustedSource}>
-                  {obj.IsTrustedSource ? `Patikima` : `Nepatikima`}
+                  {obj.IsTrustedSource ? `Trusted` : `Not trusted`}
                 </Table.Cell>
               </Table.Row>
             ))}

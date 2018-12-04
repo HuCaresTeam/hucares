@@ -31,7 +31,7 @@ export class CamerasTable extends React.Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="4">
-                <Pagination />
+                <Pagination itemList={mock}/>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

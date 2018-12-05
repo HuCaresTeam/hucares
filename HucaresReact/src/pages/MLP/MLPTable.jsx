@@ -25,7 +25,6 @@ export class MLPTable extends React.Component {
               <Table.HeaderCell>License plate</Table.HeaderCell>
               <Table.HeaderCell>Search plate date</Table.HeaderCell>
               <Table.HeaderCell>Detected plate date</Table.HeaderCell>
-              <Table.HeaderCell>Is found</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -38,14 +37,13 @@ export class MLPTable extends React.Component {
                   <Table.Cell>
                     {obj.SearchEndDateTime ? obj.SearchEndDateTime : `Not found`}
                   </Table.Cell>
-                  <Table.Cell>{obj.Status ? `Found` : `Not found`}</Table.Cell>
                 </Table.Row>
               ))}
           </Table.Body>
 
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan="4">
+              <Table.HeaderCell colSpan="3">
                 <Pagination
                   activePage={activePage}
                   firstItem={null}

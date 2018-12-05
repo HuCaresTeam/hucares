@@ -2,23 +2,13 @@ import React from 'react';
 import { Pagination, Table } from 'semantic-ui-react';
 import styles from './DLPTable.scss';
 import dlpMock from '../../mocks/dlp';
-
-const chunkArray = (array, size) => {
-  if (!array) return [];
-  if (!array.length) return [];
-
-  const newArray = [...array];
-  const sets = Math.ceil(newArray.length / size);
-  const setsArray = Array.from(Array(sets));
-
-  return setsArray.map(() => newArray.splice(0, size));
-};
+import { chunkArray } from '../../utils/Array';
 
 export class DLPTable extends React.Component {
-  state = { activePage: 0 };
+  state = { activePage: 1 };
 
   getPaginatedData() {
-    return chunkArray(dlpMock, 2);
+    return chunkArray(dlpMock, 15);
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });

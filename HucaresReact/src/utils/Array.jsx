@@ -1,4 +1,4 @@
-const chunkArray = (array, size) => {
+export function chunkArray(array, size) {
   if (!array) return [];
   if (!array.length) return [];
 
@@ -7,4 +7,4 @@ const chunkArray = (array, size) => {
   const setsArray = Array.from(Array(sets));
 
   return setsArray.map(() => newArray.splice(0, size));
-};
+}

@@ -2,16 +2,18 @@ import React from 'react';
 import { Pagination } from 'semantic-ui-react';
 
 export default class PaginationContainer extends React.Component {
+  // TODO Move Pagination logic from components here
+
   render() {
     return (
       <Pagination
-        defaultActivePage={1}
+        activePage={this.activePage}
         firstItem={null}
         lastItem={null}
         pointing
         secondary
-        totalPages={3}
-        onPageChange={() => this.props.changePage(2)}
+        totalPages={this.props.totalPages}
+        onPageChange={console.log('lol')}
       />
     );
   }

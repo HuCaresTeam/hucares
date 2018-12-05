@@ -2,24 +2,27 @@
   {
     "Id": 6,
     "HostUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_016.jpg",
-    "Latitude": 53.0,
-    "Longitude": 27.0,
+    "Name": "Naugarduko g. ir Ukmergės g. sankryža",
+    "Latitude": 54.7290529,
+    "Longitude": 25.2678262,
     "IsTrustedSource": true,
     "IsActive": true
   },
   {
     "Id": 7,
     "HostUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_017.jpg",
-    "Latitude": 53.0,
-    "Longitude": 27.0,
+    "Name": "Geležinio vilko g. ir Ukmergės g. sankryža",
+    "Latitude": 54.67561165,
+    "Longitude": 25.27415893805812,
     "IsTrustedSource": true,
     "IsActive": true
   },
   {
     "Id": 8,
     "HostUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_018.jpg",
-    "Latitude": 53.0,
-    "Longitude": 27.0,
+    "Name": "Panerių g. ir Minsko pl. sankryža",
+    "Latitude": 54.6737947,
+    "Longitude": 25.236609199928168,
     "IsTrustedSource": true,
     "IsActive": true
   }

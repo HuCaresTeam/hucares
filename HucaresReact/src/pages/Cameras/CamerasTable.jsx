@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination, Table } from 'semantic-ui-react';
+import { Pagination, Table, Button } from 'semantic-ui-react';
 import styles from './CamerasTable.scss';
 import cameraMock from '../../mocks/camera';
 import { chunkArray } from '../../utils/Array';
@@ -33,7 +33,11 @@ export class CamerasTable extends React.Component {
               !!data[activePage - 1] &&
               data[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
-                  <Table.Cell>{obj.HostUrl}</Table.Cell>
+                  <Table.Cell>
+                    <div>
+                      <Button positive>Click here to view camera</Button>
+                    </div>
+                  </Table.Cell>
                   <Table.Cell>{obj.Latitude}</Table.Cell>
                   <Table.Cell>{obj.Longitude}</Table.Cell>
                   <Table.Cell>{obj.IsTrustedSource ? `Trusted` : `Not trusted`}</Table.Cell>

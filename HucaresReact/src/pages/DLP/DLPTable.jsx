@@ -36,7 +36,7 @@ export class DLPTable extends React.Component {
                   <Table.Cell>{obj.PlateNumber}</Table.Cell>
                   <Table.Cell>{obj.DetectedDateTime}</Table.Cell>
                   <Table.Cell>{obj.ImgUrl}</Table.Cell>
-                  <Table.Cell>{obj.Confidence}</Table.Cell>
+                  <Table.Cell>{obj.Confidence.toFixed(2)}</Table.Cell>
                 </Table.Row>
               ))}
           </Table.Body>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { InfoWindow, Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Image, Icon } from 'semantic-ui-react';
 
 export class MapContainer extends React.Component {
   state = {
@@ -8,16 +9,17 @@ export class MapContainer extends React.Component {
     selectedPlace: {},
   };
 
+  // TODO move to JSON
   markers = [
     {
-      name: 'Gelezinio vilko ir Ukmerges sankriza.',
-      url: "https://map.sviesoforai.lt/camera/api/camera/Camera_016.jpg",
+      name: 'Geležinio Vilko ir Ukmergės g. sankryža',
+      url: 'https://map.sviesoforai.lt/camera/api/camera/Camera_016.jpg',
       position: { lat: 54.67100196, lng: 25.22392273 },
       isTrusted: true,
     },
     {
-      name: 'Ukmerges ir Naugarduko sankriza.',
-      url: "https://map.sviesoforai.lt/camera/api/camera/Camera_017.jpg",
+      name: 'Ukmergės g. ir Naugarduko g. sankryža',
+      url: 'https://map.sviesoforai.lt/camera/api/camera/Camera_017.jpg',
       position: { lat: 54.33100196, lng: 25.33392273 },
       isTrusted: true,
     },
@@ -49,8 +51,8 @@ export class MapContainer extends React.Component {
         initialCenter={{
           lat: 54.7000898,
           lng: 25.1125082,
-        }}>
-
+        }}
+      >
         {this.markers.map(obj => (
           <Marker
             key={obj.url}
@@ -63,12 +65,13 @@ export class MapContainer extends React.Component {
 
         <InfoWindow marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
           <div>
-            {/*<h4>{this.state.selectedPlace.name}</h4>*/}
-            <h4><a href={this.state.selectedPlace.url}>{this.state.selectedPlace.url}</a></h4>
-            <h6>{this.state.selectedPlace.isTrusted ? "Trusted source" : "Not a trusted source"}</h6>
+            <Image src={this.state.selectedPlace.url} size="large" /> <br />
+            <Icon name="share" size="large" />
+            {this.state.selectedPlace.isTrusted ? 'Trusted source' : 'Not a trusted source'} <br />
+            <Icon name="compass outline" size="large" />
+            <b>Location name:</b> {this.state.selectedPlace.name}
           </div>
         </InfoWindow>
-
       </Map>
     );
   }

@@ -7,7 +7,7 @@ namespace HucaresServer.Storage.Helpers
 {
     public class DetectedPlateHelper : IDetectedPlateHelper
     {
-        
+
         private IDbContextFactory _dbContextFactory;
         private IMissingPlateHelper _missingPlateHelper;
 
@@ -16,9 +16,9 @@ namespace HucaresServer.Storage.Helpers
             _dbContextFactory = dbContextFactory ?? new DbContextFactory();
             _missingPlateHelper = missingPlateHelper ?? new MissingPlateHelper(dbContextFactory);
         }
-        
+
         ///<inheritdoc/>
-        public DetectedLicensePlate InsertNewDetectedPlate(string plateNumber, DateTime detectedDateTime, int camId, 
+        public DetectedLicensePlate InsertNewDetectedPlate(string plateNumber, DateTime detectedDateTime, int camId,
             string imgUrl, double confidence)
         {
             if (confidence < 0 || confidence > 100)
@@ -26,7 +26,7 @@ namespace HucaresServer.Storage.Helpers
                 // It seems like I can't edit resource file on Rider
                 throw new ArgumentException(string.Format($"The confidence parameter must be between 0 and 100, is: {confidence}"));
             }
-            
+
             var detectedPlateToInsert = new DetectedLicensePlate()
             {
                 PlateNumber = plateNumber,
@@ -35,14 +35,14 @@ namespace HucaresServer.Storage.Helpers
                 ImgUrl = imgUrl,
                 Confidence = confidence
             };
-            
+
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 ctx.DetectedLicensePlates.Add(detectedPlateToInsert);
                 ctx.SaveChanges();
             }
 
-            return detectedPlateToInsert;    
+            return detectedPlateToInsert;
         }
 
 
@@ -55,7 +55,7 @@ namespace HucaresServer.Storage.Helpers
 
             var missingPlates = _missingPlateHelper.GetAllPlateRecords()
                 .Select(s => s.PlateNumber);
-            
+
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 var platesToDelete = ctx.DetectedLicensePlates.Where(s => s.DetectedDateTime < olderThanDatetime &&
@@ -66,14 +66,14 @@ namespace HucaresServer.Storage.Helpers
                 return platesToDelete;
             }
         }
-        
+
         ///<inheritdoc/>
         public IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates()
         {
 
             var missingPlateNumbers = _missingPlateHelper.GetAllPlateRecords()
                 .Select(s => s.PlateNumber);
-            
+
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 var results = ctx.DetectedLicensePlates
@@ -88,9 +88,9 @@ namespace HucaresServer.Storage.Helpers
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
             var missingPlateInfo = _missingPlateHelper.GetPlateRecordByPlateNumber(plateNumber)
-                .FirstOrDefault(delegate(MissingLicensePlate plate)
+                .FirstOrDefault(delegate (MissingLicensePlate plate)
                 {
-                    return plate.Status == LicensePlateFoundStatus.Searching; 
+                    return plate.Status == LicensePlateFoundStatus.Searching;
                 });
 
             if (missingPlateInfo == null)
@@ -99,7 +99,7 @@ namespace HucaresServer.Storage.Helpers
             }
 
             var searchStartDateTime = startDateTime ?? missingPlateInfo.SearchStartDateTime;
-            
+
             if (searchStartDateTime < missingPlateInfo.SearchStartDateTime)
             {
                 searchStartDateTime = missingPlateInfo.SearchStartDateTime;
@@ -121,7 +121,7 @@ namespace HucaresServer.Storage.Helpers
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 var results = ctx.DetectedLicensePlates
-                     .Where(s => s.PlateNumber == missingPlateInfo.PlateNumber 
+                     .Where(s => s.PlateNumber == missingPlateInfo.PlateNumber
                                  && s.DetectedDateTime >= searchStartDateTime);
 
                 if (searchEndDateTime != null)
@@ -131,7 +131,7 @@ namespace HucaresServer.Storage.Helpers
 
                 return results.ToList();
             }
-            
+
         }
 
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByCamera(int cameraId,
@@ -157,6 +157,17 @@ namespace HucaresServer.Storage.Helpers
                 {
                     results = results.Where(s => s.DetectedDateTime <= endDateTime);
                 }
+
+                return results.ToList();
+            }
+        }
+
+        public IEnumerable<DetectedLicensePlate> GetDetectedPlatesByImgUrl(string imgUrl)
+        {
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var results = ctx.DetectedLicensePlates
+                    .Where(s => s.ImgUrl == imgUrl);
 
                 return results.ToList();
             }

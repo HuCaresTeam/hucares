@@ -10,12 +10,14 @@ export class MapContainer extends React.Component {
 
   markers = [
     {
-      name: 'Gelezinio vilko ir Ukmerges sankryza.',
+      name: 'Gelezinio vilko ir Ukmerges sankriza.',
+      url: "https://map.sviesoforai.lt/camera/api/camera/Camera_016.jpg",
       position: { lat: 54.67100196, lng: 25.22392273 },
       isTrusted: true,
     },
     {
-      name: 'Ukmerges ir Naugarduko sankryza.',
+      name: 'Ukmerges ir Naugarduko sankriza.',
+      url: "https://map.sviesoforai.lt/camera/api/camera/Camera_017.jpg",
       position: { lat: 54.33100196, lng: 25.33392273 },
       isTrusted: true,
     },
@@ -47,12 +49,13 @@ export class MapContainer extends React.Component {
         initialCenter={{
           lat: 54.7000898,
           lng: 25.1125082,
-        }}
-      >
+        }}>
+
         {this.markers.map(obj => (
           <Marker
-            key={obj.name}
+            key={obj.url}
             name={obj.name}
+            url={obj.url}
             position={obj.position}
             onClick={this.onMarkerClick}
           />
@@ -60,8 +63,9 @@ export class MapContainer extends React.Component {
 
         <InfoWindow marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
           <div>
-            <h1>{this.state.selectedPlace.name}</h1>
-            <h1>{this.state.selectedPlace.isTrusted}</h1>
+            {/*<h4>{this.state.selectedPlace.name}</h4>*/}
+            <h4><a href={this.state.selectedPlace.url}>{this.state.selectedPlace.url}</a></h4>
+            <h6>{this.state.selectedPlace.isTrusted ? "Trusted source" : "Not a trusted source"}</h6>
           </div>
         </InfoWindow>
 

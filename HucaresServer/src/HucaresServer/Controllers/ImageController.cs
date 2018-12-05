@@ -28,7 +28,7 @@ namespace HucaresServer.Controllers
 
             //TODO: Add regex check for ../
 
-            var fileLocation = Path.Combine(folderLocation, fileName);
+            var fileLocation = Path.Combine(folderLocation, fileName) + ".jpg";
 
             using (Image image = Image.FromFile(fileLocation))
             {

@@ -25,6 +25,7 @@ namespace HucaresServer.TimedProcess
             _dlpHelper =  new DetectedPlateHelper();
             _fileNamer = new ImageFileNamer();
             _imageManipulator = new LocalImageManipulator(_fileNamer);
+            _locationToUrl = new LocationToUrlConverter();
         }
 
         public DlpCollectionProcess(ICameraImageDownloading cameraImageDownloading = null, 

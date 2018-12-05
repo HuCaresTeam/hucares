@@ -8,7 +8,7 @@ export class CamerasTable extends React.Component {
   state = { activePage: 1 };
 
   getPaginatedData() {
-    return chunkArray(cameraMock, 15);
+    return chunkArray(cameraMock, 13);
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });

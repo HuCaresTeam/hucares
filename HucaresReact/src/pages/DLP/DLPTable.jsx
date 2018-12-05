@@ -8,7 +8,7 @@ export class DLPTable extends React.Component {
   state = { activePage: 1 };
 
   getPaginatedData() {
-    return chunkArray(dlpMock, 15);
+    return chunkArray(dlpMock, 13);
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });

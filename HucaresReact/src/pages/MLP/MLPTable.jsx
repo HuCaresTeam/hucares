@@ -8,7 +8,7 @@ export class MLPTable extends React.Component {
   state = { activePage: 1 };
 
   getPaginatedData() {
-    return chunkArray(mlpMock, 15);
+    return chunkArray(mlpMock, 13);
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });

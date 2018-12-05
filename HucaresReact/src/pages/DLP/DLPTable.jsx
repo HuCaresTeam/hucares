@@ -1,11 +1,32 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
-import Pagination from '../../components/Pagination/Pagination';
+import { Pagination, Table } from 'semantic-ui-react';
 import styles from './DLPTable.scss';
 import dlpMock from '../../mocks/dlp';
 
+const chunkArray = (array, size) => {
+  if (!array) return [];
+  if (!array.length) return [];
+
+  const newArray = [...array];
+  const sets = Math.ceil(newArray.length / size);
+  const setsArray = Array.from(Array(sets));
+
+  return setsArray.map(() => newArray.splice(0, size));
+};
+
 export class DLPTable extends React.Component {
+  state = { activePage: 0 };
+
+  getPaginatedData() {
+    return chunkArray(dlpMock, 2);
+  }
+
+  handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
+
   render() {
+    const { activePage } = this.state;
+    const data = this.getPaginatedData();
+
     return (
       <div className={styles.dlpTable}>
         <Table celled padded>
@@ -18,23 +39,27 @@ export class DLPTable extends React.Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {dlpMock.map(obj => (
-              <Table.Row key={obj.Id}>
-                <Table.Cell>{obj.PlateNumber}</Table.Cell>
-                <Table.Cell>{obj.DetectedDateTime}</Table.Cell>
-                <Table.Cell>{obj.ImgUrl}</Table.Cell>
-                <Table.Cell>{obj.Confidence}</Table.Cell>
-              </Table.Row>
-            ))}
+            {!!data &&
+              !!data[activePage - 1] &&
+              data[activePage - 1].map(obj => (
+                <Table.Row key={obj.Id}>
+                  <Table.Cell>{obj.PlateNumber}</Table.Cell>
+                  <Table.Cell>{obj.DetectedDateTime}</Table.Cell>
+                  <Table.Cell>{obj.ImgUrl}</Table.Cell>
+                  <Table.Cell>{obj.Confidence}</Table.Cell>
+                </Table.Row>
+              ))}
           </Table.Body>
 
-          <Table.Footer>
-            <Table.Row>
-              <Table.HeaderCell colSpan="4">
-                <Pagination />
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
+          <Pagination
+            activePage={activePage}
+            firstItem={null}
+            lastItem={null}
+            pointing
+            secondary
+            totalPages={data.length}
+            onPageChange={this.handlePaginationChange}
+          />
         </Table>
       </div>
     );

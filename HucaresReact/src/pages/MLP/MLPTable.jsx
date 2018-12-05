@@ -2,7 +2,6 @@ import React from 'react';
 import { Table } from 'semantic-ui-react';
 import styles from './MLPTable.scss';
 import mlpMock from '../../mocks/mlp';
-import PaginationContainer from '../../components/Pagination/Pagination';
 
 export class MLPTable extends React.Component {
   render() {
@@ -33,7 +32,6 @@ export class MLPTable extends React.Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="4">
-                <PaginationContainer />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

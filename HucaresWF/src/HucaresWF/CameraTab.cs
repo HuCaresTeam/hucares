@@ -29,7 +29,15 @@ namespace HucaresWF
                 IsTrustedSource = isTrustedBox.Checked
             };
 
-            await cameraClient.InsertCamera(camObj);
+            try
+            {
+                await cameraClient.InsertCamera(camObj);
+            }
+            catch (Exception ex)
+            {
+                var eventArgs = new ExceptionEventArgs { ExceptionMessage = ex.Message};
+                ExceptionEventHandler?.Invoke(this, eventArgs);
+            }
             await UpdateCameraDataSource();
         }
     }

@@ -65,7 +65,8 @@ namespace HucaresServer.Storage.Helpers
                                      throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, plateId));
 
                 if (ctx.MissingLicensePlates.Any(m => m.PlateNumber == plateNumber &&
-                    m.Status == LicensePlateFoundStatus.Searching))
+                    m.Status == LicensePlateFoundStatus.Searching &&
+                    m.Id != plateId))
                 {
                     throw new Exception(Resources.Error_MissingPlateExists);
                 }

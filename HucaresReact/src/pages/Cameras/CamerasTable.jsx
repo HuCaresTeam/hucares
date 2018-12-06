@@ -6,6 +6,8 @@ import cameraMock from '../../mocks/camera';
 import 'semantic-ui-css/semantic.min.css';
 import { CameraImageModal } from '../../components/Modal/CameraModal';
 import { chunkArray } from '../../utils/Array';
+import { CameraDeleteModal } from '../../components/Modal/DataHelpers/CameraHelper/CameraDeleteModal';
+import { CameraDataChangeModal } from '../../components/Modal/DataHelpers/CameraHelper/CameraDataChangeModal';
 
 export class CamerasTable extends React.Component {
   state = { activePage: 1 };
@@ -29,6 +31,7 @@ export class CamerasTable extends React.Component {
               <Table.HeaderCell>Latitude</Table.HeaderCell>
               <Table.HeaderCell>Longitude</Table.HeaderCell>
               <Table.HeaderCell>Is trusted source</Table.HeaderCell>
+              <Table.HeaderCell>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -42,13 +45,17 @@ export class CamerasTable extends React.Component {
                   <Table.Cell>{obj.Latitude}</Table.Cell>
                   <Table.Cell>{obj.Longitude}</Table.Cell>
                   <Table.Cell>{obj.IsTrustedSource ? `Trusted` : `Not trusted`}</Table.Cell>
+                  <Table.Cell>
+                    <CameraDataChangeModal data={obj} />
+                    <CameraDeleteModal />
+                  </Table.Cell>
                 </Table.Row>
               ))}
           </Table.Body>
 
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan="4">
+              <Table.HeaderCell colSpan="5">
                 <PaginationContainer
                   activePage={activePage}
                   totalPages={data.length}

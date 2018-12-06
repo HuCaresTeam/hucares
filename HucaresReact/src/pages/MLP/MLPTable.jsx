@@ -4,12 +4,14 @@ import styles from './MLPTable.scss';
 import mlpMock from '../../mocks/mlp';
 import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
+import { MLPDeleteModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDeleteModal';
+import { MLPDataChangeModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDataChangeModal';
 
 export class MLPTable extends React.Component {
   state = { activePage: 1 };
 
   getPaginatedData() {
-    return chunkArray(mlpMock, 13);
+    return chunkArray(mlpMock, 10);
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
@@ -26,6 +28,7 @@ export class MLPTable extends React.Component {
               <Table.HeaderCell>License plate</Table.HeaderCell>
               <Table.HeaderCell>Search plate date</Table.HeaderCell>
               <Table.HeaderCell>Detected plate date</Table.HeaderCell>
+              <Table.HeaderCell>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -37,6 +40,10 @@ export class MLPTable extends React.Component {
                   <Table.Cell>{obj.SearchStartDateTime}</Table.Cell>
                   <Table.Cell>
                     {obj.SearchEndDateTime ? obj.SearchEndDateTime : `Not found`}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <MLPDataChangeModal data={obj} />
+                    <MLPDeleteModal />
                   </Table.Cell>
                 </Table.Row>
               ))}

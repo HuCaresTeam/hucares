@@ -1,8 +1,9 @@
 import React from 'react';
-import { Pagination, Table } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import styles from './MLPTable.scss';
 import mlpMock from '../../mocks/mlp';
 import { chunkArray } from '../../utils/Array';
+import PaginationContainer from '../../components/Pagination/Pagination';
 
 export class MLPTable extends React.Component {
   state = { activePage: 1 };
@@ -43,13 +44,9 @@ export class MLPTable extends React.Component {
 
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan="3">
-                <Pagination
+              <Table.HeaderCell colSpan="4">
+                <PaginationContainer
                   activePage={activePage}
-                  firstItem={null}
-                  lastItem={null}
-                  pointing
-                  secondary
                   totalPages={data.length}
                   onPageChange={this.handlePaginationChange}
                 />

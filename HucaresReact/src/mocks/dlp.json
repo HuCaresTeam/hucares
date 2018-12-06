@@ -4,7 +4,7 @@
     "PlateNumber": "DAE123",
     "DetectedDateTime": "2018-10-18T00:24:30.543431",
     "CamId": 1,
-    "ImgUrl": "http://someurl.com",
+    "ImgUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_018.jpg",
     "Confidence": 15
   },
   {
@@ -12,7 +12,7 @@
     "PlateNumber": "TST123",
     "DetectedDateTime": "2018-11-18T00:24:30.543431",
     "CamId": 3,
-    "ImgUrl": "http://another.com",
+    "ImgUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_014.jpg",
     "Confidence": 80
   },
   {
@@ -20,7 +20,7 @@
     "PlateNumber": "TVN180",
     "DetectedDateTime": "2018-11-25T21:10:52.9334338",
     "CamId": 6,
-    "ImgUrl": "D:\\uni\\images\\2018\\11\\25",
+    "ImgUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_013.jpg",
     "Confidence": 94.528861999511719
   },
   {
@@ -28,7 +28,7 @@
     "PlateNumber": "TVN180",
     "DetectedDateTime": "2018-11-28T23:20:01.0523858",
     "CamId": 6,
-    "ImgUrl": "D:\\uni\\images\\2018\\11\\28",
+    "ImgUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_020.jpg",
     "Confidence": 94.528861999511719
   },
   {
@@ -36,7 +36,7 @@
     "PlateNumber": "TVN180",
     "DetectedDateTime": "2018-11-28T23:36:46.7570709",
     "CamId": 6,
-    "ImgUrl": "D:\\uni\\images\\2018\\11\\28",
+    "ImgUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_021.jpg",
     "Confidence": 94.528861999511719
   },
   {
@@ -44,7 +44,7 @@
     "PlateNumber": "TVN180",
     "DetectedDateTime": "2018-11-29T00:07:10.817035",
     "CamId": 6,
-    "ImgUrl": "D:\\uni\\images\\2018\\11\\29",
+    "ImgUrl": "https://map.sviesoforai.lt/camera/api/camera/Camera_016.jpg",
     "Confidence": 94.528861999511719
   }
 ]

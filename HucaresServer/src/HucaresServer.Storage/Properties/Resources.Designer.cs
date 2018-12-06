@@ -86,5 +86,14 @@ namespace HucaresServer.Storage.Properties {
                 return ResourceManager.GetString("Error_CannotDeleteCamera", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot add because missing license plate number is already recorded as being searched.
+        /// </summary>
+        internal static string Error_MissingPlateExists {
+            get {
+                return ResourceManager.GetString("Error_MissingPlateExists", resourceCulture);
+            }
+        }
     }
 }

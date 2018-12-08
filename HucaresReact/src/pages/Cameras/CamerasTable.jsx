@@ -100,8 +100,8 @@ export class CamerasTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                {/*<Button className="ui positive right floated button" content="Add camera" />*/}
                 <InfoEditingModal data={this.createModalInfo()}/>
+
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

@@ -1,14 +1,17 @@
 import React from 'react';
-import { Pagination, Table, Button } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
+import PaginationContainer from '../../components/Pagination/Pagination';
 import styles from './CamerasTable.scss';
 import cameraMock from '../../mocks/camera';
+import 'semantic-ui-css/semantic.min.css';
+import { CameraImageModal } from '../../components/Modal/CameraModal';
 import { chunkArray } from '../../utils/Array';
 
 export class CamerasTable extends React.Component {
   state = { activePage: 1 };
 
   getPaginatedData() {
-    return chunkArray(cameraMock, 13);
+    return chunkArray(cameraMock, 10);
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
@@ -34,9 +37,7 @@ export class CamerasTable extends React.Component {
               data[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
                   <Table.Cell>
-                    <div>
-                      <Button positive>Click here to view camera</Button>
-                    </div>
+                    <CameraImageModal imageUrl={obj.HostUrl} />
                   </Table.Cell>
                   <Table.Cell>{obj.Latitude}</Table.Cell>
                   <Table.Cell>{obj.Longitude}</Table.Cell>
@@ -48,12 +49,8 @@ export class CamerasTable extends React.Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="4">
-                <Pagination
+                <PaginationContainer
                   activePage={activePage}
-                  firstItem={null}
-                  lastItem={null}
-                  pointing
-                  secondary
                   totalPages={data.length}
                   onPageChange={this.handlePaginationChange}
                 />

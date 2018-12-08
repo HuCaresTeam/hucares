@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, Modal, Form, Checkbox } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
-import styles from '../../Modal.scss';
+import styles from './Modal.scss';
 
-export class MLPDataChangeModal extends React.Component {
+export class InfoEditingModal extends React.Component {
   constructor(props) {
     super(props);
     // console.log(props);

@@ -5,7 +5,7 @@ import mlpMock from '../../mocks/mlp';
 import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { MLPDeleteModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDeleteModal';
-import { MLPDataChangeModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDataChangeModal';
+import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
 
 export class MLPTable extends React.Component {
   state = { activePage: 1 };
@@ -13,6 +13,44 @@ export class MLPTable extends React.Component {
   getPaginatedData() {
     return chunkArray(mlpMock, 10);
   }
+
+  createModalInfo(infoToInsert) {
+      return {
+          triggerButtonText: "Update",
+          modalHeaderText: "Missing License Plate",
+          formFields: [
+              {
+                  id: 0,
+                  label: "Missing plate number",
+                  placeHolderText: "plate number",
+                  value: infoToInsert[0]
+              },
+              {
+                  id: 1,
+                  label: "Search Start Date",
+                  placeHolderText: "date",
+                  value: infoToInsert[1]
+              },
+              {
+                  id: 2,
+                  label: "Search End Date",
+                  placeHolderText: "date",
+                  value: infoToInsert[2]
+              },
+
+          ],
+          checkboxes: [
+              {
+                  id: 0,
+                  label: "This license plate has been found",
+                  value: !!infoToInsert[3]
+              }
+
+          ],
+          submitButtonText: "Submit",
+          cancelButtonText: "Cancel",
+      };
+  };
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
@@ -37,15 +75,17 @@ export class MLPTable extends React.Component {
             {!!data &&
               !!data[activePage - 1] &&
               data[activePage - 1].map(obj => (
+
                 <Table.Row key={obj.Id}>
                   <Table.Cell>{obj.PlateNumber}</Table.Cell>
                   <Table.Cell>{obj.SearchStartDateTime}</Table.Cell>
                   <Table.Cell>
                     {obj.SearchEndDateTime ? obj.SearchEndDateTime : `Not found`}
                   </Table.Cell>
+
                   <Table.Cell>
-                    <MLPDataChangeModal data={obj} />
-                    <MLPDeleteModal />
+                    <InfoEditingModal data={this.createModalInfo([obj.PlateNumber, obj.SearchStartDateTime, obj.SearchEndDateTime, obj.Status])} />
+                    <MLPDeleteModal/>
                   </Table.Cell>
                 </Table.Row>
               ))}

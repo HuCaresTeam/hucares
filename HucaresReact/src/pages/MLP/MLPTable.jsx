@@ -10,6 +10,25 @@ import { MLPDataChangeModal } from '../../components/Modal/DataHelpers/MLPHelper
 export class MLPTable extends React.Component {
   state = { activePage: 1 };
 
+  MLPDataChangeData = {
+      TriggerButtonText: "Update",
+      ModalHeaderText: "Missing License Plate",
+      FormFields: [
+          {
+              Id: 0,
+              Label: "Missing plate number",
+              PlaceHolderText: "plate number",
+              Value: {}
+          }
+      ],
+      Checkboxes: [],
+      SubmitButtonText: "Submit",
+      CancelButtonText: "Cancel",
+
+      ModalType: "MLPDataChange",
+      ModalData: {}
+    };
+
   getPaginatedData() {
     return chunkArray(mlpMock, 10);
   }
@@ -42,7 +61,8 @@ export class MLPTable extends React.Component {
                     {obj.SearchEndDateTime ? obj.SearchEndDateTime : `Not found`}
                   </Table.Cell>
                   <Table.Cell>
-                    <MLPDataChangeModal data={obj} />
+                      {this.MLPDataChangeData.FormFields[0].Value = obj.PlateNumber}
+                    <MLPDataChangeModal data={this.MLPDataChangeData} />
                     <MLPDeleteModal />
                   </Table.Cell>
                 </Table.Row>

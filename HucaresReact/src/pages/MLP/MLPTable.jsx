@@ -125,7 +125,7 @@ export class MLPTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                <InfoEditingModal data={this.createModalInfo([undefined, undefined, undefined, undefined])}/>
+                <InfoEditingModal data={this.createModalInfo()}/>
 
               </Table.HeaderCell>
             </Table.Row>

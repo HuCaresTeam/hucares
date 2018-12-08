@@ -53,7 +53,7 @@ namespace HucaresServer.DataAcquisition
         /// <param name="captureDateTime"> Required parameter for the datetime of when the picture was taken. If not
         /// specified the current datetime will be used.</param>
         /// <returns> Creates directory name based on capture date.</returns>
-        private string GenerateFolderLocationPath(DateTime captureDateTime)
+        public string GenerateFolderLocationPath(DateTime captureDateTime)
         {
             var year = captureDateTime.Year.ToString();
             var month = captureDateTime.Month.ToString();

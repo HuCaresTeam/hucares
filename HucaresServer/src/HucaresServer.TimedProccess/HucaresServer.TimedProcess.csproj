@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DlpCollectionProcess.cs" />
+    <Compile Include="ILocationToUrlConverter.cs" />
+    <Compile Include="LocationToUrlConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

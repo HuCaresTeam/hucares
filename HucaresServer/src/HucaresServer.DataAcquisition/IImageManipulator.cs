@@ -31,5 +31,7 @@ namespace HucaresServer.DataAcquisition
         /// Deletes all temp folder files
         /// </summary>
         void DeleteTempFiles();
+
+        string GenerateFolderLocationPath(DateTime captureDateTime);
     }
 }

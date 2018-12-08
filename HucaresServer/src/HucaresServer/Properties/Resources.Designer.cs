@@ -61,6 +61,15 @@ namespace HucaresServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This file cannot be accessed because the associated plate number does not exist in MLP..
+        /// </summary>
+        internal static string Error_FileAccessDenied {
+            get {
+                return ResourceManager.GetString("Error_FileAccessDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid plate number format.
         /// </summary>
         internal static string Error_PlateNumberFomatInvalid {

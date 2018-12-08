@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using HucaresServer.DataAcquisition;
 using HucaresServer.Storage.Helpers;
+using HucaresServer.TimedProccess;
 using NUnit.Framework;
 using OpenAlprApi.Model;
 using System;
@@ -19,6 +20,7 @@ namespace HucaresServer.TimedProcess.UnitTests
         private IDetectedPlateHelper _fakeDlpHelper;
         private IImageManipulator _fakeImageSaver;
         private IImageFileNamer _fakeFileNamer;
+        private ILocationToUrlConverter _fakeLocationUrlConverter;
 
         [SetUp]
         public void TestSetup()
@@ -28,6 +30,7 @@ namespace HucaresServer.TimedProcess.UnitTests
             _fakeDlpHelper = A.Fake<IDetectedPlateHelper>();
             _fakeImageSaver = A.Fake<IImageManipulator>();
             _fakeFileNamer = A.Fake<IImageFileNamer>();
+            _fakeLocationUrlConverter = A.Fake<ILocationToUrlConverter>();
         }
 
         [Test]
@@ -63,7 +66,11 @@ namespace HucaresServer.TimedProcess.UnitTests
                     .Select(pc => pc.Item2)
                     .ToArray());
 
-            var dlpProcess = new DlpCollectionProcess(_fakeCameraImageDownloading, _fakeOpenAlprWrapper, _fakeDlpHelper, _fakeFileNamer, _fakeImageSaver);
+            var expectedApiUrl = "someUrl";
+            A.CallTo(() => _fakeLocationUrlConverter.ConvertPathToUrl(A<string>.Ignored, A<DateTime>.Ignored))
+                .Returns(expectedApiUrl);
+
+            var dlpProcess = new DlpCollectionProcess(_fakeCameraImageDownloading, _fakeOpenAlprWrapper, _fakeDlpHelper, _fakeFileNamer, _fakeImageSaver, _fakeLocationUrlConverter);
 
             //Act
             await dlpProcess.StartProccess();
@@ -90,7 +97,7 @@ namespace HucaresServer.TimedProcess.UnitTests
                     A<string>.That.Matches(s => plates.Contains(s)),
                     A<DateTime>._,
                     camId,
-                    path,
+                    expectedApiUrl,
                     A<double>.That.Matches(d => confidences.Select(dec => decimal.ToDouble(dec ?? 0m)).Contains(d))
                 )).MustHaveHappened(alprResponses[i].Results.Count(), Times.Exactly);
             }

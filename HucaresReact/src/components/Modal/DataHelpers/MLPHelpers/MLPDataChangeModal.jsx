@@ -6,54 +6,39 @@ import styles from '../../Modal.scss';
 export class MLPDataChangeModal extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    // console.log(props);
     this.state = {
       // PlateNumber: props.data.PlateNumber,
       // SearchStartDateTime: props.data.SearchStartDateTime,
       // SearchEndDateTime: props.data.SearchEndDateTime,
       // Status: props.data.Status,
 
-        Forms: props.data.FormFields
+        forms: props.data.formFields,
+        checkboxes: props.data.checkboxes
     };
   }
 
   render() {
     return (
-      <Modal trigger={<Button primary>{this.props.data.TriggerButtonText}</Button>} className={styles.modalPosition}>
+      <Modal trigger={<Button primary>{this.props.data.triggerButtonText}</Button>} className={styles.modalPosition}>
         <Modal.Content>
           <Form>
 
-              {this.state.Forms.map(form => (
-                  <Form.Field key={form.Id}>
-                      <label>{form.Label}</label>
+              {this.state.forms.map(form => (
+                  <Form.Field key={form.id}>
+                      <label>{form.label}</label>
                       <input
-                          placeholder={form.Placeholder}
-                          value={form.Value}
+                          placeholder={form.placeholder}
+                          value={form.value}
                           onChange={edit => (
-                              this.state.Forms[form.Id].Value = edit.target.value,
+                              this.state.forms[form.id].value = edit.target.value,
                               this.forceUpdate())}/>
-                      {console.log(form.Value)}
+                      {console.log(form.value)}
                   </Form.Field>
                   ))}
 
-            {/*<Form.Field>*/}
-              {/*<label>Missing License Plate</label>*/}
-              {/*<input*/}
-                {/*placeholder="License plate"*/}
-                {/*value={this.state.PlateNumber}*/}
-                {/*onChange={e => this.setState({ PlateNumber: e.target.value })}*/}
-              {/*/>*/}
-            {/*</Form.Field>*/}
-            {/*<Form.Field>*/}
-              {/*<label>Search Start Date</label>*/}
-              {/*<input disabled value={this.state.SearchStartDateTime} />*/}
-            {/*</Form.Field>*/}
-            {/*<Form.Field>*/}
-              {/*<label>Search End Date</label>*/}
-              {/*<input disabled value={this.state.SearchEndDateTime} />*/}
-            {/*</Form.Field>*/}
-            {/*<Form.Field>*/}
-                {/**/}
+
+
               {/*<Checkbox*/}
                 {/*label="This license plate was found"*/}
                 {/*checked={this.state.Status}*/}
@@ -61,7 +46,7 @@ export class MLPDataChangeModal extends React.Component {
               {/*/>*/}
             {/*</Form.Field>*/}
 
-            <Button type="submit">{this.props.data.CancelButtonText}</Button>
+            <Button type="submit">{this.props.data.cancelButtonText}</Button>
 
           </Form>
         </Modal.Content>

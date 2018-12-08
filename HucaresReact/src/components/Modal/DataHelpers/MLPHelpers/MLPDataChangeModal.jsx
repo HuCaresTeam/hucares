@@ -29,11 +29,11 @@ export class MLPDataChangeModal extends React.Component {
             </Form.Field>
             <Form.Field>
               <label>Search Start Date</label>
-              <input readOnly value={this.state.SearchStartDateTime} />
+              <input disabled value={this.state.SearchStartDateTime} />
             </Form.Field>
             <Form.Field>
               <label>Search End Date</label>
-              <input readOnly value={this.state.SearchEndDateTime} />
+              <input disabled value={this.state.SearchEndDateTime} />
             </Form.Field>
             <Form.Field>
               <Checkbox

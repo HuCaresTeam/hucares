@@ -1,0 +1,138 @@
+[
+  {
+    "Id": 1,
+    "PlateNumber": "DAE123",
+    "SearchStartDateTime": "2018-10-18T00:23:30.543431",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 2,
+    "PlateNumber": "HIA123",
+    "SearchStartDateTime": "2018-10-18T00:40:52.6940205",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 3,
+    "PlateNumber": "DAR134",
+    "SearchStartDateTime": "2018-10-18T01:02:30.6599231",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 6,
+    "PlateNumber": "TST123",
+    "SearchStartDateTime": "2018-10-18T10:52:21.1210519",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 7,
+    "PlateNumber": "DAR123",
+    "SearchStartDateTime": "2018-10-18T10:54:25.8004157",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 8,
+    "PlateNumber": "RUD546",
+    "SearchStartDateTime": "2018-10-19T00:39:59.0497978",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 9,
+    "PlateNumber": "ARA123",
+    "SearchStartDateTime": "2018-10-20T23:15:13.3362132",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 10,
+    "PlateNumber": "TVN180",
+    "SearchStartDateTime": "2018-11-28T23:20:30.0710454",
+    "SearchEndDateTime": null,
+    "Status": 0
+  }
+,
+  {
+    "Id": 11,
+    "PlateNumber": "TZO587",
+    "SearchStartDateTime": "2018-10-18T10:54:25.8004157",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 12,
+    "PlateNumber": "PFF140",
+    "SearchStartDateTime": "2018-10-19T00:39:59.0497978",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 13,
+    "PlateNumber": "DDD101",
+    "SearchStartDateTime": "2018-10-20T23:15:13.3362132",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 14,
+    "PlateNumber": "QER102",
+    "SearchStartDateTime": "2018-11-28T23:20:30.0710454",
+    "SearchEndDateTime": null,
+    "Status": 0
+  }
+,
+  {
+    "Id": 15,
+    "PlateNumber": "POF100",
+    "SearchStartDateTime": "2018-10-19T00:39:59.0497978",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 16,
+    "PlateNumber": "ZDD901",
+    "SearchStartDateTime": "2018-10-20T23:15:13.3362132",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 17,
+    "PlateNumber": "ROE587",
+    "SearchStartDateTime": "2018-11-28T23:20:30.0710454",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 18,
+    "PlateNumber": "QER102",
+    "SearchStartDateTime": "2018-11-28T23:20:30.0710454",
+    "SearchEndDateTime": null,
+    "Status": 0
+  }
+,
+  {
+    "Id": 19,
+    "PlateNumber": "POF100",
+    "SearchStartDateTime": "2018-10-19T00:39:59.0497978",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 20,
+    "PlateNumber": "ZDD901",
+    "SearchStartDateTime": "2018-10-20T23:15:13.3362132",
+    "SearchEndDateTime": null,
+    "Status": 0
+  },
+  {
+    "Id": 21,
+    "PlateNumber": "ROE587",
+    "SearchStartDateTime": "2018-11-28T23:20:30.0710454",
+    "SearchEndDateTime": null,
+    "Status": 0
+  }
+]

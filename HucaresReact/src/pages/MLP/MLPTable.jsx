@@ -24,13 +24,26 @@ export class MLPTable extends React.Component {
                   label: "Missing plate number",
                   placeHolderText: "plate number",
                   value: infoToInsert[0]
-              }
+              },
+              {
+                  id: 1,
+                  label: "Search Start Date",
+                  placeHolderText: "date",
+                  value: infoToInsert[1]
+              },
+              {
+                  id: 2,
+                  label: "Search End Date",
+                  placeHolderText: "date",
+                  value: infoToInsert[2]
+              },
+
           ],
           checkboxes: [
               {
                   id: 0,
                   label: "This license plate has been found",
-                  value: infoToInsert[1]
+                  value: !!infoToInsert[3]
               }
 
           ],
@@ -70,7 +83,7 @@ export class MLPTable extends React.Component {
                   </Table.Cell>
 
                   <Table.Cell>
-                    <InfoEditingModal data={this.createModalInfo([obj.PlateNumber, obj.Status])} />
+                    <InfoEditingModal data={this.createModalInfo([obj.PlateNumber, obj.SearchStartDateTime, obj.SearchEndDateTime, obj.Status])} />
                     <MLPDeleteModal/>
                   </Table.Cell>
                 </Table.Row>

@@ -6,13 +6,7 @@ import styles from './Modal.scss';
 export class InfoEditingModal extends React.Component {
   constructor(props) {
     super(props);
-    // console.log(props);
     this.state = {
-      // PlateNumber: props.data.PlateNumber,
-      // SearchStartDateTime: props.data.SearchStartDateTime,
-      // SearchEndDateTime: props.data.SearchEndDateTime,
-      // Status: props.data.Status,
-
         forms: props.data.formFields,
         checkboxes: props.data.checkboxes
     };
@@ -43,7 +37,7 @@ export class InfoEditingModal extends React.Component {
                                     label={check.label}
                                     checked={check.value}
                                     onChange={edit => (
-                                        this.state.checkboxes[check.id].value = edit.target.value,
+                                        this.state.checkboxes[check.id].value = !this.state.checkboxes[check.id].value,
                                         this.forceUpdate())}/>
                       ))}
                   </Form.Field>

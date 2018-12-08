@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Button, Table } from 'semantic-ui-react';
 import styles from './MLPTable.scss';
 import mlpMock from '../../mocks/mlp';
 import { chunkArray } from '../../utils/Array';
@@ -61,7 +61,6 @@ export class MLPTable extends React.Component {
     return (
       <div className={styles.mlpTable}>
         <Table celled padded>
-
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>License plate</Table.HeaderCell>
@@ -94,19 +93,16 @@ export class MLPTable extends React.Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="4">
-
                 <PaginationContainer
                   activePage={activePage}
                   totalPages={data.length}
-                  onPageChange={this.handlePaginationChange}/>
+                  onPageChange={this.handlePaginationChange}
+                />
 
-                  <button className="ui positive right floated button" role='button'>
-                      <i aria-hidden='true'/> Add missing car
-                  </button>
+                <Button className="ui positive right floated button" content="Add missing car" />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
-
         </Table>
       </div>
     );

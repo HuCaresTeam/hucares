@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Button } from 'semantic-ui-react';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import styles from './CamerasTable.scss';
 import cameraMock from '../../mocks/camera';
@@ -56,20 +56,15 @@ export class CamerasTable extends React.Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="5">
-
                 <PaginationContainer
                   activePage={activePage}
                   totalPages={data.length}
-                  onPageChange={this.handlePaginationChange}/>
-
-                  <button className="ui positive right floated button" role='button'>
-                      <i aria-hidden='true'/> Add camera
-                  </button>
-
+                  onPageChange={this.handlePaginationChange}
+                />
+                <Button className="ui positive right floated button" content="Add camera" />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
-
         </Table>
       </div>
     );

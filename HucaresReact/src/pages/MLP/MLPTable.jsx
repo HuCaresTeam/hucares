@@ -21,7 +21,13 @@ export class MLPTable extends React.Component {
               value: {}
           }
       ],
-      checkboxes: [],
+      checkboxes: [
+          {
+              id: 0,
+              label: "This license plate has been found",
+              value: {}
+          }
+      ],
       submitButtonText: "Submit",
       cancelButtonText: "Cancel",
    };
@@ -59,6 +65,7 @@ export class MLPTable extends React.Component {
                   </Table.Cell>
                   <Table.Cell>
                       {this.MLPDataChangeData.formFields[0].value = obj.PlateNumber}
+                      {this.MLPDataChangeData.checkboxes[0].value = obj.Status}
                     <MLPDataChangeModal data={this.MLPDataChangeData} />
                     <MLPDeleteModal />
                   </Table.Cell>

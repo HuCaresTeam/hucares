@@ -33,18 +33,21 @@ export class MLPDataChangeModal extends React.Component {
                           onChange={edit => (
                               this.state.forms[form.id].value = edit.target.value,
                               this.forceUpdate())}/>
-                      {console.log(form.value)}
                   </Form.Field>
-                  ))}
+              ))}
 
-
-
-              {/*<Checkbox*/}
-                {/*label="This license plate was found"*/}
-                {/*checked={this.state.Status}*/}
-                {/*onChange={e => this.setState({ Status: e.target.value })}*/}
-              {/*/>*/}
-            {/*</Form.Field>*/}
+              {(this.state.checkboxes !== undefined || this.state.checkboxes.length != 0) && (
+                  <Form.Field>
+                      {this.state.checkboxes.map(check => (
+                          <Checkbox key={check.id}
+                                    label={check.label}
+                                    checked={check.value}
+                                    onChange={edit => (
+                                        this.state.checkboxes[check.id].value = edit.target.value,
+                                        this.forceUpdate())}/>
+                      ))}
+                  </Form.Field>
+              )}
 
             <Button type="submit">{this.props.data.cancelButtonText}</Button>
 

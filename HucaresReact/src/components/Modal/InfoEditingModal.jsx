@@ -14,7 +14,8 @@ export class InfoEditingModal extends React.Component {
 
   render() {
     return (
-      <Modal trigger={<Button primary>{this.props.data.triggerButtonText}</Button>} className={styles.modalPosition}>
+      <Modal trigger={<Button primary className={this.props.data.triggerButtonStyle}>{this.props.data.triggerButtonText}</Button>}
+             className={styles.modalPosition}>
         <Modal.Content>
           <Form>
 
@@ -43,7 +44,8 @@ export class InfoEditingModal extends React.Component {
                   </Form.Field>
               )}
 
-            <Button type="submit">{this.props.data.cancelButtonText}</Button>
+              <Button positive type="submit">{this.props.data.submitButtonText}</Button>
+              <Button type="cancel">{this.props.data.cancelButtonText}</Button>
 
           </Form>
         </Modal.Content>

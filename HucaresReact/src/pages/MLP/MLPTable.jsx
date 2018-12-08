@@ -14,9 +14,10 @@ export class MLPTable extends React.Component {
     return chunkArray(mlpMock, 10);
   }
 
-  createModalInfo(infoToInsert) {
+  editModalInfo(infoToInsert) {
       return {
           triggerButtonText: "Update",
+          triggerButtonStyle: "",
           modalHeaderText: "Missing License Plate",
           formFields: [
               {
@@ -52,6 +53,31 @@ export class MLPTable extends React.Component {
       };
   };
 
+    createModalInfo() {
+        return {
+            triggerButtonText: "Add missing car",
+            triggerButtonStyle: "ui positive right floated button",
+            modalHeaderText: "Missing License Plate",
+            formFields: [
+                {
+                    id: 0,
+                    label: "Missing plate number",
+                    placeHolderText: "plate number",
+                    value: undefined
+                },
+                {
+                    id: 1,
+                    label: "Search Start Date",
+                    placeHolderText: "date",
+                    value: undefined
+                }
+            ],
+            checkboxes: [],
+            submitButtonText: "Submit",
+            cancelButtonText: "Cancel",
+        };
+    };
+
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
   render() {
@@ -83,7 +109,7 @@ export class MLPTable extends React.Component {
                   </Table.Cell>
 
                   <Table.Cell>
-                    <InfoEditingModal data={this.createModalInfo([obj.PlateNumber, obj.SearchStartDateTime, obj.SearchEndDateTime, obj.Status])} />
+                    <InfoEditingModal data={this.editModalInfo([obj.PlateNumber, obj.SearchStartDateTime, obj.SearchEndDateTime, obj.Status])} />
                     <MLPDeleteModal/>
                   </Table.Cell>
                 </Table.Row>
@@ -99,7 +125,8 @@ export class MLPTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                <Button className="ui positive right floated button" content="Add missing car" />
+                <InfoEditingModal data={this.createModalInfo([undefined, undefined, undefined, undefined])}/>
+
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

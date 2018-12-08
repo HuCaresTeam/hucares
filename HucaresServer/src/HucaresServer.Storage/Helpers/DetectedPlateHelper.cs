@@ -7,7 +7,6 @@ namespace HucaresServer.Storage.Helpers
 {
     public class DetectedPlateHelper : IDetectedPlateHelper
     {
-
         private IDbContextFactory _dbContextFactory;
         private IMissingPlateHelper _missingPlateHelper;
 
@@ -26,7 +25,6 @@ namespace HucaresServer.Storage.Helpers
                 // It seems like I can't edit resource file on Rider
                 throw new ArgumentException(string.Format($"The confidence parameter must be between 0 and 100, is: {confidence}"));
             }
-
             var detectedPlateToInsert = new DetectedLicensePlate()
             {
                 PlateNumber = plateNumber,

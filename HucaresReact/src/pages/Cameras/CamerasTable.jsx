@@ -56,14 +56,20 @@ export class CamerasTable extends React.Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="5">
+
                 <PaginationContainer
                   activePage={activePage}
                   totalPages={data.length}
-                  onPageChange={this.handlePaginationChange}
-                />
+                  onPageChange={this.handlePaginationChange}/>
+
+                  <button className="ui positive right floated button" role='button'>
+                      <i aria-hidden='true'/> Add camera
+                  </button>
+
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
+
         </Table>
       </div>
     );

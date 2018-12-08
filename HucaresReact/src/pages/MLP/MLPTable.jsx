@@ -23,6 +23,7 @@ export class MLPTable extends React.Component {
     return (
       <div className={styles.mlpTable}>
         <Table celled padded>
+
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>License plate</Table.HeaderCell>
@@ -31,6 +32,7 @@ export class MLPTable extends React.Component {
               <Table.HeaderCell>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
+
           <Table.Body>
             {!!data &&
               !!data[activePage - 1] &&
@@ -52,14 +54,19 @@ export class MLPTable extends React.Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="4">
+
                 <PaginationContainer
                   activePage={activePage}
                   totalPages={data.length}
-                  onPageChange={this.handlePaginationChange}
-                />
+                  onPageChange={this.handlePaginationChange}/>
+
+                  <button className="ui positive right floated button" role='button'>
+                      <i aria-hidden='true'/> Add missing car
+                  </button>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
+
         </Table>
       </div>
     );

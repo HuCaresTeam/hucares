@@ -1,16 +1,36 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import axios from 'axios';
 import styles from './DLPTable.scss';
-import dlpMock from '../../mocks/dlp';
 import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { CameraImageModal } from '../../components/Modal/CameraModal';
 
+
+
 export class DLPTable extends React.Component {
-  state = { activePage: 1 };
+  state = { activePage: 1,
+            loading: true};
+
+  componentDidMount(){
+    axios.get("http://www.json-generator.com/api/json/get/clwGCDqzIi?indent=2")
+        .then(response => response.data)
+        .then(data => {
+            this.setState({
+                dlpData: data,
+                loading: false,
+            });
+        })
+        .catch(() => {
+            this.setState({
+                dlpData: false,
+                loading: false,
+            });
+        });
+  }
 
   getPaginatedData() {
-    return chunkArray(dlpMock, 10);
+    return chunkArray(this.state.dlpData, 10);
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
@@ -22,6 +42,7 @@ export class DLPTable extends React.Component {
     return (
       <div className={styles.dlpTable}>
         <Table celled padded>
+
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>License plate</Table.HeaderCell>
@@ -30,6 +51,7 @@ export class DLPTable extends React.Component {
               <Table.HeaderCell>Confidence %</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
+
           <Table.Body>
             {!!data &&
               !!data[activePage - 1] &&
@@ -44,6 +66,7 @@ export class DLPTable extends React.Component {
                 </Table.Row>
               ))}
           </Table.Body>
+
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="4">
@@ -55,6 +78,7 @@ export class DLPTable extends React.Component {
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
+
         </Table>
       </div>
     );

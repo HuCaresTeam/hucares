@@ -1,20 +1,15 @@
-﻿using HucaresServer.Storage;
-using HucaresServer.Storage.Models;
+﻿using HucaresServer.Storage.Models;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Web.Http;
 using HucaresServer.Storage.Helpers;
-using OpenAlprApi.Api;
-using OpenAlprApi.Model;
 using HucaresServer.DataAcquisition;
-using System.Threading.Tasks;
 using HucaresServer.TimedProccess;
 using System.Linq;
 using HucaresServer.Properties;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace HucaresServer.Controllers
 {
@@ -46,32 +41,15 @@ namespace HucaresServer.Controllers
 
             //TODO: Add regex check for ../
 
-            var fileLocation = Path.Combine(folderLocation, fileName) + ".jpg";
-
-            using (Image image = Image.FromFile(fileLocation))
+            var filePath = Path.Combine(folderLocation, fileName) + ".jpg";
+            var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                using (MemoryStream m = new MemoryStream())
-                {
-                    image.Save(m, image.RawFormat);
-                    byte[] imageBytes = m.ToArray();
+                Content = new StreamContent(File.OpenRead(filePath)),
+                StatusCode = HttpStatusCode.OK
+            };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
 
-                    // Convert byte[] to Base64 String
-                    string base64String = Convert.ToBase64String(imageBytes);
-
-                    return Json(new GetImageResponse(base64String));
-                }
-            }
-
+            return ResponseMessage(response);
         }
-    }
-
-    public class GetImageResponse
-    {
-        public GetImageResponse(string imageBase64)
-        {
-            ImageBase64 = imageBase64;
-        }
-
-        public string ImageBase64 { get; set; }
     }
 }

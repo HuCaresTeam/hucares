@@ -5,7 +5,7 @@ export default class PaginationContainer extends React.Component {
   render() {
     return (
       <Pagination
-        activePage={this.activePage}
+        activePage={this.props.activePage}
         firstItem={null}
         lastItem={null}
         pointing

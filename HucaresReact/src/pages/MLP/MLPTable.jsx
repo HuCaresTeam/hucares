@@ -1,17 +1,24 @@
 import React from 'react';
-import { Button, Table } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
+import axios from 'axios';
 import styles from './MLPTable.scss';
-import mlpMock from '../../mocks/mlp';
 import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { MLPDeleteModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDeleteModal';
 import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
 
 export class MLPTable extends React.Component {
-  state = { activePage: 1 };
+  state = {
+    activePage: 1,
+    data: [],
+  };
 
-  getPaginatedData() {
-    return chunkArray(mlpMock, 10);
+  //TODO change to HUCARES Server URL
+  componentDidMount() {
+    axios.get(`http://www.json-generator.com/api/json/get/cerMXtApki?indent=2`).then(res => {
+      const data = chunkArray(res.data, 10);
+      this.setState({ data });
+    });
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
@@ -80,7 +87,6 @@ export class MLPTable extends React.Component {
 
   render() {
     const { activePage } = this.state;
-    const data = this.getPaginatedData();
 
     return (
       <div className={styles.mlpTable}>
@@ -95,9 +101,9 @@ export class MLPTable extends React.Component {
           </Table.Header>
 
           <Table.Body>
-            {!!data &&
-              !!data[activePage - 1] &&
-              data[activePage - 1].map(obj => (
+            {!!this.state.data &&
+              !!this.state.data[activePage - 1] &&
+              this.state.data[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
                   <Table.Cell>{obj.PlateNumber}</Table.Cell>
                   <Table.Cell>{obj.SearchStartDateTime}</Table.Cell>
@@ -125,7 +131,7 @@ export class MLPTable extends React.Component {
               <Table.HeaderCell colSpan="4">
                 <PaginationContainer
                   activePage={activePage}
-                  totalPages={data.length}
+                  totalPages={this.state.data.length}
                   onPageChange={this.handlePaginationChange}
                 />
 

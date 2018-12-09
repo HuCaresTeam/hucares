@@ -13,12 +13,17 @@ export class MLPTable extends React.Component {
     data: [],
   };
 
-  //TODO change to HUCARES Server URL
+  // TODO change to HUCARES Server URL
   componentDidMount() {
-    axios.get(`http://www.json-generator.com/api/json/get/cerMXtApki?indent=2`).then(res => {
-      const data = chunkArray(res.data, 10);
-      this.setState({ data });
-    });
+    axios
+      .get(`http://www.json-generator.com/api/json/get/cerMXtApki?indent=2`)
+      .then(res => {
+        const data = chunkArray(res.data, 10);
+        this.setState({ data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
@@ -87,6 +92,7 @@ export class MLPTable extends React.Component {
 
   render() {
     const { activePage } = this.state;
+    const mlpData = this.state.data;
 
     return (
       <div className={styles.mlpTable}>
@@ -101,9 +107,9 @@ export class MLPTable extends React.Component {
           </Table.Header>
 
           <Table.Body>
-            {!!this.state.data &&
-              !!this.state.data[activePage - 1] &&
-              this.state.data[activePage - 1].map(obj => (
+            {!!mlpData &&
+              !!mlpData[activePage - 1] &&
+              mlpData[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
                   <Table.Cell>{obj.PlateNumber}</Table.Cell>
                   <Table.Cell>{obj.SearchStartDateTime}</Table.Cell>
@@ -131,7 +137,7 @@ export class MLPTable extends React.Component {
               <Table.HeaderCell colSpan="4">
                 <PaginationContainer
                   activePage={activePage}
-                  totalPages={this.state.data.length}
+                  totalPages={mlpData.length}
                   onPageChange={this.handlePaginationChange}
                 />
 

@@ -21,12 +21,17 @@ namespace HucaresServer.Storage.Helpers
             {
                 PlateNumber = plateNumber,
                 SearchStartDateTime = searchStartDatetime,
-                Status = LicensePlateFoundStatus.Searching
-               
+                Status = LicensePlateFoundStatus.Searching   
             };
 
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
+                if (ctx.MissingLicensePlates.Any(m => m.PlateNumber == plateNumber &&
+                     m.Status == LicensePlateFoundStatus.Searching))
+                {
+                    throw new Exception(Resources.Error_MissingPlateExists);
+                }
+
                 ctx.MissingLicensePlates.Add(missingPlateObj);
                 ctx.SaveChanges();
             }
@@ -58,6 +63,13 @@ namespace HucaresServer.Storage.Helpers
             {
                 var recordToUpdate = ctx.MissingLicensePlates.FirstOrDefault(c => c.Id == plateId) ?? 
                                      throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, plateId));
+
+                if (ctx.MissingLicensePlates.Any(m => m.PlateNumber == plateNumber &&
+                    m.Status == LicensePlateFoundStatus.Searching &&
+                    m.Id != plateId))
+                {
+                    throw new Exception(Resources.Error_MissingPlateExists);
+                }
 
                 recordToUpdate.PlateNumber = plateNumber;
                 recordToUpdate.SearchStartDateTime = searchStartDatetime;

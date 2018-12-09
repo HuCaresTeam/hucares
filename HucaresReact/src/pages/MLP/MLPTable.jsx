@@ -14,71 +14,69 @@ export class MLPTable extends React.Component {
     return chunkArray(mlpMock, 10);
   }
 
-  editModalInfo(infoToInsert) {
-      return {
-          triggerButtonText: "Update",
-          triggerButtonStyle: "",
-          modalHeaderText: "Missing License Plate",
-          formFields: [
-              {
-                  id: 0,
-                  label: "Missing plate number",
-                  placeHolderText: "plate number",
-                  value: infoToInsert[0]
-              },
-              {
-                  id: 1,
-                  label: "Search Start Date",
-                  placeHolderText: "date",
-                  value: infoToInsert[1]
-              },
-              {
-                  id: 2,
-                  label: "Search End Date",
-                  placeHolderText: "date",
-                  value: infoToInsert[2]
-              },
-
-          ],
-          checkboxes: [
-              {
-                  id: 0,
-                  label: "This license plate has been found",
-                  value: !!infoToInsert[3]
-              }
-
-          ],
-          submitButtonText: "Submit",
-          cancelButtonText: "Cancel",
-      };
-  };
-
-    createModalInfo() {
-        return {
-            triggerButtonText: "Add missing vehicle",
-            triggerButtonStyle: "ui positive right floated button",
-            modalHeaderText: "Missing License Plate",
-            formFields: [
-                {
-                    id: 0,
-                    label: "Missing plate number",
-                    placeHolderText: "plate number",
-                    value: undefined
-                },
-                {
-                    id: 1,
-                    label: "Search Start Date",
-                    placeHolderText: "date",
-                    value: undefined
-                }
-            ],
-            checkboxes: [],
-            submitButtonText: "Submit",
-            cancelButtonText: "Cancel",
-        };
-    };
-
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
+
+  editModalInfo(infoToInsert) {
+    return {
+      triggerButtonText: 'Update',
+      triggerButtonStyle: '',
+      modalHeaderText: 'Missing License Plate',
+      formFields: [
+        {
+          id: 0,
+          label: 'Missing plate number',
+          placeHolderText: 'plate number',
+          value: infoToInsert[0],
+        },
+        {
+          id: 1,
+          label: 'Search Start Date',
+          placeHolderText: 'date',
+          value: infoToInsert[1],
+        },
+        {
+          id: 2,
+          label: 'Search End Date',
+          placeHolderText: 'date',
+          value: infoToInsert[2],
+        },
+      ],
+      checkboxes: [
+        {
+          id: 0,
+          label: 'This license plate has been found',
+          value: !!infoToInsert[3],
+        },
+      ],
+      submitButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+    };
+  }
+
+  createModalInfo() {
+    return {
+      triggerButtonText: 'Add missing vehicle',
+      triggerButtonStyle: 'ui positive right floated button',
+      modalHeaderText: 'Missing License Plate',
+      formFields: [
+        {
+          id: 0,
+          label: 'Missing plate number',
+          placeHolderText: 'plate number',
+          value: undefined,
+        },
+        {
+          id: 1,
+          label: 'Search Start Date',
+          placeHolderText: 'date',
+          value: undefined,
+        },
+      ],
+      checkboxes: [],
+      submitButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+    };
+  }
 
   render() {
     const { activePage } = this.state;
@@ -100,7 +98,6 @@ export class MLPTable extends React.Component {
             {!!data &&
               !!data[activePage - 1] &&
               data[activePage - 1].map(obj => (
-
                 <Table.Row key={obj.Id}>
                   <Table.Cell>{obj.PlateNumber}</Table.Cell>
                   <Table.Cell>{obj.SearchStartDateTime}</Table.Cell>
@@ -109,8 +106,15 @@ export class MLPTable extends React.Component {
                   </Table.Cell>
 
                   <Table.Cell>
-                    <InfoEditingModal data={this.editModalInfo([obj.PlateNumber, obj.SearchStartDateTime, obj.SearchEndDateTime, obj.Status])} />
-                    <MLPDeleteModal/>
+                    <InfoEditingModal
+                      data={this.editModalInfo([
+                        obj.PlateNumber,
+                        obj.SearchStartDateTime,
+                        obj.SearchEndDateTime,
+                        obj.Status,
+                      ])}
+                    />
+                    <MLPDeleteModal />
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -125,8 +129,7 @@ export class MLPTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                <InfoEditingModal data={this.createModalInfo()}/>
-
+                <InfoEditingModal data={this.createModalInfo()} />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

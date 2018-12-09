@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import styles from './CamerasTable.scss';
 import cameraMock from '../../mocks/camera';
@@ -8,7 +8,7 @@ import { CameraImageModal } from '../../components/Modal/CameraModal';
 import { chunkArray } from '../../utils/Array';
 import { CameraDeleteModal } from '../../components/Modal/DataHelpers/CameraHelper/CameraDeleteModal';
 import { CameraDataChangeModal } from '../../components/Modal/DataHelpers/CameraHelper/CameraDataChangeModal';
-import {InfoEditingModal} from "../../components/Modal/InfoEditingModal";
+import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
 
 export class CamerasTable extends React.Component {
   state = { activePage: 1 };
@@ -19,42 +19,42 @@ export class CamerasTable extends React.Component {
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
-    createModalInfo() {
-        return {
-            triggerButtonText: "Add camera",
-            triggerButtonStyle: "ui positive right floated button",
-            modalHeaderText: "New camera",
-            formFields: [
-                {
-                    id: 0,
-                    label: "Camera Host URL",
-                    placeHolderText: "host url",
-                    value: undefined
-                },
-                {
-                    id: 1,
-                    label: "Latitude",
-                    placeHolderText: "latitude",
-                    value: undefined
-                },
-                {
-                    id: 2,
-                    label: "Latitude",
-                    placeHoldrText: "latitude",
-                    value: undefined
-                }
-            ],
-            checkboxes: [
-                {
-                    id: 0,
-                    label: "This license plate has been found",
-                    value: false
-                }
-            ],
-            submitButtonText: "Submit",
-            cancelButtonText: "Cancel",
-        };
+  createModalInfo() {
+    return {
+      triggerButtonText: 'Add camera',
+      triggerButtonStyle: 'ui positive right floated button',
+      modalHeaderText: 'New camera',
+      formFields: [
+        {
+          id: 0,
+          label: 'Camera Host URL',
+          placeHolderText: 'host url',
+          value: undefined,
+        },
+        {
+          id: 1,
+          label: 'Latitude',
+          placeHolderText: 'latitude',
+          value: undefined,
+        },
+        {
+          id: 2,
+          label: 'Latitude',
+          placeHoldrText: 'latitude',
+          value: undefined,
+        },
+      ],
+      checkboxes: [
+        {
+          id: 0,
+          label: 'This license plate has been found',
+          value: false,
+        },
+      ],
+      submitButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
     };
+  }
 
   render() {
     const { activePage } = this.state;
@@ -100,8 +100,7 @@ export class CamerasTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                <InfoEditingModal data={this.createModalInfo()}/>
-
+                <InfoEditingModal data={this.createModalInfo()} />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

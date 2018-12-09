@@ -16,10 +16,9 @@ export class CamerasTable extends React.Component {
     data: [],
   };
 
-  // TODO change to HUCARES Server URL
   componentDidMount() {
-    axios
-      .get(`http://www.json-generator.com/api/json/get/bVdkAblquW?indent=2`)
+      axios.get(process.env.HUCARES_API_BASE_URL + "/api/camera/all",
+          {headers: {'Access-Control-Allow-Origin': '*'}})
       .then(res => {
         const data = chunkArray(res.data, 10);
         this.setState({ data });

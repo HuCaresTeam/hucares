@@ -14,7 +14,8 @@ export class DLPTable extends React.Component {
             dlpData: []};
 
   componentDidMount(){
-    axios.get("http://www.json-generator.com/api/json/get/clwGCDqzIi?indent=2")
+      axios.get(process.env.HUCARES_API_BASE_URL + "/api/dlp/all",
+          {headers: {'Access-Control-Allow-Origin': '*'}})
         .then(response => response.data)
         .then(data => {
             const chunkData = chunkArray(data, 10);

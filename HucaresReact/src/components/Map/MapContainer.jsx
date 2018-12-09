@@ -13,7 +13,9 @@ export class MapContainer extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`http://www.json-generator.com/api/json/get/bUvQtBgGKW?indent=2`)
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/camera/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
       .then(res => {
         this.setState({ data: res.data });
       })

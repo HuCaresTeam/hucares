@@ -6,32 +6,28 @@ import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { CameraImageModal } from '../../components/Modal/CameraModal';
 
-
-
 export class DLPTable extends React.Component {
-  state = { activePage: 1,
-            loading: true,
-            dlpData: []};
+  state = { activePage: 1, dlpData: [] };
 
-  componentDidMount(){
-      axios.get(process.env.HUCARES_API_BASE_URL + "/api/dlp/all",
-          {headers: {'Access-Control-Allow-Origin': '*'}})
-        .then(response => response.data)
-        .then(data => {
-            const chunkData = chunkArray(data, 10);
-            this.setState({
-                dlpData: chunkData,
-                loading: false,
-            });
-        })
-        .catch((error) => {
-            console.log("Error in getting DLP records.");
-
-            this.setState({
-                dlpData: [],
-                loading: false,
-            });
+  componentDidMount() {
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/dlp/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(response => response.data)
+      .then(data => {
+        const chunkData = chunkArray(data, 10);
+        this.setState({
+          dlpData: chunkData,
         });
+      })
+      .catch(error => {
+        console.log('Error in getting DLP records.');
+
+        this.setState({
+          dlpData: [],
+        });
+      });
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
@@ -43,7 +39,6 @@ export class DLPTable extends React.Component {
     return (
       <div className={styles.dlpTable}>
         <Table celled padded>
-
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>License plate</Table.HeaderCell>
@@ -79,7 +74,6 @@ export class DLPTable extends React.Component {
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
-
         </Table>
       </div>
     );

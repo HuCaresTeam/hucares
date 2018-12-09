@@ -14,8 +14,10 @@ export class MLPTable extends React.Component {
   };
 
   componentDidMount() {
-      axios.get(process.env.HUCARES_API_BASE_URL + "/api/mlp/all",
-          {headers: {'Access-Control-Allow-Origin': '*'}})
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/mlp/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
       .then(res => {
         const data = chunkArray(res.data, 10);
         this.setState({ data });

@@ -1,27 +1,48 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import axios from 'axios';
 import styles from './DLPTable.scss';
-import dlpMock from '../../mocks/dlp';
 import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { CameraImageModal } from '../../components/Modal/CameraModal';
 
-export class DLPTable extends React.Component {
-  state = { activePage: 1 };
 
-  getPaginatedData() {
-    return chunkArray(dlpMock, 10);
+
+export class DLPTable extends React.Component {
+  state = { activePage: 1,
+            loading: true,
+            dlpData: []};
+
+  componentDidMount(){
+    axios.get("http://www.json-generator.com/api/json/get/clwGCDqzIi?indent=2")
+        .then(response => response.data)
+        .then(data => {
+            const chunkData = chunkArray(data, 10);
+            this.setState({
+                dlpData: chunkData,
+                loading: false,
+            });
+        })
+        .catch((error) => {
+            console.log("Error in getting DLP records.");
+
+            this.setState({
+                dlpData: [],
+                loading: false,
+            });
+        });
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
   render() {
     const { activePage } = this.state;
-    const data = this.getPaginatedData();
+    const data = this.state.dlpData;
 
     return (
       <div className={styles.dlpTable}>
         <Table celled padded>
+
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>License plate</Table.HeaderCell>
@@ -30,6 +51,7 @@ export class DLPTable extends React.Component {
               <Table.HeaderCell>Confidence %</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
+
           <Table.Body>
             {!!data &&
               !!data[activePage - 1] &&
@@ -44,6 +66,7 @@ export class DLPTable extends React.Component {
                 </Table.Row>
               ))}
           </Table.Body>
+
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="4">
@@ -55,6 +78,7 @@ export class DLPTable extends React.Component {
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
+
         </Table>
       </div>
     );

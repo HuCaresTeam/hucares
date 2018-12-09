@@ -128,6 +128,9 @@ namespace HucaresServer.Storage.Helpers
 
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
+                if (ctx.CameraInfo.Any(c => c.HostUrl == hostUrl))
+                    throw new Exception("Cannot insert camera with same host url");
+
                 ctx.CameraInfo.Add(camInfoObj);
                 ctx.SaveChanges();
             }
@@ -174,6 +177,9 @@ namespace HucaresServer.Storage.Helpers
             {
                 var recordToUpdate = ctx.CameraInfo.Where(c => c.Id == id).FirstOrDefault() ??
                     throw new ArgumentException(string.Format(Resources.Error_BadIdProvided, id));
+
+                if (ctx.CameraInfo.Any(c => c.HostUrl == newHostUrl && c.Id != id))
+                    throw new Exception("Cannot update camera to host url if it already exists");
 
                 recordToUpdate.HostUrl = newHostUrl;
                 recordToUpdate.IsTrustedSource = newIsTrustedSource;

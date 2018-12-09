@@ -17,7 +17,7 @@ namespace HucaresServer.Storage.UnitTests
         {
             //Arrange
             var fakeIQueryable = new List<MissingLicensePlate>().AsQueryable();
-            var fakeDbSet = A.Fake<DbSet<MissingLicensePlate>>();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
 
             var fakeHucaresContext = A.Fake<HucaresContext>();
             A.CallTo(() => fakeHucaresContext.MissingLicensePlates)

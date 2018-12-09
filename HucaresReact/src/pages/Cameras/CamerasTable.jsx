@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import axios from 'axios';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import styles from './CamerasTable.scss';
-import cameraMock from '../../mocks/camera';
 import 'semantic-ui-css/semantic.min.css';
 import { CameraImageModal } from '../../components/Modal/CameraModal';
 import { chunkArray } from '../../utils/Array';
@@ -11,10 +11,22 @@ import { CameraDataChangeModal } from '../../components/Modal/DataHelpers/Camera
 import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
 
 export class CamerasTable extends React.Component {
-  state = { activePage: 1 };
+  state = {
+    activePage: 1,
+    data: [],
+  };
 
-  getPaginatedData() {
-    return chunkArray(cameraMock, 10);
+  // TODO change to HUCARES Server URL
+  componentDidMount() {
+    axios
+      .get(`http://www.json-generator.com/api/json/get/bVdkAblquW?indent=2`)
+      .then(res => {
+        const data = chunkArray(res.data, 10);
+        this.setState({ data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
@@ -58,7 +70,7 @@ export class CamerasTable extends React.Component {
 
   render() {
     const { activePage } = this.state;
-    const data = this.getPaginatedData();
+    const cameraData = this.state.data;
 
     return (
       <div className={styles.camerasTable}>
@@ -73,9 +85,9 @@ export class CamerasTable extends React.Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {!!data &&
-              !!data[activePage - 1] &&
-              data[activePage - 1].map(obj => (
+            {!!cameraData &&
+              !!cameraData[activePage - 1] &&
+              cameraData[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
                   <Table.Cell>
                     <CameraImageModal imageUrl={obj.HostUrl} />
@@ -96,7 +108,7 @@ export class CamerasTable extends React.Component {
               <Table.HeaderCell colSpan="5">
                 <PaginationContainer
                   activePage={activePage}
-                  totalPages={data.length}
+                  totalPages={cameraData.length}
                   onPageChange={this.handlePaginationChange}
                 />
 

@@ -10,34 +10,34 @@ import { CameraImageModal } from '../../components/Modal/CameraModal';
 
 export class DLPTable extends React.Component {
   state = { activePage: 1,
-            loading: true};
+            loading: true,
+            dlpData: []};
 
   componentDidMount(){
     axios.get("http://www.json-generator.com/api/json/get/clwGCDqzIi?indent=2")
         .then(response => response.data)
         .then(data => {
+            const chunkData = chunkArray(data, 10);
             this.setState({
-                dlpData: data,
+                dlpData: chunkData,
                 loading: false,
             });
         })
-        .catch(() => {
+        .catch((error) => {
+            console.log("Error in getting DLP records.");
+
             this.setState({
-                dlpData: false,
+                dlpData: [],
                 loading: false,
             });
         });
-  }
-
-  getPaginatedData() {
-    return chunkArray(this.state.dlpData, 10);
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
   render() {
     const { activePage } = this.state;
-    const data = this.getPaginatedData();
+    const data = this.state.dlpData;
 
     return (
       <div className={styles.dlpTable}>

@@ -1,29 +1,26 @@
 import React from 'react';
 import { InfoWindow, Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { Image, Icon } from 'semantic-ui-react';
+import axios from 'axios';
 
 export class MapContainer extends React.Component {
   state = {
     showingInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
+    data: [],
   };
 
-  // TODO move to JSON
-  markers = [
-    {
-      name: 'Geležinio Vilko ir Ukmergės g. sankryža',
-      url: 'https://map.sviesoforai.lt/camera/api/camera/Camera_016.jpg',
-      position: { lat: 54.67100196, lng: 25.22392273 },
-      isTrusted: true,
-    },
-    {
-      name: 'Ukmergės g. ir Naugarduko g. sankryža',
-      url: 'https://map.sviesoforai.lt/camera/api/camera/Camera_017.jpg',
-      position: { lat: 54.33100196, lng: 25.33392273 },
-      isTrusted: true,
-    },
-  ];
+  componentDidMount() {
+    axios
+      .get(`http://www.json-generator.com/api/json/get/bUvQtBgGKW?indent=2`)
+      .then(res => {
+        this.setState({ data: res.data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
+  }
 
   onMarkerClick = (props, marker) =>
     this.setState({
@@ -42,6 +39,8 @@ export class MapContainer extends React.Component {
   };
 
   render() {
+    const cameraData = this.state.data;
+
     return (
       <Map
         google={this.props.google}
@@ -53,12 +52,12 @@ export class MapContainer extends React.Component {
           lng: 25.1125082,
         }}
       >
-        {this.markers.map(obj => (
+        {cameraData.map(obj => (
           <Marker
-            key={obj.url}
-            name={obj.name}
-            url={obj.url}
-            position={obj.position}
+            key={obj.Id}
+            name="Lalala" // TODO CHANGE
+            url={obj.HostUrl}
+            position={{ lat: obj.Latitude, lng: obj.Longitude }}
             onClick={this.onMarkerClick}
           />
         ))}

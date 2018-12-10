@@ -1,62 +1,99 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import axios from 'axios';
 import styles from './MLPTable.scss';
-import mlpMock from '../../mocks/mlp';
 import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { MLPDeleteModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDeleteModal';
 import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
 
 export class MLPTable extends React.Component {
-  state = { activePage: 1 };
-
-  getPaginatedData() {
-    return chunkArray(mlpMock, 10);
-  }
-
-  createModalInfo(infoToInsert) {
-      return {
-          triggerButtonText: "Update",
-          modalHeaderText: "Missing License Plate",
-          formFields: [
-              {
-                  id: 0,
-                  label: "Missing plate number",
-                  placeHolderText: "plate number",
-                  value: infoToInsert[0]
-              },
-              {
-                  id: 1,
-                  label: "Search Start Date",
-                  placeHolderText: "date",
-                  value: infoToInsert[1]
-              },
-              {
-                  id: 2,
-                  label: "Search End Date",
-                  placeHolderText: "date",
-                  value: infoToInsert[2]
-              },
-
-          ],
-          checkboxes: [
-              {
-                  id: 0,
-                  label: "This license plate has been found",
-                  value: !!infoToInsert[3]
-              }
-
-          ],
-          submitButtonText: "Submit",
-          cancelButtonText: "Cancel",
-      };
+  state = {
+    activePage: 1,
+    data: [],
   };
+
+  componentDidMount() {
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/mlp/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(res => {
+        const data = chunkArray(res.data, 10);
+        this.setState({ data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
+  }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
+  editModalInfo(infoToInsert) {
+    return {
+      triggerButtonText: 'Update',
+      triggerButtonStyle: '',
+      modalHeaderText: 'Missing License Plate',
+      formFields: [
+        {
+          id: 0,
+          label: 'Missing plate number',
+          placeHolderText: 'plate number',
+          value: infoToInsert[0],
+        },
+        {
+          id: 1,
+          label: 'Search Start Date',
+          placeHolderText: 'date',
+          value: infoToInsert[1],
+        },
+        {
+          id: 2,
+          label: 'Search End Date',
+          placeHolderText: 'date',
+          value: infoToInsert[2],
+        },
+      ],
+      checkboxes: [
+        {
+          id: 0,
+          label: 'This license plate has been found',
+          value: !!infoToInsert[3],
+        },
+      ],
+      submitButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+    };
+  }
+
+  createModalInfo() {
+    return {
+      triggerButtonText: 'Add missing vehicle',
+      triggerButtonStyle: 'ui positive right floated button',
+      modalHeaderText: 'Missing License Plate',
+      formFields: [
+        {
+          id: 0,
+          label: 'Missing plate number',
+          placeHolderText: 'plate number',
+          value: undefined,
+        },
+        {
+          id: 1,
+          label: 'Search Start Date',
+          placeHolderText: 'date',
+          value: undefined,
+        },
+      ],
+      checkboxes: [],
+      submitButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+    };
+  }
+
   render() {
     const { activePage } = this.state;
-    const data = this.getPaginatedData();
+    const mlpData = this.state.data;
 
     return (
       <div className={styles.mlpTable}>
@@ -71,10 +108,9 @@ export class MLPTable extends React.Component {
           </Table.Header>
 
           <Table.Body>
-            {!!data &&
-              !!data[activePage - 1] &&
-              data[activePage - 1].map(obj => (
-
+            {!!mlpData &&
+              !!mlpData[activePage - 1] &&
+              mlpData[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
                   <Table.Cell>{obj.PlateNumber}</Table.Cell>
                   <Table.Cell>{obj.SearchStartDateTime}</Table.Cell>
@@ -83,8 +119,15 @@ export class MLPTable extends React.Component {
                   </Table.Cell>
 
                   <Table.Cell>
-                    <InfoEditingModal data={this.createModalInfo([obj.PlateNumber, obj.SearchStartDateTime, obj.SearchEndDateTime, obj.Status])} />
-                    <MLPDeleteModal/>
+                    <InfoEditingModal
+                      data={this.editModalInfo([
+                        obj.PlateNumber,
+                        obj.SearchStartDateTime,
+                        obj.SearchEndDateTime,
+                        obj.Status,
+                      ])}
+                    />
+                    <MLPDeleteModal />
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -95,9 +138,11 @@ export class MLPTable extends React.Component {
               <Table.HeaderCell colSpan="4">
                 <PaginationContainer
                   activePage={activePage}
-                  totalPages={data.length}
+                  totalPages={mlpData.length}
                   onPageChange={this.handlePaginationChange}
                 />
+
+                <InfoEditingModal data={this.createModalInfo()} />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

@@ -6,10 +6,7 @@ import styles from './Modal.scss';
 export class CameraImageModal extends React.Component {
   render() {
     return (
-      <Modal
-        trigger={<Button positive>Click here to see camera</Button>}
-        className={styles.modalPosition}
-      >
+      <Modal trigger={<Button>See camera</Button>} className={styles.modalPosition}>
         <Modal.Content image>
           <Image src={this.props.imageUrl} />
         </Modal.Content>

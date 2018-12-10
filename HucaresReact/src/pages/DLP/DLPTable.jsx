@@ -1,23 +1,40 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import axios from 'axios';
 import styles from './DLPTable.scss';
-import dlpMock from '../../mocks/dlp';
 import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { CameraImageModal } from '../../components/Modal/CameraModal';
 
 export class DLPTable extends React.Component {
-  state = { activePage: 1 };
+  state = { activePage: 1, dlpData: [] };
 
-  getPaginatedData() {
-    return chunkArray(dlpMock, 10);
+  componentDidMount() {
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/dlp/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(response => response.data)
+      .then(data => {
+        const chunkData = chunkArray(data, 10);
+        this.setState({
+          dlpData: chunkData,
+        });
+      })
+      .catch(error => {
+        console.log('Error in getting DLP records.');
+
+        this.setState({
+          dlpData: [],
+        });
+      });
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
   render() {
     const { activePage } = this.state;
-    const data = this.getPaginatedData();
+    const data = this.state.dlpData;
 
     return (
       <div className={styles.dlpTable}>
@@ -30,6 +47,7 @@ export class DLPTable extends React.Component {
               <Table.HeaderCell>Confidence %</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
+
           <Table.Body>
             {!!data &&
               !!data[activePage - 1] &&
@@ -44,6 +62,7 @@ export class DLPTable extends React.Component {
                 </Table.Row>
               ))}
           </Table.Body>
+
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="4">

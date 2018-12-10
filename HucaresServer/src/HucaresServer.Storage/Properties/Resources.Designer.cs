@@ -93,6 +93,10 @@ namespace HucaresServer.Storage.Properties {
         internal static string Error_PlateNumberFomatInvalid {
             get {
                 return ResourceManager.GetString("Error_PlateNumberFomatInvalid", resourceCulture);
+
+        internal static string Error_MissingPlateExists {
+            get {
+                return ResourceManager.GetString("Error_MissingPlateExists", resourceCulture);
             }
         }
     }

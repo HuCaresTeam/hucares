@@ -17,7 +17,7 @@ namespace HucaresServer.Storage.UnitTests
         {
             //Arrange
             var fakeIQueryable = new List<CameraInfo>().AsQueryable();
-            var fakeDbSet = A.Fake<DbSet<CameraInfo>>();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
 
             var fakeHucaresContext = A.Fake<HucaresContext>();
             A.CallTo(() => fakeHucaresContext.CameraInfo)
@@ -83,7 +83,8 @@ namespace HucaresServer.Storage.UnitTests
         public void InsertCamera_WhenTrustedSourceValueNotProvided_IsTrustedSourceShouldBeFalse()
         {
             //Arrange
-            var fakeDbSet = A.Fake<DbSet<CameraInfo>>();
+            var fakeIQueryable = new List<CameraInfo>().AsQueryable();
+            var fakeDbSet = StorageTestsUtil.SetupFakeDbSet(fakeIQueryable);
 
             var fakeHucaresContext = A.Fake<HucaresContext>();
             A.CallTo(() => fakeHucaresContext.CameraInfo)

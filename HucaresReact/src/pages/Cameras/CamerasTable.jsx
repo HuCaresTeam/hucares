@@ -1,26 +1,77 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import axios from 'axios';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import styles from './CamerasTable.scss';
-import cameraMock from '../../mocks/camera';
 import 'semantic-ui-css/semantic.min.css';
 import { CameraImageModal } from '../../components/Modal/CameraModal';
 import { chunkArray } from '../../utils/Array';
 import { CameraDeleteModal } from '../../components/Modal/DataHelpers/CameraHelper/CameraDeleteModal';
 import { CameraDataChangeModal } from '../../components/Modal/DataHelpers/CameraHelper/CameraDataChangeModal';
+import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
 
 export class CamerasTable extends React.Component {
-  state = { activePage: 1 };
+  state = {
+    activePage: 1,
+    data: [],
+  };
 
-  getPaginatedData() {
-    return chunkArray(cameraMock, 10);
+  componentDidMount() {
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/camera/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(res => {
+        const data = chunkArray(res.data, 10);
+        this.setState({ data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
+  createModalInfo() {
+    return {
+      triggerButtonText: 'Add camera',
+      triggerButtonStyle: 'ui positive right floated button',
+      modalHeaderText: 'New camera',
+      formFields: [
+        {
+          id: 0,
+          label: 'Camera Host URL',
+          placeHolderText: 'host url',
+          value: undefined,
+        },
+        {
+          id: 1,
+          label: 'Latitude',
+          placeHolderText: 'latitude',
+          value: undefined,
+        },
+        {
+          id: 2,
+          label: 'Latitude',
+          placeHoldrText: 'latitude',
+          value: undefined,
+        },
+      ],
+      checkboxes: [
+        {
+          id: 0,
+          label: 'This license plate has been found',
+          value: false,
+        },
+      ],
+      submitButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+    };
+  }
+
   render() {
     const { activePage } = this.state;
-    const data = this.getPaginatedData();
+    const cameraData = this.state.data;
 
     return (
       <div className={styles.camerasTable}>
@@ -35,9 +86,9 @@ export class CamerasTable extends React.Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {!!data &&
-              !!data[activePage - 1] &&
-              data[activePage - 1].map(obj => (
+            {!!cameraData &&
+              !!cameraData[activePage - 1] &&
+              cameraData[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
                   <Table.Cell>
                     <CameraImageModal imageUrl={obj.HostUrl} />
@@ -58,9 +109,11 @@ export class CamerasTable extends React.Component {
               <Table.HeaderCell colSpan="5">
                 <PaginationContainer
                   activePage={activePage}
-                  totalPages={data.length}
+                  totalPages={cameraData.length}
                   onPageChange={this.handlePaginationChange}
                 />
+
+                <InfoEditingModal data={this.createModalInfo()} />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

@@ -128,5 +128,7 @@
   </data>
   <data name="Error_PlateNumberFomatInvalid" xml:space="preserve">
     <value>Invalid plate number format</value>
+  <data name="Error_MissingPlateExists" xml:space="preserve">
+    <value>Cannot add because missing license plate number is already recorded as being searched</value>
   </data>
 </root>

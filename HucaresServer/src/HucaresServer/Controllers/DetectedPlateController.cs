@@ -40,5 +40,12 @@ namespace HucaresServer.Controllers
         {
             return Json(DetectedPlateHelper.GetAllDetectedPlatesByCamera(cameraId, startDateTime, endDateTime));
         }
+
+        [HttpGet]
+        [Route("api/dlp/plate/{plateNumber}/{cameraId}")]
+        public IHttpActionResult GetAllActiveDetectedPlatesByPlateNumberAndCameraId(string plateNumber, int cameraId)
+        {
+            return Json(DetectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumberAndCameraId(plateNumber, cameraId));
+        }
     }
 }

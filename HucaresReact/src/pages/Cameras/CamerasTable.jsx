@@ -22,7 +22,7 @@ export class CamerasTable extends React.Component {
         headers: { 'Access-Control-Allow-Origin': '*' },
       })
       .then(res => {
-        const data = chunkArray(res.data, 10);
+        const data = chunkArray(res.data, 6);
         this.setState({ data });
       })
       .catch(() => {

@@ -57,7 +57,7 @@ export class MapContainer extends React.Component {
         {cameraData.map(obj => (
           <Marker
             key={obj.Id}
-            name="Lalala" // TODO CHANGE
+            name="Ukmergės sankryža" // TODO CHANGE
             url={obj.HostUrl}
             position={{ lat: obj.Latitude, lng: obj.Longitude }}
             onClick={this.onMarkerClick}

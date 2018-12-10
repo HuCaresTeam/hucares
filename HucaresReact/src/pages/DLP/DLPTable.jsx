@@ -16,7 +16,7 @@ export class DLPTable extends React.Component {
       })
       .then(response => response.data)
       .then(data => {
-        const chunkData = chunkArray(data, 10);
+        const chunkData = chunkArray(data, 6);
         this.setState({
           dlpData: chunkData,
         });

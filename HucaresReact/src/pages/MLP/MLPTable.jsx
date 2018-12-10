@@ -102,7 +102,7 @@ export class MLPTable extends React.Component {
             <Table.Row>
               <Table.HeaderCell>License plate</Table.HeaderCell>
               <Table.HeaderCell>Search start date</Table.HeaderCell>
-              <Table.HeaderCell>Detected plate date</Table.HeaderCell>
+              <Table.HeaderCell>Search close date</Table.HeaderCell>
               <Table.HeaderCell>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>

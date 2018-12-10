@@ -48,6 +48,13 @@ namespace HucaresServer.Controllers
         }
 
         [HttpGet]
+        [Route("api/camera/all/{plateNumber}")]
+        public IHttpActionResult GetCamerasByPlateNumber(string plateNumber, bool? isTrustedSource = true)
+        {
+            return Json(CameraInfoHelper.GetCamerasByPlateNumber(plateNumber, isTrustedSource));
+        }
+
+        [HttpGet]
         [Route("api/camera/active")]
         public IHttpActionResult GetActiveCameras(bool? isTrustedSource = null)
         {

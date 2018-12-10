@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HucaresServer.Storage.Models;
 using HucaresServer.Storage.Properties;
+using HucaresServer.Utils;
 
 namespace HucaresServer.Storage.Helpers
 {
@@ -77,6 +78,32 @@ namespace HucaresServer.Storage.Helpers
                 return query.ToList();
             }
         }
+        /// <summary>
+        /// Returns all cameras which are referenced from DLP table for specific plate number
+        /// </summary>
+        /// <param name="isTrustedSource"></param>
+        /// <returns></returns>
+        public IEnumerable<CameraInfo> GetCamerasByPlateNumber (string plateNumber, bool? isTrustedSource = true)
+        {
+            if (!plateNumber.IsValidPlateNumber())
+            {
+                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
+            }
+
+            var detectedPlates = _detectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber);
+            var cameraIds = detectedPlates.Select(d => d.CamId).Distinct();
+
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var query = ctx.CameraInfo.Where(c => cameraIds.Contains(c.Id));
+                if (null != isTrustedSource)
+                {
+                    query = query.Where(c => c.IsTrustedSource == isTrustedSource);
+                }
+                return query.ToList();
+            }
+        }
+
 
         /// <summary>
         /// Gets a camera instance by id from DB CameraInfo table.

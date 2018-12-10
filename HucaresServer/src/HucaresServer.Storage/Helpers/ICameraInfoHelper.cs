@@ -71,5 +71,7 @@ namespace HucaresServer.Storage.Helpers
         /// <param name="id">Id of the record in the DB CameraInfo table</param>
         /// <returns>CameraInfo instance matching the queried record</returns>
         CameraInfo GetCameraById(int id);
+
+        IEnumerable<CameraInfo> GetCamerasByPlateNumber(string plateNumber, bool? isTrustedSource = true);
     }
 }

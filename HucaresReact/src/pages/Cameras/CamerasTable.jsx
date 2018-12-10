@@ -35,7 +35,7 @@ export class CamerasTable extends React.Component {
   createModalInfo() {
     return {
       triggerButtonText: 'Add camera',
-      triggerButtonStyle: 'ui positive right floated button',
+      triggerButtonStyle: 'ui primary right floated button',
       modalHeaderText: 'New camera',
       formFields: [
         {

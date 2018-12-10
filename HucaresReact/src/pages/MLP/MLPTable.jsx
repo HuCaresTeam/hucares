@@ -69,7 +69,7 @@ export class MLPTable extends React.Component {
   createModalInfo() {
     return {
       triggerButtonText: 'Add missing vehicle',
-      triggerButtonStyle: 'ui positive right floated button',
+      triggerButtonStyle: 'ui primary right floated button',
       modalHeaderText: 'Missing License Plate',
       formFields: [
         {

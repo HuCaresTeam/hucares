@@ -88,7 +88,16 @@ namespace HucaresServer.TimedProcess
                 {
                     var confidenceResult = result.Confidence ?? 0;
                     var fileApiPath = _locationToUrl.ConvertPathToUrl(file.Name, dateNow);
-                    _dlpHelper.InsertNewDetectedPlate(result.Plate, dateNow, camId, fileApiPath, decimal.ToDouble(confidenceResult));
+
+                    try
+                    {
+                        _dlpHelper.InsertNewDetectedPlate(result.Plate, dateNow, camId, fileApiPath, decimal.ToDouble(confidenceResult));
+                    }
+                    catch
+                    {
+                        //Skip if error occurs while trying to store image
+                        continue;
+                    }
                 }
             }
         }

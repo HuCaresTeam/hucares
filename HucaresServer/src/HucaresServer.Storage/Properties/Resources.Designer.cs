@@ -88,8 +88,12 @@ namespace HucaresServer.Storage.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot add because missing license plate number is already recorded as being searched.
+        ///   Looks up a localized string similar to Invalid plate number format.
         /// </summary>
+        internal static string Error_PlateNumberFomatInvalid {
+            get {
+                return ResourceManager.GetString("Error_PlateNumberFomatInvalid", resourceCulture);
+
         internal static string Error_MissingPlateExists {
             get {
                 return ResourceManager.GetString("Error_MissingPlateExists", resourceCulture);

@@ -95,5 +95,14 @@ namespace HucaresServer.Storage.Properties {
                 return ResourceManager.GetString("Error_MissingPlateExists", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid plate number format.
+        /// </summary>
+        internal static string Error_PlateNumberFomatInvalid {
+            get {
+                return ResourceManager.GetString("Error_PlateNumberFomatInvalid", resourceCulture);
+            }
+        }
     }
 }

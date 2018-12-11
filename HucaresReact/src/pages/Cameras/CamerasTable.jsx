@@ -22,7 +22,7 @@ export class CamerasTable extends React.Component {
         headers: { 'Access-Control-Allow-Origin': '*' },
       })
       .then(res => {
-        const data = chunkArray(res.data, 10);
+        const data = chunkArray(res.data, window.innerHeight > 800 ? 10 : 6);
         this.setState({ data });
       })
       .catch(() => {
@@ -35,7 +35,7 @@ export class CamerasTable extends React.Component {
   createModalInfo() {
     return {
       triggerButtonText: 'Add camera',
-      triggerButtonStyle: 'ui positive right floated button',
+      triggerButtonStyle: 'ui primary right floated button',
       modalHeaderText: 'New camera',
       formFields: [
         {

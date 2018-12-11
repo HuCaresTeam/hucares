@@ -126,6 +126,9 @@
   <data name="Error_CannotDeleteCamera" xml:space="preserve">
     <value>Cannot delete camera with {0} because there are DLP records that depended on it.</value>
   </data>
+  <data name="Error_PlateNumberFomatInvalid" xml:space="preserve">
+    <value>Invalid plate number format</value>
+  </data>
   <data name="Error_MissingPlateExists" xml:space="preserve">
     <value>Cannot add because missing license plate number is already recorded as being searched</value>
   </data>

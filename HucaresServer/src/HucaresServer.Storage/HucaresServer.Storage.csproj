@@ -87,6 +87,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HucaresServer.Utils\HucaresServer.Utils.csproj">
+      <Project>{8A79D1D0-A355-4FF9-9269-7EBBC4A615A0}</Project>
+      <Name>HucaresServer.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

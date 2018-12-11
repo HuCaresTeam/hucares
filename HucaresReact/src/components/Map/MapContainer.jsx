@@ -50,14 +50,14 @@ export class MapContainer extends React.Component {
         zoom={14}
         style={{ width: '100%', height: '100%', position: 'left' }}
         initialCenter={{
-          lat: 54.7000898,
-          lng: 25.1125082,
+          lat: 54.68184,
+          lng: 25.268936,
         }}
       >
         {cameraData.map(obj => (
           <Marker
             key={obj.Id}
-            name="Lalala" // TODO CHANGE
+            name={"TO CHANGE"}
             url={obj.HostUrl}
             position={{ lat: obj.Latitude, lng: obj.Longitude }}
             onClick={this.onMarkerClick}

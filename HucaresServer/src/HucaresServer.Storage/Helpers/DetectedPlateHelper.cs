@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using HucaresServer.Storage.Models;
+using HucaresServer.Storage.Properties;
+using HucaresServer.Utils;
 
 namespace HucaresServer.Storage.Helpers
 {
@@ -20,6 +22,9 @@ namespace HucaresServer.Storage.Helpers
         public DetectedLicensePlate InsertNewDetectedPlate(string plateNumber, DateTime detectedDateTime, int camId,
             string imgUrl, double confidence)
         {
+            if (!plateNumber.IsValidPlateNumber())
+                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
+
             if (confidence < 0 || confidence > 100)
             {
                 // It seems like I can't edit resource file on Rider

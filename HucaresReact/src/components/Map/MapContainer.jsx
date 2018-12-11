@@ -2,6 +2,7 @@ import React from 'react';
 import { InfoWindow, Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { Image, Icon } from 'semantic-ui-react';
 import axios from 'axios';
+import queryString from 'query-string';
 
 export class MapContainer extends React.Component {
   state = {
@@ -12,16 +13,12 @@ export class MapContainer extends React.Component {
   };
 
   componentDidMount() {
-    axios
-      .get(`${process.env.HUCARES_API_BASE_URL}/api/camera/all`, {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      })
-      .then(res => {
-        this.setState({ data: res.data });
-      })
-      .catch(() => {
-        this.setState({ data: [] });
-      });
+    if (this.props.location.search) {
+      const values = queryString.parse(this.props.location.search);
+      this.getMarkersByPlate(values.filter);
+    } else {
+      this.getAllCameras();
+    }
   }
 
   onMarkerClick = (props, marker) =>
@@ -38,6 +35,32 @@ export class MapContainer extends React.Component {
         activeMarker: null,
       });
     }
+  };
+
+  getMarkersByPlate = plateNumber => {
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/camera/all/${plateNumber}`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(res => {
+        this.setState({ data: res.data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
+  };
+
+  getAllCameras = () => {
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/camera/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(res => {
+        this.setState({ data: res.data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
   };
 
   render() {
@@ -57,7 +80,7 @@ export class MapContainer extends React.Component {
         {cameraData.map(obj => (
           <Marker
             key={obj.Id}
-            name={"TO CHANGE"}
+            name="TO CHANGE"
             url={obj.HostUrl}
             position={{ lat: obj.Latitude, lng: obj.Longitude }}
             onClick={this.onMarkerClick}

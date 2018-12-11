@@ -7,21 +7,34 @@ export class InfoEditingModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
       forms: props.data.formFields,
       checkboxes: props.data.checkboxes,
     };
   }
 
+  onSubmitAction() {
+      console.log("Submitted");
+  }
+
+  close = () => {this.setState({open: false})};
+
   render() {
+    const {open} = this.state;
+
     return (
-      <Modal
-        trigger={
-          <Button primary className={this.props.data.triggerButtonStyle}>
+
+    <div>
+      <Button primary className={this.props.data.triggerButtonStyle}
+              onClick={() => {this.setState({open: true})}}>
             {this.props.data.triggerButtonText}
-          </Button>
-        }
+      </Button>
+
+      <Modal
         className={styles.modalPosition}
-      >
+        open={open}
+        onClose={this.close}>
+
         <Modal.Content>
           <Form>
             {this.state.forms.map(form => (
@@ -30,9 +43,10 @@ export class InfoEditingModal extends React.Component {
                 <input
                   placeholder={form.placeholder}
                   value={form.value}
-                  onChange={edit => (
-                    (this.state.forms[form.id].value = edit.target.value), this.forceUpdate()
-                  )}
+                  onChange={edit => {
+                      this.state.forms[form.id].value = edit.target.value;
+                      this.forceUpdate();
+                  }}
                 />
               </Form.Field>
             ))}
@@ -44,23 +58,23 @@ export class InfoEditingModal extends React.Component {
                     key={check.id}
                     label={check.label}
                     checked={check.value}
-                    onChange={edit => (
-                      (this.state.checkboxes[check.id].value = !this.state.checkboxes[check.id]
-                        .value),
-                      this.forceUpdate()
-                    )}
+                    onChange={edit => {
+                        this.state.checkboxes[check.id].value = !this.state.checkboxes[check.id].value;
+                        this.forceUpdate();
+                    }}
                   />
                 ))}
               </Form.Field>
             )}
 
-            <Button type="submit">
+            <Button type="submit" onClick={() => {this.onSubmitAction()}}>
               {this.props.data.submitButtonText}
             </Button>
-            <Button negative type="cancel">{this.props.data.cancelButtonText}</Button>
+            <Button negative type="cancel" onClick={this.close}>{this.props.data.cancelButtonText}</Button>
           </Form>
         </Modal.Content>
       </Modal>
+    </div>
     );
   }
 }

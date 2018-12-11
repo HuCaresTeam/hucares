@@ -28,6 +28,7 @@ namespace HucaresDemonstrationTool
 
         static void DumpEnumerable<T>(IEnumerable<T> enumerable)
         {
+            var itemType = typeof(T);
             Console.WriteLine($"Dump of {itemType.Name}");
             foreach (T item in enumerable)
             {

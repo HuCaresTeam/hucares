@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, Form, Checkbox } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import styles from './Modal.scss';
+import axios from "axios";
 
 export class InfoEditingModal extends React.Component {
   constructor(props) {
@@ -13,17 +14,29 @@ export class InfoEditingModal extends React.Component {
     };
   }
 
-  onSubmitAction() {
-      console.log("Submitted");
-  }
+    close = () => {this.setState({open: false})};
 
-  close = () => {this.setState({open: false})};
+
+    onSubmitAction() {
+      this.close();
+      
+      axios
+          .post(`${process.env.HUCARES_API_BASE_URL}/api/mlp/insert`,
+              {
+                  headers: { 'Access-Control-Allow-Origin': '*' },
+                  plateNumber: this.state.forms[0].value,
+                  searchStartDatetime: this.state.forms[1].value
+              })
+          .then((response) =>
+            {
+              this.forceUpdate();
+            });
+  }
 
   render() {
     const {open} = this.state;
 
     return (
-
     <div>
       <Button primary className={this.props.data.triggerButtonStyle}
               onClick={() => {this.setState({open: true})}}>

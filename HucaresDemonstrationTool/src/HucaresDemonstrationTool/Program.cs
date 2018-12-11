@@ -19,26 +19,33 @@ namespace HucaresDemonstrationTool
             var mlpList = sqlite.GetData<MLP>("SELECT * FROM MLP");
             var cameraList = sqlite.GetData<Camera>("SELECT * FROM Camera");
 
-            Dump(dlpList);
-            Dump(mlpList);
-            Dump(cameraList);
+            DumpEnumerable(dlpList);
+            DumpEnumerable(mlpList);
+            DumpEnumerable(cameraList);
 
             Console.ReadKey();
         }
 
-        static void Dump<T>(IEnumerable<T> enumerable)
+        static void DumpEnumerable<T>(IEnumerable<T> enumerable)
         {
             var itemType = typeof(T);
             Console.WriteLine($"Dump of {itemType.Name}");
             var properties = itemType.GetProperties();
-            foreach (var item in enumerable)
+            foreach (T item in enumerable)
             {
-                foreach(var propertyInfo in properties)
-                {
-                    Console.WriteLine($"\t{propertyInfo.Name} - {propertyInfo.GetValue(item)}");
-                }
-                Console.WriteLine();
+                DumpItem(item);
             }
+        }
+
+        static void DumpItem<T>(T item)
+        {
+            var itemType = typeof(T);
+            var properties = itemType.GetProperties();
+            foreach (var propertyInfo in properties)
+            {
+                Console.WriteLine($"\t{propertyInfo.Name} - {propertyInfo.GetValue(item)}");
+            }
+            Console.WriteLine();
         }
     }
 }

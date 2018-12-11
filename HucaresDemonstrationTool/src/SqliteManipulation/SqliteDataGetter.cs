@@ -10,7 +10,7 @@ namespace SqliteManipulation
 {
     public class SqliteDataGetter
     {
-        private const string connectionString = @"Data Source=D:\Uni\hucares-server\HucaresDemonstrationTool\src\SqliteManipulation\SqliteData\HucaresMock.sqlite;Version=3;";
+        private const string connectionString = @"Data Source=SqliteData\HucaresMock.sqlite;Version=3;";
 
         public IEnumerable<Target> GetData<Target>(string query) where Target : new()
         {

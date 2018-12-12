@@ -13,11 +13,11 @@ namespace HucaresDemonstrationTool
     {
         static void Main(string[] args)
         {
-            var sqlite = new SqliteDataGetter();
+            var sqlite = new SqliteHucaresManipulator();
 
-            var dlpList = sqlite.GetData<DLP>("SELECT * FROM DLP");
-            var mlpList = sqlite.GetData<MLP>("SELECT * FROM MLP");
-            var cameraList = sqlite.GetData<Camera>("SELECT * FROM Camera");
+            var dlpList = sqlite.GetDLPs();
+            var mlpList = sqlite.GetMLPs();
+            var cameraList = sqlite.GetCameras();
 
             DumpEnumerable(dlpList);
             DumpEnumerable(mlpList);

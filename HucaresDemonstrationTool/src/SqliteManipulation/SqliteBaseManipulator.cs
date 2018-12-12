@@ -8,7 +8,7 @@ using SqliteManipulation.Models;
 
 namespace SqliteManipulation
 {
-    public class SqliteDataGetter
+    public abstract class SqliteBaseManipulator
     {
         private const string connectionString = @"Data Source=SqliteData\HucaresMock.sqlite;Version=3;";
 

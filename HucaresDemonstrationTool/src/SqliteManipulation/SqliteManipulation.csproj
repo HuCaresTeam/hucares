@@ -67,8 +67,9 @@
     <Compile Include="Models\Camera.cs" />
     <Compile Include="Models\MLP.cs" />
     <Compile Include="Models\DLP.cs" />
-    <Compile Include="SqliteDataGetter.cs" />
+    <Compile Include="SqliteBaseManipulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqliteHucaresManipulator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

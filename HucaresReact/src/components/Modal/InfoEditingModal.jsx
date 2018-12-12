@@ -11,6 +11,7 @@ export class InfoEditingModal extends React.Component {
       open: false,
       forms: props.data.formFields,
       checkboxes: props.data.checkboxes,
+      callback: props.callback,
     };
   }
 
@@ -49,6 +50,7 @@ export class InfoEditingModal extends React.Component {
           .then((response) =>
             {
               this.forceUpdate();
+              if(this.state.callback !== undefined) this.state.callback();
             });
   }
 

@@ -18,13 +18,12 @@ namespace SqliteManipulation
             using (var sqliteConn = new SQLiteConnection(connectionString))
             {
                 sqliteConn.Open();
-                var command = new SQLiteCommand(query, sqliteConn);
-                SQLiteDataAdapter da = new SQLiteDataAdapter(command);
-
-                DataSet ds = new DataSet();
-                da.Fill(ds, typeof(Target).Name);
-
-                return ds.MapToObjectEnumerable<Target>();
+                using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, sqliteConn))
+                {
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, typeof(Target).Name);
+                    return ds.MapToObjectEnumerable<Target>();
+                }
             }
         }
     }

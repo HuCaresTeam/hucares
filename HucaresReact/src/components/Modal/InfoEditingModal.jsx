@@ -18,10 +18,23 @@ export class InfoEditingModal extends React.Component {
 
     currentDateIfNull(date) {
       if (date === undefined) {
-        return Date.now();
+        return new Date();
       } else {
         return new Date(date);
       }
+    }
+
+    convertDate(unixDate) {
+      const date = this.currentDateIfNull(unixDate);
+
+      const day = date.getDate();       
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear(); 
+      const hour = date.getHours();
+      const minute = date.getMinutes();
+      const second = date.getSeconds(); 
+
+      return day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second; 
     }
 
     onSubmitAction() {
@@ -31,7 +44,7 @@ export class InfoEditingModal extends React.Component {
               {
                   headers: { 'Access-Control-Allow-Origin': '*' },
                   plateNumber: this.state.forms[0].value,
-                  searchStartDatetime: JSON.stringify(this.currentDateIfNull(this.state.forms[1].value))
+                  searchStartDatetime: this.convertDate(this.state.forms[1].value)
               })
           .then((response) =>
             {

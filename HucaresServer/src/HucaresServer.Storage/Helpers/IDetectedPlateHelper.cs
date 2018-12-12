@@ -56,5 +56,7 @@ namespace HucaresServer.Storage.Helpers
             DateTime? startDateTime = null, DateTime? endDateTime = null);
 
         IEnumerable<DetectedLicensePlate> GetDetectedPlatesByImgUrl(string imgUrl);
+
+        IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumberAndCameraId(string plateNumber, int cameraId);
     }
 }

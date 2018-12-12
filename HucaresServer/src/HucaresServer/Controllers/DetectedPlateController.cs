@@ -6,6 +6,8 @@ using HucaresServer.Utils;
 using HucaresServer.Properties;
 using HucaresServer.DataAcquisition;
 using System.IO;
+using HucaresServer.Models;
+using HucaresServer.TimedProccess;
 
 namespace HucaresServer.Controllers
 {
@@ -17,6 +19,7 @@ namespace HucaresServer.Controllers
     {
         public IDetectedPlateHelper DetectedPlateHelper { get; set; } = new DetectedPlateHelper();
         public IImageManipulator ImageManipulator { get; set; } = new LocalImageManipulator();
+        public ILocationToUrlConverter LocationToUrlConverter { get; set; } = new LocationToUrlConverter();
 
         [HttpGet]
         [Route("api/dlp/all")]
@@ -69,6 +72,22 @@ namespace HucaresServer.Controllers
             //delete records
             DetectedPlateHelper.DeleteAll();
             return Ok();
+        }
+
+        // DEMONSTRATION PURPOSES ONLY
+        [HttpPost]
+        [Route("api/dlp/demonstration")]
+        public IHttpActionResult AddDLP([FromBody] DemonstrationDlpInput input)
+        {
+            var imageLocation = ImageManipulator.SaveImage(input.CamId, input.DetectedDateTime, input.Img);
+
+            var fileInfo = new FileInfo(imageLocation);
+            var newLocation = ImageManipulator.MoveFileToPerm(fileInfo, input.DetectedDateTime);
+
+            var imgUrl = LocationToUrlConverter.ConvertPathToUrl(fileInfo.Name, input.DetectedDateTime);
+            var result = DetectedPlateHelper.InsertNewDetectedPlate(input.PlateNumber, input.DetectedDateTime, input.CamId, imgUrl, input.Confidence);
+
+            return Json(result);
         }
     }
 }

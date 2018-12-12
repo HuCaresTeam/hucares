@@ -54,10 +54,10 @@ export class InfoEditingModal extends React.Component {
               </Form.Field>
             )}
 
-            <Button positive type="submit">
+            <Button type="submit">
               {this.props.data.submitButtonText}
             </Button>
-            <Button type="cancel">{this.props.data.cancelButtonText}</Button>
+            <Button negative type="cancel">{this.props.data.cancelButtonText}</Button>
           </Form>
         </Modal.Content>
       </Modal>

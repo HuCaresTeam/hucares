@@ -19,7 +19,7 @@ export class MLPTable extends React.Component {
         headers: { 'Access-Control-Allow-Origin': '*' },
       })
       .then(res => {
-        const data = chunkArray(res.data, 10);
+        const data = chunkArray(res.data, window.innerHeight > 800 ? 10 : 6);
         this.setState({ data });
       })
       .catch(() => {
@@ -69,7 +69,7 @@ export class MLPTable extends React.Component {
   createModalInfo() {
     return {
       triggerButtonText: 'Add missing vehicle',
-      triggerButtonStyle: 'ui positive right floated button',
+      triggerButtonStyle: 'ui primary right floated button',
       modalHeaderText: 'Missing License Plate',
       formFields: [
         {
@@ -101,8 +101,8 @@ export class MLPTable extends React.Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>License plate</Table.HeaderCell>
-              <Table.HeaderCell>Search plate date</Table.HeaderCell>
-              <Table.HeaderCell>Detected plate date</Table.HeaderCell>
+              <Table.HeaderCell>Search start date</Table.HeaderCell>
+              <Table.HeaderCell>Search close date</Table.HeaderCell>
               <Table.HeaderCell>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>

@@ -48,7 +48,6 @@ namespace HucaresServer.Storage.Helpers
             return detectedPlateToInsert;
         }
 
-
         public IEnumerable<DetectedLicensePlate> DeletePlatesOlderThanDatetime(DateTime olderThanDatetime)
         {
             if (olderThanDatetime > DateTime.Today)
@@ -71,6 +70,17 @@ namespace HucaresServer.Storage.Helpers
         }
 
         ///<inheritdoc/>
+        public IEnumerable<DetectedLicensePlate> GetAllDlps()
+        {
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var results = ctx.DetectedLicensePlates
+                    .Select(s => s);
+
+                return results.ToList();
+            }
+        }
+
         public IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates()
         {
 

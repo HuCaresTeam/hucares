@@ -34,6 +34,8 @@ namespace HucaresServer.Storage.Helpers
         /// </summary>
         /// <returns> All detected license plates. </returns>
         IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates();
+
+        IEnumerable<DetectedLicensePlate> GetAllDlps();
         void DeleteAll();
 
         /// <summary>

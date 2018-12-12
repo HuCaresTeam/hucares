@@ -4,6 +4,8 @@ using System.Web.Http;
 using static HucaresServer.Models.CameraInfoDataModels;
 using HucaresServer.Utils;
 using HucaresServer.Properties;
+using HucaresServer.DataAcquisition;
+using System.IO;
 
 namespace HucaresServer.Controllers
 {
@@ -14,12 +16,13 @@ namespace HucaresServer.Controllers
     public class DetectedPlateController : ApiController
     {
         public IDetectedPlateHelper DetectedPlateHelper { get; set; } = new DetectedPlateHelper();
+        public IImageManipulator ImageManipulator { get; set; } = new LocalImageManipulator();
 
         [HttpGet]
         [Route("api/dlp/all")]
         public IHttpActionResult GetAllDetectedMissingPlates()
         {
-            return Json(DetectedPlateHelper.GetAllDetectedMissingPlates());
+            return Json(DetectedPlateHelper.GetAllDlps());
         }
 
         [HttpGet]
@@ -46,6 +49,24 @@ namespace HucaresServer.Controllers
         [Route("api/dlp/all")]
         public IHttpActionResult DeleteDLPs()
         {
+            var dlpList = DetectedPlateHelper.GetAllDlps();
+
+            //delete images
+            foreach (var dlp in dlpList)
+            {
+                var pathArray = dlp.ImgUrl.Split('/');
+                var fileName = pathArray[pathArray.Length - 1];
+                var dateTime = DateTime.Parse(pathArray[pathArray.Length - 2]); 
+                var folderLocation = ImageManipulator.GenerateFolderLocationPath(dateTime);
+                var filePath = Path.Combine(folderLocation, fileName) + ".jpg";
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
+
+            //delete records
             DetectedPlateHelper.DeleteAll();
             return Ok();
         }

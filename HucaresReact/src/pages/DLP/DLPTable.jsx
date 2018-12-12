@@ -58,7 +58,20 @@ export class DLPTable extends React.Component {
               data[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
                   <Table.Cell>
-                    <Button onClick={() => this.handleClick(obj.PlateNumber)}>Press here</Button>
+                    <Button
+                      basic
+                      color="black"
+                      content={obj.PlateNumber}
+                      icon="globe"
+                      onClick={() => this.handleClick(obj.PlateNumber)}
+                      label={{
+                        as: 'a',
+                        basic: true,
+                        color: 'black',
+                        pointing: 'left',
+                        content: 'Show on map',
+                      }}
+                    />
                   </Table.Cell>
                   <Table.Cell>{obj.DetectedDateTime}</Table.Cell>
                   <Table.Cell>

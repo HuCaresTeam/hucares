@@ -3,6 +3,8 @@ import { InfoWindow, Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { Image, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import queryString from 'query-string';
+import stencilBlue from '../../../public/images/stencil-blue.png';
+import stencilRed from '../../../public/images/stencil-red.png';
 
 export class MapContainer extends React.Component {
   state = {
@@ -10,12 +12,14 @@ export class MapContainer extends React.Component {
     activeMarker: {},
     selectedPlace: {},
     data: [],
+    fromDlp: false,
   };
 
   componentDidMount() {
     if (this.props.location.search) {
       const values = queryString.parse(this.props.location.search);
       this.getMarkersByPlate(values.filter);
+      this.setState({ fromDlp: true });
     } else {
       this.getAllCameras();
     }
@@ -66,11 +70,20 @@ export class MapContainer extends React.Component {
   render() {
     const cameraData = this.state.data;
 
+    const defaultIcon = {
+      url: stencilRed,
+      scaledSize: new this.props.google.maps.Size(130, 60), // scaled size
+    };
+    const highlightedIcon = {
+      url: stencilBlue,
+      scaledSize: new this.props.google.maps.Size(130, 60), // scaled size
+    };
+
     return (
       <Map
         google={this.props.google}
         onClick={this.onMapClicked}
-        zoom={14}
+        zoom={12}
         style={{ width: '100%', height: '100%', position: 'left' }}
         initialCenter={{
           lat: 54.68184,
@@ -79,6 +92,7 @@ export class MapContainer extends React.Component {
       >
         {cameraData.map(obj => (
           <Marker
+            icon={this.state.fromDlp ? highlightedIcon : defaultIcon}
             key={obj.Id}
             name="TO CHANGE"
             url={obj.HostUrl}

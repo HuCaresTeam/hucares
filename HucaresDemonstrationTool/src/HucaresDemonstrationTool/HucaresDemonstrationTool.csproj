@@ -34,7 +34,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -69,10 +69,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Hucares.Server.Client\Hucares.Server.Client.csproj">
+      <Project>{8897D00A-7641-4588-A156-21451730B387}</Project>
+      <Name>Hucares.Server.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SqliteManipulation\SqliteManipulation.csproj">
       <Project>{C81BEB8D-F388-4767-A9BB-D695831CDA9B}</Project>
       <Name>SqliteManipulation</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

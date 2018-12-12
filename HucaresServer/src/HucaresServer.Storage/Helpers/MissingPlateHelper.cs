@@ -121,5 +121,15 @@ namespace HucaresServer.Storage.Helpers
                 return recordToDelete;
             }
         }
+
+        public void DeleteAll()
+        {
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var recordsToDelete = ctx.MissingLicensePlates.Select(c => c);
+                ctx.MissingLicensePlates.RemoveRange(recordsToDelete);
+                ctx.SaveChanges();
+            }
+        }
     }
 }

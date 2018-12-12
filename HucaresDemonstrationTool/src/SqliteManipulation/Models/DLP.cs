@@ -10,7 +10,7 @@ namespace SqliteManipulation.Models
     {
         public long Id { get; set; }
         public string PlateNumber { get; set; }
-        public string DetectedDateTime { get; set; }
+        public DateTime DetectedDateTime { get; set; }
         public long CamId { get; set; }
         public byte[] Img { get; set; }
         public double Confidence { get; set; }

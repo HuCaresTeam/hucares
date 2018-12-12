@@ -40,5 +40,14 @@ namespace HucaresServer.Controllers
         {
             return Json(DetectedPlateHelper.GetAllDetectedPlatesByCamera(cameraId, startDateTime, endDateTime));
         }
+
+        // DEMONSTRATION PURPOSES ONLY
+        [HttpDelete]
+        [Route("api/dlp/all")]
+        public IHttpActionResult DeleteDLPs()
+        {
+            DetectedPlateHelper.DeleteAll();
+            return Ok();
+        }
     }
 }

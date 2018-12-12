@@ -34,6 +34,7 @@ namespace HucaresServer.Storage.Helpers
         /// </summary>
         /// <returns> All detected license plates. </returns>
         IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates();
+        void DeleteAll();
 
         /// <summary>
         /// Gets all detected plates that have the specified PlateNumber predicted

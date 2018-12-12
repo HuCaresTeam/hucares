@@ -43,7 +43,8 @@ namespace HucaresDemonstrationTool
             Task.Run(async () =>
             {
                 await PopulateCameras(cameraList);
-                await PopulateMLps(mlpList);
+                await PopulateMLPs(mlpList);
+                await PopulateDLPs(dlpList);
             }).GetAwaiter().GetResult();
             Console.ReadKey();
         }
@@ -61,7 +62,7 @@ namespace HucaresDemonstrationTool
             }
         }
 
-        static async Task PopulateMLps(IEnumerable<MLP> mlps)
+        static async Task PopulateMLPs(IEnumerable<MLP> mlps)
         {
             await MissingClient.DeleteAllMLPs();
             foreach (var mlp in mlps)
@@ -69,6 +70,19 @@ namespace HucaresDemonstrationTool
                 Console.WriteLine($"Adding MLP {mlp.Id}");
                 DumpItem(mlp);
                 await MissingClient.InsertPlateRecord(mlp.PlateNumber, mlp.SearchStartDateTime);
+                Console.WriteLine($"Add success!");
+                Console.WriteLine();
+            }
+        }
+
+        static async Task PopulateDLPs(IEnumerable<DLP> dlps)
+        {
+            await DetectedClient.DeleteAllDLPs();
+            foreach (var dlp in dlps)
+            {
+                Console.WriteLine($"Adding DLP {dlp.Id}");
+                DumpItem(dlp);
+                await DetectedClient.DemonstrationAddDlp(dlp);
                 Console.WriteLine($"Add success!");
                 Console.WriteLine();
             }

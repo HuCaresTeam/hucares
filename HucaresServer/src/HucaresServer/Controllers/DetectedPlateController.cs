@@ -23,9 +23,9 @@ namespace HucaresServer.Controllers
 
         [HttpGet]
         [Route("api/dlp/all")]
-        public IHttpActionResult GetAllDetectedMissingPlates()
+        public IHttpActionResult GetAllDetectedMissingPlates(int? page = null)
         {
-            return Json(DetectedPlateHelper.GetAllDlps());
+            return Json(DetectedPlateHelper.GetAllDetectedMissingPlates(page));
         }
 
         [HttpGet]

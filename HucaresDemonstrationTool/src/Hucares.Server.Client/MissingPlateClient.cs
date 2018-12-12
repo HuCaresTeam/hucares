@@ -8,9 +8,7 @@ using SqliteManipulation.Models;
 namespace Hucares.Server.Client
 {
     public class MissingPlateClient : IMissingPlateClient
-    {
-        private Uri HostUri { get; set; } = new Uri("http://localhost:50510");
-        
+    {        
         private readonly HttpClientHelper httpHelper;
         
         public MissingPlateClient(HttpClientHelper httpHelper = null)
@@ -21,7 +19,7 @@ namespace Hucares.Server.Client
         public async Task<MLP> InsertPlateRecord(string plateNumber, string searchStartDatetime)
         {
             var uri = $"api/mlp/insert";
-            var fullUri = new Uri(HostUri, uri);
+            var fullUri = new Uri(httpHelper.HostUri, uri);
 
             var plateNumberData = new
             {
@@ -45,7 +43,7 @@ namespace Hucares.Server.Client
         public async Task DeleteAllMLPs ()
         {
             var uri = $"api/mlp/all";
-            var fullUri = new Uri(HostUri, uri);
+            var fullUri = new Uri(httpHelper.HostUri, uri);
             var request = new HttpRequestMessage(HttpMethod.Delete, fullUri);
             
             await httpHelper.MakeRequest(request);

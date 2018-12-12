@@ -5,8 +5,6 @@ namespace Hucares.Server.Client
 {
     public interface IDetectedPlateClient
     {
-        Uri HostUri { get; }
-
         Task DeleteAllDLPs();
     }
 }

@@ -6,8 +6,6 @@ namespace Hucares.Server.Client
 {
     public interface ICameraInfoClient
     {
-        Uri HostUri { get; }
-
         Task DeleteAllCameras(bool? isTrustedSource = null);
         Task<Camera> InsertCamera(Camera cameraInfo);
     }

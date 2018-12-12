@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace Hucares.Server.Client
     public class HttpClientHelper
     {
         private readonly static HttpClient httpClient = new HttpClient();
+        public Uri HostUri { get; private set; } = new Uri("http://localhost:50510");
 
         public async Task<TOut> MakeRequest<TOut>(HttpRequestMessage requestMessage)
         {

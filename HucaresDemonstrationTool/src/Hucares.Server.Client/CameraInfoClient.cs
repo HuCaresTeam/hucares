@@ -9,7 +9,6 @@ namespace Hucares.Server.Client
 {
     public class CameraInfoClient : ICameraInfoClient
     {
-        public Uri HostUri { get; private set; } = new Uri("http://localhost:50510");
         private readonly HttpClientHelper httpHelper;
 
         public CameraInfoClient(HttpClientHelper httpHelper = null)
@@ -20,7 +19,7 @@ namespace Hucares.Server.Client
         public async Task<Camera> InsertCamera(Camera camera)
         {
             var uri = "api/camera/insert";
-            var fullUri = new Uri(HostUri, uri);
+            var fullUri = new Uri(httpHelper.HostUri, uri);
 
             var jsonContent = JsonConvert.SerializeObject(camera, new JsonSerializerSettings
             {
@@ -42,7 +41,7 @@ namespace Hucares.Server.Client
                 uri += $"?isTrustedSource={isTrustedSource}";
             }
 
-            var fullUri = new Uri(HostUri, uri);
+            var fullUri = new Uri(httpHelper.HostUri, uri);
             var request = new HttpRequestMessage(HttpMethod.Delete, fullUri);
 
             await httpHelper.MakeRequest(request);

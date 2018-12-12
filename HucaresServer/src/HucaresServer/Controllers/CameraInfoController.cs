@@ -74,5 +74,14 @@ namespace HucaresServer.Controllers
         {
             return Json(CameraInfoHelper.GetCameraById(id));
         }
+
+        // DEMONSTRATION PURPOSES ONLY
+        [HttpDelete]
+        [Route("api/camera/all")]
+        public IHttpActionResult DeleteCameras()
+        {
+            CameraInfoHelper.DeleteAll();
+            return Ok();
+        }
     }
 }

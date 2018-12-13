@@ -2,6 +2,8 @@ import React from 'react';
 import { InfoWindow, Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { Image, Icon } from 'semantic-ui-react';
 import axios from 'axios';
+import queryString from 'query-string';
+import orangePin from '../../../public/images/maps-pin.png';
 
 export class MapContainer extends React.Component {
   state = {
@@ -9,19 +11,17 @@ export class MapContainer extends React.Component {
     activeMarker: {},
     selectedPlace: {},
     data: [],
+    fromDlp: false,
   };
 
   componentDidMount() {
-    axios
-      .get(`${process.env.HUCARES_API_BASE_URL}/api/camera/all`, {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      })
-      .then(res => {
-        this.setState({ data: res.data });
-      })
-      .catch(() => {
-        this.setState({ data: [] });
-      });
+    if (this.props.location.search) {
+      const values = queryString.parse(this.props.location.search);
+      this.getMarkersByPlate(values.filter);
+      this.setState({ fromDlp: true });
+    } else {
+      this.getAllCameras();
+    }
   }
 
   onMarkerClick = (props, marker) =>
@@ -40,14 +40,45 @@ export class MapContainer extends React.Component {
     }
   };
 
+  getMarkersByPlate = plateNumber => {
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/camera/all/${plateNumber}`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(res => {
+        this.setState({ data: res.data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
+  };
+
+  getAllCameras = () => {
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/camera/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(res => {
+        this.setState({ data: res.data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
+  };
+
   render() {
     const cameraData = this.state.data;
+
+    const highlightedPin = {
+      url: orangePin,
+      scaledSize: new this.props.google.maps.Size(27, 43), // scaled size
+    };
 
     return (
       <Map
         google={this.props.google}
         onClick={this.onMapClicked}
-        zoom={14}
+        zoom={12}
         style={{ width: '100%', height: '100%', position: 'left' }}
         initialCenter={{
           lat: 54.68184,
@@ -56,8 +87,9 @@ export class MapContainer extends React.Component {
       >
         {cameraData.map(obj => (
           <Marker
+            icon={this.state.fromDlp ? highlightedPin : null}
             key={obj.Id}
-            name={"TO CHANGE"}
+            name="TO CHANGE"
             url={obj.HostUrl}
             position={{ lat: obj.Latitude, lng: obj.Longitude }}
             onClick={this.onMarkerClick}

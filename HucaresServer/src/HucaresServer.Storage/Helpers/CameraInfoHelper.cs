@@ -215,5 +215,15 @@ namespace HucaresServer.Storage.Helpers
                 return recordToUpdate;
             }
         }
+
+        public void DeleteAll()
+        {
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var recordsToDelete = ctx.CameraInfo.Select(c => c);
+                ctx.CameraInfo.RemoveRange(recordsToDelete);
+                ctx.SaveChanges();
+            }
+        }
     }
 }

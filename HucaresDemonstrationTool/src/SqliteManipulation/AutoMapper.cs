@@ -2,34 +2,45 @@
 using System.Data.SQLite;
 using System.Reflection;
 using System.Data;
+using System;
+using System.Globalization;
+using Utils;
 
 namespace SqliteManipulation
 {
     public static class AutoMapper
     {
-        public static IEnumerable<Target> MapToObjectEnumerable <Target>(this SQLiteDataReader dataReader) where Target : new()
+        public static IEnumerable<Target> MapToObjectEnumerable <Target>(this DataSet dataSet) where Target : new()
         {
             var result = new List<Target>();
 
-            var schemaTable = dataReader.GetSchemaTable();
+            var table = dataSet.Tables[0];
             var targetType = typeof(Target);
             var mapNamesToProperties = new Dictionary<string, PropertyInfo>();
-            foreach (DataRow row in schemaTable.Rows)
+            foreach (DataColumn column in table.Columns)
             {
-                var columnName = row["ColumnName"].ToString();
-                var propertyInfo = targetType.GetProperty(columnName, BindingFlags.Instance | BindingFlags.Public);
+                var propertyInfo = targetType.GetProperty(column.ColumnName, BindingFlags.Instance | BindingFlags.Public);
                 if (null != propertyInfo && propertyInfo.CanWrite)
                 {
-                    mapNamesToProperties.Add(columnName, propertyInfo);
+                    mapNamesToProperties.Add(column.ColumnName, propertyInfo);
                 }
             }
 
-            while (dataReader.Read())
+            foreach (DataRow row in table.Rows)
             {
                 var targetObj = new Target();
                 foreach (var namePropertyPair in mapNamesToProperties)
                 {
-                    namePropertyPair.Value.SetValue(targetObj, dataReader[namePropertyPair.Key]);
+                    var columnValue = row[namePropertyPair.Key];
+                    if (typeof(DateTime).Name == namePropertyPair.Value.PropertyType.Name)
+                    {
+                        var convertedTime = columnValue.ToString().ToIsoDateTime();
+                        namePropertyPair.Value.SetValue(targetObj, convertedTime);
+                    }
+                    else
+                    {
+                        namePropertyPair.Value.SetValue(targetObj, columnValue);
+                    }
                 }
                 result.Add(targetObj);
             }

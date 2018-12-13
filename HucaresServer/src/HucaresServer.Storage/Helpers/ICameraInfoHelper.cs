@@ -52,6 +52,8 @@ namespace HucaresServer.Storage.Helpers
         /// <returns>IEnumerable of CameraInfo from the query result.</returns>
         IEnumerable<CameraInfo> GetAllCameras(bool? isTrustedSource = null);
 
+        void DeleteAll();
+
         /// <summary>
         /// Gets all active camera records from the DB CameraInfoTable. Optionally, this request may be filtered by TrustedSource field.
         /// </summary>

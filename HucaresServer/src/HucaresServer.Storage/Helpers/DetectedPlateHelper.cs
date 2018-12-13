@@ -48,7 +48,6 @@ namespace HucaresServer.Storage.Helpers
             return detectedPlateToInsert;
         }
 
-
         public IEnumerable<DetectedLicensePlate> DeletePlatesOlderThanDatetime(DateTime olderThanDatetime)
         {
             if (olderThanDatetime > DateTime.Today)
@@ -71,6 +70,17 @@ namespace HucaresServer.Storage.Helpers
         }
 
         ///<inheritdoc/>
+        public IEnumerable<DetectedLicensePlate> GetAllDlps()
+        {
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var results = ctx.DetectedLicensePlates
+                    .Select(s => s);
+
+                return results.ToList();
+            }
+        }
+
         public IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates()
         {
 
@@ -137,6 +147,45 @@ namespace HucaresServer.Storage.Helpers
 
         }
 
+        public IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumberAndCameraId(string plateNumber, int cameraId)
+        {
+            var missingPlateInfo = _missingPlateHelper.GetPlateRecordByPlateNumber(plateNumber)
+                .FirstOrDefault(delegate (MissingLicensePlate plate)
+                {
+                    return plate.Status == LicensePlateFoundStatus.Searching;
+                });
+
+            if (missingPlateInfo == null)
+            {
+                return new List<DetectedLicensePlate>();
+            }
+
+            var searchStartDateTime = missingPlateInfo.SearchStartDateTime;
+            var searchEndDateTime = missingPlateInfo.SearchEndDateTime;
+
+            if (searchEndDateTime != null && searchEndDateTime < searchStartDateTime)
+            {
+                // Need to move to Resources, but don't know if possible on Rider
+                throw new ArgumentException("Search endDateTime cannot be before startDateTime");
+            }
+
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var results = ctx.DetectedLicensePlates
+                     .Where(s => s.PlateNumber == missingPlateInfo.PlateNumber)
+                     .Where(s => s.DetectedDateTime >= searchStartDateTime)
+                     .Where(s => s.CamId == cameraId);
+
+                if (searchEndDateTime != null)
+                {
+                    results = results.Where(s => s.DetectedDateTime <= searchEndDateTime);
+                }
+
+                return results.ToList();
+            }
+
+        }
+
         public IEnumerable<DetectedLicensePlate> GetAllDetectedPlatesByCamera(int cameraId,
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
@@ -173,6 +222,16 @@ namespace HucaresServer.Storage.Helpers
                     .Where(s => s.ImgUrl == imgUrl);
 
                 return results.ToList();
+            }
+        }
+
+        public void DeleteAll()
+        {
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var recordsToDelete = ctx.DetectedLicensePlates.Select(c => c);
+                ctx.DetectedLicensePlates.RemoveRange(recordsToDelete);
+                ctx.SaveChanges();
             }
         }
     }

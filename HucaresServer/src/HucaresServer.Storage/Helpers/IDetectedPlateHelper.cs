@@ -35,6 +35,9 @@ namespace HucaresServer.Storage.Helpers
         /// <returns> All detected license plates. </returns>
         IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates();
 
+        IEnumerable<DetectedLicensePlate> GetAllDlps();
+        void DeleteAll();
+
         /// <summary>
         /// Gets all detected plates that have the specified PlateNumber predicted
         /// </summary>
@@ -56,5 +59,7 @@ namespace HucaresServer.Storage.Helpers
             DateTime? startDateTime = null, DateTime? endDateTime = null);
 
         IEnumerable<DetectedLicensePlate> GetDetectedPlatesByImgUrl(string imgUrl);
+
+        IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumberAndCameraId(string plateNumber, int cameraId);
     }
 }

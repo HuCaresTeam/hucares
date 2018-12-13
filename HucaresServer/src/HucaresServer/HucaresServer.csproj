@@ -131,6 +131,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CameraInfoDataModels.cs" />
+    <Compile Include="Models\DemonstrationDlpInput.cs" />
     <Compile Include="Models\MissingLicensePlateDataModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

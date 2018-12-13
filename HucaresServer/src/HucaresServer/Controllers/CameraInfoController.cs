@@ -1,6 +1,9 @@
 ﻿using HucaresServer.Storage.Helpers;
 using System.Web.Http;
 using static HucaresServer.Models.CameraInfoDataModels;
+using HucaresServer.Utils;
+using System;
+using HucaresServer.Properties;
 
 namespace HucaresServer.Controllers
 {

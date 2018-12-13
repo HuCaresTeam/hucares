@@ -83,7 +83,6 @@ namespace HucaresServer.Storage.Helpers
 
         public IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates()
         {
-
             var missingPlateNumbers = _missingPlateHelper.GetAllPlateRecords()
                 .Select(s => s.PlateNumber);
 
@@ -97,9 +96,12 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        public IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumber(String plateNumber,
+        public IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumber(string plateNumber,
             DateTime? startDateTime = null, DateTime? endDateTime = null)
         {
+            if (!plateNumber.IsValidPlateNumber())
+                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
+
             var missingPlateInfo = _missingPlateHelper.GetPlateRecordByPlateNumber(plateNumber)
                 .FirstOrDefault(delegate (MissingLicensePlate plate)
                 {
@@ -144,11 +146,13 @@ namespace HucaresServer.Storage.Helpers
 
                 return results.ToList();
             }
-
         }
 
         public IEnumerable<DetectedLicensePlate> GetAllActiveDetectedPlatesByPlateNumberAndCameraId(string plateNumber, int cameraId)
         {
+            if (!plateNumber.IsValidPlateNumber())
+                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
+
             var missingPlateInfo = _missingPlateHelper.GetPlateRecordByPlateNumber(plateNumber)
                 .FirstOrDefault(delegate (MissingLicensePlate plate)
                 {

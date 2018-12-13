@@ -86,9 +86,7 @@ namespace HucaresServer.Storage.Helpers
         public IEnumerable<CameraInfo> GetCamerasByPlateNumber (string plateNumber, bool? isTrustedSource = true)
         {
             if (!plateNumber.IsValidPlateNumber())
-            {
                 throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
-            }
 
             var detectedPlates = _detectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber);
             var cameraIds = detectedPlates.Select(d => d.CamId).Distinct();

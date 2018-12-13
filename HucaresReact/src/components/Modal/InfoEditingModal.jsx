@@ -16,7 +16,7 @@ export class InfoEditingModal extends React.Component {
     return (
       <Modal
         trigger={
-          <Button primary className={this.props.data.triggerButtonStyle}>
+          <Button className={this.props.data.triggerButtonStyle}>
             {this.props.data.triggerButtonText}
           </Button>
         }

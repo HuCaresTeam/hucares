@@ -33,9 +33,6 @@ namespace HucaresServer.Controllers
         public IHttpActionResult GetAllDetectedPlatesByPlateNumber(string plateNumber, DateTime? startDateTime = null,
             DateTime? endDateTime = null)
         {
-            if (!plateNumber.IsValidPlateNumber())
-                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
-
             return Json(DetectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumber(plateNumber, startDateTime, endDateTime));
         }
 
@@ -51,8 +48,6 @@ namespace HucaresServer.Controllers
         [Route("api/dlp/plate/{plateNumber}/{cameraId}")]
         public IHttpActionResult GetAllActiveDetectedPlatesByPlateNumberAndCameraId(string plateNumber, int cameraId)
         {
-            if (!plateNumber.IsValidPlateNumber())
-                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
             return Json(DetectedPlateHelper.GetAllActiveDetectedPlatesByPlateNumberAndCameraId(plateNumber, cameraId));
         }
 

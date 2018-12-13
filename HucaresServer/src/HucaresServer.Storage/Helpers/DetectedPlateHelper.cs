@@ -81,18 +81,30 @@ namespace HucaresServer.Storage.Helpers
             }
         }
 
-        public IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates()
+        public IEnumerable<DetectedLicensePlate> GetAllDetectedMissingPlates(int? page)
         {
             var missingPlateNumbers = _missingPlateHelper.GetAllPlateRecords()
                 .Select(s => s.PlateNumber);
 
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                var results = ctx.DetectedLicensePlates
+                var orderedResults = ctx.DetectedLicensePlates
                     .Select(s => s)
-                    .Where(s => missingPlateNumbers.Contains(s.PlateNumber));
+                    .Where(s => missingPlateNumbers.Contains(s.PlateNumber))
+                    .OrderByDescending(s => s.DetectedDateTime);
 
-                return results.ToList();
+                if (null != page && 0 != page)
+                {
+                    var itemsPerPage = Config.ItemsPerPage;
+                    var skipItemCount = (page.Value - 1) * itemsPerPage;
+                    var pagedResults = orderedResults
+                        .Skip(skipItemCount)
+                        .Take(itemsPerPage);
+
+                    return pagedResults.ToList();
+                }
+
+                return orderedResults.ToList();
             }
         }
 

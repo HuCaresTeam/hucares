@@ -36,10 +36,6 @@ namespace HucaresDemonstrationTool
             var mlpList = sqlite.GetMLPs();
             var cameraList = sqlite.GetCameras();
 
-            DumpEnumerable(dlpList);
-            // DumpEnumerable(mlpList);
-            // DumpEnumerable(cameraList);
-
             Task.Run(async () =>
             {
                 await PopulateCameras(cameraList);
@@ -56,8 +52,14 @@ namespace HucaresDemonstrationTool
             {
                 Console.WriteLine($"Adding MLP {camera.Id}");
                 DumpItem(camera);
-                await CameraClient.InsertCamera(camera);
-                Console.WriteLine($"Add success!");
+                try {
+                    await CameraClient.InsertCamera(camera);
+                }
+                catch
+                {
+                    Console.WriteLine($"Add Failed!");
+                }
+            Console.WriteLine($"Add success!");
                 Console.WriteLine();
             }
         }
@@ -69,8 +71,14 @@ namespace HucaresDemonstrationTool
             {
                 Console.WriteLine($"Adding MLP {mlp.Id}");
                 DumpItem(mlp);
-                await MissingClient.InsertPlateRecord(mlp.PlateNumber, mlp.SearchStartDateTime);
-                Console.WriteLine($"Add success!");
+                try { 
+                    await MissingClient.InsertPlateRecord(mlp.PlateNumber, mlp.SearchStartDateTime);
+                }
+                catch
+                {
+                    Console.WriteLine($"Add Failed!");
+                }
+            Console.WriteLine($"Add success!");
                 Console.WriteLine();
             }
         }
@@ -82,7 +90,14 @@ namespace HucaresDemonstrationTool
             {
                 Console.WriteLine($"Adding DLP {dlp.Id}");
                 DumpItem(dlp);
-                await DetectedClient.DemonstrationAddDlp(dlp);
+                try
+                {
+                    await DetectedClient.DemonstrationAddDlp(dlp);
+                }
+                catch
+                {
+                    Console.WriteLine($"Add Failed!");
+                }
                 Console.WriteLine($"Add success!");
                 Console.WriteLine();
             }

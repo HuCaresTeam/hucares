@@ -60,13 +60,12 @@ export class InfoEditingModal extends React.Component {
     const {open} = this.state;
 
     return (
-    <div>
-      <Button primary className={this.props.data.triggerButtonStyle}
-              onClick={() => {this.setState({open: true})}}>
-            {this.props.data.triggerButtonText}
-      </Button>
-
       <Modal
+        trigger={
+          <Button primary className={this.props.data.triggerButtonStyle}
+                         onClick={() => {this.setState({open: true})}}>
+            {this.props.data.triggerButtonText}
+        </Button>}
         className={styles.modalPosition}
         open={open}
         onClose={this.close}>
@@ -119,7 +118,6 @@ export class InfoEditingModal extends React.Component {
           </Form>
         </Modal.Content>
       </Modal>
-    </div>
     );
   }
 }

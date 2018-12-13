@@ -61,5 +61,6 @@ namespace HucaresServer.Storage.Helpers
         /// <param name="plateNumber">Plate number in the DB</param>
         /// <returns> The stored MissingLicensePlate instance </returns>
         MissingLicensePlate DeletePlateByNumber(string plateNumber);
+        void DeleteAll();
     }
 }

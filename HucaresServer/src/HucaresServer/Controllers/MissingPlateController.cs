@@ -72,5 +72,14 @@ namespace HucaresServer.Controllers
 
             return Json(MissingPlateHelper.DeletePlateByNumber(plateNumber));
         }
+
+        // DEMONSTRATION PURPOSES ONLY
+        [HttpDelete]
+        [Route("api/mlp/all")]
+        public IHttpActionResult DeleteMLPs()
+        {
+            MissingPlateHelper.DeleteAll();
+            return Ok();
+        }
     }
 }

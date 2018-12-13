@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace SqliteManipulation.Models
+namespace HucaresServer.Models
 {
-    public class DLP
+    public class DemonstrationDlpInput
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
+
         public string PlateNumber { get; set; }
+
         public DateTime DetectedDateTime { get; set; }
-        public long CamId { get; set; }
+
+        public int CamId { get; set; }
+
         public byte[] Img { get; set; }
+
         public double Confidence { get; set; }
     }
 }

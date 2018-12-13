@@ -52,15 +52,15 @@ export class CamerasTable extends React.Component {
         },
         {
           id: 2,
-          label: 'Latitude',
-          placeHoldrText: 'latitude',
+          label: 'Longitude',
+          placeHoldrText: 'longitude',
           value: undefined,
         },
       ],
       checkboxes: [
         {
           id: 0,
-          label: 'This license plate has been found',
+          label: 'This camera is trusted source',
           value: false,
         },
       ],

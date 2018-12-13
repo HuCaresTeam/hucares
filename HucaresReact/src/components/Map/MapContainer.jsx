@@ -3,8 +3,7 @@ import { InfoWindow, Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { Image, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import queryString from 'query-string';
-import stencilBlue from '../../../public/images/stencil-blue.png';
-import stencilRed from '../../../public/images/stencil-red.png';
+import orangePin from '../../../public/images/maps-pin.png';
 
 export class MapContainer extends React.Component {
   state = {
@@ -70,13 +69,9 @@ export class MapContainer extends React.Component {
   render() {
     const cameraData = this.state.data;
 
-    const defaultIcon = {
-      url: stencilRed,
-      scaledSize: new this.props.google.maps.Size(130, 60), // scaled size
-    };
-    const highlightedIcon = {
-      url: stencilBlue,
-      scaledSize: new this.props.google.maps.Size(130, 60), // scaled size
+    const highlightedPin = {
+      url: orangePin,
+      scaledSize: new this.props.google.maps.Size(27, 43), // scaled size
     };
 
     return (
@@ -92,7 +87,7 @@ export class MapContainer extends React.Component {
       >
         {cameraData.map(obj => (
           <Marker
-            icon={this.state.fromDlp ? highlightedIcon : defaultIcon}
+            icon={this.state.fromDlp ? highlightedPin : null}
             key={obj.Id}
             name="TO CHANGE"
             url={obj.HostUrl}

@@ -35,9 +35,9 @@ export class InfoEditingModal extends React.Component {
       const year = date.getFullYear(); 
       const hour = date.getHours();
       const minute = date.getMinutes();
-      const second = date.getSeconds(); 
+      const second = date.getSeconds();
 
-      return day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second; 
+      return year + "/" + month + "/" + day  + " " + ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2) + ':' + ('0' + second).slice(-2);
     }
 
     onSubmitAction() {
@@ -88,8 +88,8 @@ export class InfoEditingModal extends React.Component {
                   {form.isDate && (
                       <DayPickerInput
                           value={form.value}
-                          onChange={edit => {
-                              this.state.forms[form.id].value = edit.target.value;
+                          onDayChange={edit => {
+                              this.state.forms[form.id].value = edit;
                               this.forceUpdate();
                           }}/>
                   )}

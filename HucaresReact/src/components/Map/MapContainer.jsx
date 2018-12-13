@@ -57,7 +57,8 @@ export class MapContainer extends React.Component {
         {cameraData.map(obj => (
           <Marker
             key={obj.Id}
-            name={"TO CHANGE"}
+            name="TO CHANGE"
+            isTrustedSource={obj.IsTrustedSource}
             url={obj.HostUrl}
             position={{ lat: obj.Latitude, lng: obj.Longitude }}
             onClick={this.onMarkerClick}
@@ -68,7 +69,10 @@ export class MapContainer extends React.Component {
           <div>
             <Image src={this.state.selectedPlace.url} size="large" /> <br />
             <Icon name="share" size="large" />
-            {this.state.selectedPlace.isTrusted ? 'Trusted source' : 'Not a trusted source'} <br />
+            {this.state.selectedPlace.isTrustedSource
+              ? 'Trusted source'
+              : 'Not a trusted source'}{' '}
+            <br />
             <Icon name="compass outline" size="large" />
             <b>Location name:</b> {this.state.selectedPlace.name}
           </div>

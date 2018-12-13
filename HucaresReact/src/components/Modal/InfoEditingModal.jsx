@@ -3,6 +3,8 @@ import axios from "axios";
 import { Button, Modal, Form, Checkbox } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import styles from './Modal.scss';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 
 export class InfoEditingModal extends React.Component {
   constructor(props) {
@@ -50,7 +52,7 @@ export class InfoEditingModal extends React.Component {
           .then((response) =>
             {
               this.forceUpdate();
-              if(this.state.callback !== undefined) this.state.callback();
+              if(this.state.callback) this.state.callback();
             });
   }
 
@@ -74,14 +76,23 @@ export class InfoEditingModal extends React.Component {
             {this.state.forms.map(form => (
               <Form.Field key={form.id}>
                 <label>{form.label}</label>
-                <input
-                  placeholder={form.placeholder}
-                  value={form.value}
-                  onChange={edit => {
-                      this.state.forms[form.id].value = edit.target.value;
-                      this.forceUpdate();
-                  }}
-                />
+                  {!form.isDate && (
+                      <input
+                      placeholder={form.placeholder}
+                      value={form.value}
+                      onChange={edit => {
+                          this.state.forms[form.id].value = edit.target.value;
+                          this.forceUpdate();
+                      }}/>
+                  )}
+                  {form.isDate && (
+                      <DayPickerInput
+                          value={form.value}
+                          onChange={edit => {
+                              this.state.forms[form.id].value = edit.target.value;
+                              this.forceUpdate();
+                          }}/>
+                  )}
               </Form.Field>
             ))}
 

@@ -6,7 +6,6 @@ import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { MLPDeleteModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDeleteModal';
 import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
-import Button from "../../../node_modules/semantic-ui-react/dist/commonjs/elements/Button/Button";
 
 export class MLPTable extends React.Component {
   state = {
@@ -87,6 +86,7 @@ export class MLPTable extends React.Component {
           id: 1,
           label: 'Search Start Date',
           placeHolderText: 'date',
+          isDate: true,
           value: undefined,
         },
       ],

@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from "axios";
+import axios from 'axios';
 import { Button, Modal, Form, Checkbox } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
-import styles from './Modal.scss';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import styles from './Modal.scss';
 import 'react-day-picker/lib/style.css';
 
 export class InfoEditingModal extends React.Component {
@@ -17,81 +17,90 @@ export class InfoEditingModal extends React.Component {
     };
   }
 
-    close = () => {this.setState({open: false})};
+  onSubmitAction() {
+    this.close();
+    axios
+      .post(`${process.env.HUCARES_API_BASE_URL}/api/mlp/insert`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        plateNumber: this.state.forms[0].value,
+        searchStartDatetime: this.convertDate(this.state.forms[1].value),
+      })
+      .then(response => {
+        this.forceUpdate();
+        if (this.state.callback) this.state.callback();
+      });
+  }
 
-    currentDateIfNull(date) {
-      if (date === undefined) {
-        return new Date();
-      } else {
-        return new Date(date);
-      }
+  close = () => {
+    this.setState({ open: false });
+  };
+
+  currentDateIfNull(date) {
+    if (date === undefined) {
+      return new Date();
     }
+    return new Date(date);
+  }
 
-    convertDate(unixDate) {
-      const date = this.currentDateIfNull(unixDate);
+  convertDate(unixDate) {
+    const date = this.currentDateIfNull(unixDate);
 
-      const day = date.getDate();       
-      const month = date.getMonth() + 1;
-      const year = date.getFullYear(); 
-      const hour = date.getHours();
-      const minute = date.getMinutes();
-      const second = date.getSeconds();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
 
-      return year + "/" + month + "/" + day  + " " + ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2) + ':' + ('0' + second).slice(-2);
-    }
-
-    onSubmitAction() {
-      this.close();
-      axios
-          .post(`${process.env.HUCARES_API_BASE_URL}/api/mlp/insert`,
-              {
-                  headers: { 'Access-Control-Allow-Origin': '*' },
-                  plateNumber: this.state.forms[0].value,
-                  searchStartDatetime: this.convertDate(this.state.forms[1].value)
-              })
-          .then((response) =>
-            {
-              this.forceUpdate();
-              if(this.state.callback) this.state.callback();
-            });
+    return `${year}/${month}/${day} ${`0${hour}`.slice(-2)}:${`0${minute}`.slice(
+      -2,
+    )}:${`0${second}`.slice(-2)}`;
   }
 
   render() {
-    const {open} = this.state;
+    const { open } = this.state;
 
     return (
       <Modal
         trigger={
-          <Button primary className={this.props.data.triggerButtonStyle}
-                         onClick={() => {this.setState({open: true})}}>
+          <Button
+            primary
+            className={this.props.data.triggerButtonStyle}
+            onClick={() => {
+              this.setState({ open: true });
+            }}
+          >
             {this.props.data.triggerButtonText}
-        </Button>}
+          </Button>
+        }
         className={styles.modalPosition}
         open={open}
-        onClose={this.close}>
-
+        onClose={this.close}
+      >
         <Modal.Content>
           <Form>
             {this.state.forms.map(form => (
               <Form.Field key={form.id}>
                 <label>{form.label}</label>
-                  {!form.isDate && (
-                      <input
-                      placeholder={form.placeholder}
-                      value={form.value}
-                      onChange={edit => {
-                          this.state.forms[form.id].value = edit.target.value;
-                          this.forceUpdate();
-                      }}/>
-                  )}
-                  {form.isDate && (
-                      <DayPickerInput
-                          value={form.value}
-                          onDayChange={edit => {
-                              this.state.forms[form.id].value = edit;
-                              this.forceUpdate();
-                          }}/>
-                  )}
+                {!form.isDate && (
+                  <input
+                    placeholder={form.placeholder}
+                    value={form.value}
+                    onChange={edit => {
+                      this.state.forms[form.id].value = edit.target.value;
+                      this.forceUpdate();
+                    }}
+                  />
+                )}
+                {form.isDate && (
+                  <DayPickerInput
+                    value={form.value}
+                    onDayChange={edit => {
+                      this.state.forms[form.id].value = edit;
+                      this.forceUpdate();
+                    }}
+                  />
+                )}
               </Form.Field>
             ))}
 
@@ -103,18 +112,26 @@ export class InfoEditingModal extends React.Component {
                     label={check.label}
                     checked={check.value}
                     onChange={edit => {
-                        this.state.checkboxes[check.id].value = !this.state.checkboxes[check.id].value;
-                        this.forceUpdate();
+                      this.state.checkboxes[check.id].value = !this.state.checkboxes[check.id]
+                        .value;
+                      this.forceUpdate();
                     }}
                   />
                 ))}
               </Form.Field>
             )}
 
-            <Button type="submit" onClick={() => {this.onSubmitAction()}}>
+            <Button
+              type="submit"
+              onClick={() => {
+                this.onSubmitAction();
+              }}
+            >
               {this.props.data.submitButtonText}
             </Button>
-            <Button negative type="cancel" onClick={this.close}>{this.props.data.cancelButtonText}</Button>
+            <Button negative type="cancel" onClick={this.close}>
+              {this.props.data.cancelButtonText}
+            </Button>
           </Form>
         </Modal.Content>
       </Modal>

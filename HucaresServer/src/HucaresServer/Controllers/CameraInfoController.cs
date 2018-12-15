@@ -1,6 +1,9 @@
 ﻿using HucaresServer.Storage.Helpers;
 using System.Web.Http;
 using static HucaresServer.Models.CameraInfoDataModels;
+using HucaresServer.Utils;
+using System;
+using HucaresServer.Properties;
 
 namespace HucaresServer.Controllers
 {
@@ -73,6 +76,15 @@ namespace HucaresServer.Controllers
         public IHttpActionResult GetCameraById(int id)
         {
             return Json(CameraInfoHelper.GetCameraById(id));
+        }
+
+        // DEMONSTRATION PURPOSES ONLY
+        [HttpDelete]
+        [Route("api/camera/all")]
+        public IHttpActionResult DeleteCameras()
+        {
+            CameraInfoHelper.DeleteAll();
+            return Ok();
         }
     }
 }

@@ -26,9 +26,6 @@ namespace HucaresServer.Controllers
         [Route("api/mlp/plate/{plateNumber}")]
         public IHttpActionResult GetAllMissingPlatesByPlateNumber(string plateNumber)
         {
-            if (!plateNumber.IsValidPlateNumber())
-                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
-
             return Json(MissingPlateHelper.GetPlateRecordByPlateNumber(plateNumber));
         }
 
@@ -43,9 +40,6 @@ namespace HucaresServer.Controllers
         [Route("api/mlp/update/{plateId}")]
         public IHttpActionResult UpdatePlateRecordById(int id, [FromBody] PostPlateRecordDataModel data)
         {
-            if (!data.PlateNumber.IsValidPlateNumber())
-                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
-
             return Json(MissingPlateHelper.UpdatePlateRecord(id, data.PlateNumber, data.SearchStartDateTime));
         }
         
@@ -67,10 +61,16 @@ namespace HucaresServer.Controllers
         [Route("api/mlp/delete/{plateNumber}")]
         public IHttpActionResult DeletePlateRecordByNumber(string plateNumber)
         {
-            if (!plateNumber.IsValidPlateNumber())
-                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
-
             return Json(MissingPlateHelper.DeletePlateByNumber(plateNumber));
+        }
+
+        // DEMONSTRATION PURPOSES ONLY
+        [HttpDelete]
+        [Route("api/mlp/all")]
+        public IHttpActionResult DeleteMLPs()
+        {
+            MissingPlateHelper.DeleteAll();
+            return Ok();
         }
     }
 }

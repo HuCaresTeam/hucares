@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HucaresServer.Storage.Models;
 using HucaresServer.Storage.Properties;
+using HucaresServer.Utils;
 
 namespace HucaresServer.Storage.Helpers
 {
@@ -17,6 +18,9 @@ namespace HucaresServer.Storage.Helpers
 
         public MissingLicensePlate InsertPlateRecord(string plateNumber, DateTime searchStartDatetime)
         {
+            if (!plateNumber.IsValidPlateNumber())
+                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
+
             var missingPlateObj = new MissingLicensePlate()
             {
                 PlateNumber = plateNumber,
@@ -51,6 +55,9 @@ namespace HucaresServer.Storage.Helpers
 
         public IEnumerable<MissingLicensePlate> GetPlateRecordByPlateNumber(string plateNumber)
         {
+            if (!plateNumber.IsValidPlateNumber())
+                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
+
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 return ctx.MissingLicensePlates.Where(c => c.PlateNumber == plateNumber).ToList();
@@ -59,6 +66,9 @@ namespace HucaresServer.Storage.Helpers
 
         public MissingLicensePlate UpdatePlateRecord(int plateId, string plateNumber, DateTime searchStartDatetime)
         {
+            if (!plateNumber.IsValidPlateNumber())
+                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
+
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 var recordToUpdate = ctx.MissingLicensePlates.FirstOrDefault(c => c.Id == plateId) ?? 
@@ -110,6 +120,9 @@ namespace HucaresServer.Storage.Helpers
 
         public MissingLicensePlate DeletePlateByNumber(string plateNumber)
         {
+            if (!plateNumber.IsValidPlateNumber())
+                throw new ArgumentException(Resources.Error_PlateNumberFomatInvalid);
+
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
                 var recordToDelete = ctx.MissingLicensePlates.FirstOrDefault(c => c.PlateNumber == plateNumber) ?? 
@@ -119,6 +132,16 @@ namespace HucaresServer.Storage.Helpers
                 ctx.SaveChanges();
 
                 return recordToDelete;
+            }
+        }
+
+        public void DeleteAll()
+        {
+            using (var ctx = _dbContextFactory.BuildHucaresContext())
+            {
+                var recordsToDelete = ctx.MissingLicensePlates.Select(c => c);
+                ctx.MissingLicensePlates.RemoveRange(recordsToDelete);
+                ctx.SaveChanges();
             }
         }
     }

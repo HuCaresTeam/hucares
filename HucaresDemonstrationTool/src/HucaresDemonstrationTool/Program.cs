@@ -3,6 +3,7 @@ using SqliteManipulation;
 using SqliteManipulation.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HucaresDemonstrationTool
@@ -32,34 +33,53 @@ namespace HucaresDemonstrationTool
                 sqlite.UpdateDlpDateTimes(newDateTime);
             }
 
-            var dlpList = sqlite.GetDLPs();
-            var mlpList = sqlite.GetMLPs();
-            var cameraList = sqlite.GetCameras();
-
-            DumpEnumerable(dlpList);
-            // DumpEnumerable(mlpList);
-            // DumpEnumerable(cameraList);
+            var dlpList = sqlite.GetDLPs().ToList();
+            var mlpList = sqlite.GetMLPs().ToList();
+            var cameraList = sqlite.GetCameras().ToList();
 
             Task.Run(async () =>
             {
-                await PopulateCameras(cameraList);
+                var returnedCameraList = await PopulateCameras(cameraList);
+                var joinedCameras = returnedCameraList.Join
+                    (
+                        cameraList,
+                        newc => newc.HostUrl,
+                        oldc => oldc.HostUrl,
+                        (newc, oldc) => new { OldId = oldc.Id, NewId = newc.Id }
+                    ).ToDictionary(c => c.OldId, c => c.NewId);
+
+                foreach (var dlp in dlpList)
+                {
+                    dlp.CamId = joinedCameras[dlp.CamId];
+                }
+
                 await PopulateMLPs(mlpList);
                 await PopulateDLPs(dlpList);
             }).GetAwaiter().GetResult();
             Console.ReadKey();
         }
 
-        static async Task PopulateCameras (IEnumerable<Camera> cameras)
+        static async Task<List<Camera>> PopulateCameras (IEnumerable<Camera> cameras)
         {
+            var resultList = new List<Camera>();
+
             await CameraClient.DeleteAllCameras();
             foreach (var camera in cameras)
             {
                 Console.WriteLine($"Adding MLP {camera.Id}");
                 DumpItem(camera);
-                await CameraClient.InsertCamera(camera);
+                try {
+                    resultList.Add(await CameraClient.InsertCamera(camera));
+                }
+                catch
+                {
+                    Console.WriteLine($"Add Failed!");
+                }
                 Console.WriteLine($"Add success!");
                 Console.WriteLine();
             }
+
+            return resultList;
         }
 
         static async Task PopulateMLPs(IEnumerable<MLP> mlps)
@@ -69,8 +89,14 @@ namespace HucaresDemonstrationTool
             {
                 Console.WriteLine($"Adding MLP {mlp.Id}");
                 DumpItem(mlp);
-                await MissingClient.InsertPlateRecord(mlp.PlateNumber, mlp.SearchStartDateTime);
-                Console.WriteLine($"Add success!");
+                try { 
+                    await MissingClient.InsertPlateRecord(mlp.PlateNumber, mlp.SearchStartDateTime);
+                }
+                catch
+                {
+                    Console.WriteLine($"Add Failed!");
+                }
+            Console.WriteLine($"Add success!");
                 Console.WriteLine();
             }
         }
@@ -82,7 +108,14 @@ namespace HucaresDemonstrationTool
             {
                 Console.WriteLine($"Adding DLP {dlp.Id}");
                 DumpItem(dlp);
-                await DetectedClient.DemonstrationAddDlp(dlp);
+                try
+                {
+                    await DetectedClient.DemonstrationAddDlp(dlp);
+                }
+                catch
+                {
+                    Console.WriteLine($"Add Failed!");
+                }
                 Console.WriteLine($"Add success!");
                 Console.WriteLine();
             }

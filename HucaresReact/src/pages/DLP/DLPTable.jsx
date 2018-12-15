@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Button } from 'semantic-ui-react';
 import axios from 'axios';
 import styles from './DLPTable.scss';
 import { chunkArray } from '../../utils/Array';
@@ -32,6 +32,10 @@ export class DLPTable extends React.Component {
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
+  handleClick = plateNumber => {
+    this.props.history.push(`/?filter=${plateNumber}`);
+  };
+
   render() {
     const { activePage } = this.state;
     const data = this.state.dlpData;
@@ -53,7 +57,22 @@ export class DLPTable extends React.Component {
               !!data[activePage - 1] &&
               data[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
-                  <Table.Cell>{obj.PlateNumber}</Table.Cell>
+                  <Table.Cell>
+                    <Button
+                      basic
+                      color="black"
+                      content={obj.PlateNumber}
+                      icon="globe"
+                      onClick={() => this.handleClick(obj.PlateNumber)}
+                      label={{
+                        as: 'a',
+                        basic: true,
+                        color: 'black',
+                        pointing: 'left',
+                        content: 'Show on map',
+                      }}
+                    />
+                  </Table.Cell>
                   <Table.Cell>{obj.DetectedDateTime}</Table.Cell>
                   <Table.Cell>
                     <CameraImageModal imageUrl={obj.ImgUrl} />

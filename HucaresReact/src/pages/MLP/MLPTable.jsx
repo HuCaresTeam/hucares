@@ -32,7 +32,7 @@ export class MLPTable extends React.Component {
   editModalInfo(infoToInsert) {
     return {
       triggerButtonText: 'Update',
-      triggerButtonStyle: '',
+      triggerButtonStyle: 'primary',
       modalHeaderText: 'Missing License Plate',
       formFields: [
         {

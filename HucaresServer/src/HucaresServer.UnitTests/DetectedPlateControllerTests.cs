@@ -21,9 +21,9 @@ namespace HucaresServer.UnitTests
         {
             //Arrange
             var fakeDetectedPlateHelper = A.Fake<IDetectedPlateHelper>();
-
+            
             var expectedDLPList = new List<DetectedLicensePlate>() { new DetectedLicensePlate() { Id = 0 } };
-            A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedMissingPlates())
+            A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedMissingPlates(null))
                 .Returns(expectedDLPList);
 
             var detectedPlateController = new DetectedPlateController() { DetectedPlateHelper = fakeDetectedPlateHelper, Request = new HttpRequestMessage() };
@@ -32,7 +32,7 @@ namespace HucaresServer.UnitTests
             var result = detectedPlateController.GetAllDetectedMissingPlates();
 
             //Assert
-            A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedMissingPlates())
+            A.CallTo(() => fakeDetectedPlateHelper.GetAllDetectedMissingPlates(null))
                 .MustHaveHappenedOnceExactly();
 
             var httpResponse = await result.ExecuteAsync(new CancellationToken());

@@ -3,6 +3,7 @@ import { Table } from 'semantic-ui-react';
 import axios from 'axios';
 import styles from './MLPTable.scss';
 import { chunkArray } from '../../utils/Array';
+import { formatDate } from "../../utils/FormatDate";
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { MLPDeleteModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDeleteModal';
 import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
@@ -118,7 +119,7 @@ export class MLPTable extends React.Component {
               mlpData[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
                   <Table.Cell>{obj.PlateNumber}</Table.Cell>
-                  <Table.Cell>{obj.SearchStartDateTime}</Table.Cell>
+                  <Table.Cell>{formatDate(obj.SearchStartDateTime)}</Table.Cell>
                   <Table.Cell>
                     {obj.SearchEndDateTime ? obj.SearchEndDateTime : `Not found`}
                   </Table.Cell>

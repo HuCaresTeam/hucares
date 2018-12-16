@@ -58,7 +58,7 @@ namespace HucaresServer.Controllers
         }
         
         [HttpDelete]
-        [Route("api/mlp/delete/{plateNumber}")]
+        [Route("api/mlp/delete/all/{plateNumber}")]
         public IHttpActionResult DeletePlateRecordByNumber(string plateNumber)
         {
             return Json(MissingPlateHelper.DeletePlateByNumber(plateNumber));

@@ -14,17 +14,21 @@ export class MLPTable extends React.Component {
   };
 
   componentDidMount() {
-    axios
-      .get(`${process.env.HUCARES_API_BASE_URL}/api/mlp/all`, {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      })
-      .then(res => {
-        const data = chunkArray(res.data, window.innerHeight > 800 ? 10 : 6);
-        this.setState({ data });
-      })
-      .catch(() => {
-        this.setState({ data: [] });
-      });
+    this.downloadData();
+  }
+
+  downloadData() {
+      axios
+          .get(`${process.env.HUCARES_API_BASE_URL}/api/mlp/all`, {
+              headers: { 'Access-Control-Allow-Origin': '*' },
+          })
+          .then(res => {
+              const data = chunkArray(res.data, window.innerHeight > 800 ? 10 : 6);
+              this.setState({ data });
+          })
+          .catch(() => {
+              this.setState({ data: [] });
+          });
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
@@ -82,6 +86,7 @@ export class MLPTable extends React.Component {
           id: 1,
           label: 'Search Start Date',
           placeHolderText: 'date',
+          isDate: true,
           value: undefined,
         },
       ],
@@ -142,7 +147,7 @@ export class MLPTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                <InfoEditingModal data={this.createModalInfo()} />
+                <InfoEditingModal data={this.createModalInfo()} callback={() => this.downloadData()}/>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

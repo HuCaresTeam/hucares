@@ -3,10 +3,10 @@ import { Table } from 'semantic-ui-react';
 import axios from 'axios';
 import styles from './MLPTable.scss';
 import { chunkArray } from '../../utils/Array';
-import { formatDate } from "../../utils/FormatDate";
+import { formatDate } from '../../utils/FormatDate';
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { MLPDeleteModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDeleteModal';
-import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
+import { MLPDataChangeModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDataChangeModal';
 
 export class MLPTable extends React.Component {
   state = {
@@ -32,69 +32,6 @@ export class MLPTable extends React.Component {
       .catch(() => {
         this.setState({ data: [] });
       });
-  }
-
-  editModalInfo(infoToInsert) {
-    return {
-      triggerButtonText: 'Update',
-      triggerButtonStyle: 'primary',
-      modalHeaderText: 'Missing License Plate',
-      formFields: [
-        {
-          id: 0,
-          label: 'Missing plate number',
-          placeHolderText: 'plate number',
-          value: infoToInsert[0],
-        },
-        {
-          id: 1,
-          label: 'Search Start Date',
-          placeHolderText: 'date',
-          value: infoToInsert[1],
-        },
-        {
-          id: 2,
-          label: 'Search End Date',
-          placeHolderText: 'date',
-          value: infoToInsert[2],
-        },
-      ],
-      checkboxes: [
-        {
-          id: 0,
-          label: 'This license plate has been found',
-          value: !!infoToInsert[3],
-        },
-      ],
-      submitButtonText: 'Submit',
-      cancelButtonText: 'Cancel',
-    };
-  }
-
-  createModalInfo() {
-    return {
-      triggerButtonText: 'Add missing vehicle',
-      triggerButtonStyle: 'ui primary right floated button',
-      modalHeaderText: 'Missing License Plate',
-      formFields: [
-        {
-          id: 0,
-          label: 'Missing plate number',
-          placeHolderText: 'plate number',
-          value: undefined,
-        },
-        {
-          id: 1,
-          label: 'Search Start Date',
-          placeHolderText: 'date',
-          isDate: true,
-          value: undefined,
-        },
-      ],
-      checkboxes: [],
-      submitButtonText: 'Submit',
-      cancelButtonText: 'Cancel',
-    };
   }
 
   render() {
@@ -125,13 +62,11 @@ export class MLPTable extends React.Component {
                   </Table.Cell>
 
                   <Table.Cell>
-                    <InfoEditingModal
-                      data={this.editModalInfo([
-                        obj.PlateNumber,
-                        obj.SearchStartDateTime,
-                        obj.SearchEndDateTime,
-                        obj.Status,
-                      ])}
+                    <MLPDataChangeModal
+                      PlateNumber={obj.PlateNumber}
+                      SearchStartDateTime={obj.SearchStartDateTime}
+                      SearchEndDateTime={obj.SearchEndDateTime}
+                      Status={obj.Status}
                     />
                     <MLPDeleteModal
                       plateNumber={obj.PlateNumber}
@@ -151,8 +86,11 @@ export class MLPTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                <InfoEditingModal
-                  data={this.createModalInfo()}
+                <MLPDataChangeModal
+                  PlateNumber=""
+                  SearchStartDateTime=""
+                  SearchEndDateTime=""
+                  IsFound=""
                   callback={() => this.downloadData()}
                 />
               </Table.HeaderCell>

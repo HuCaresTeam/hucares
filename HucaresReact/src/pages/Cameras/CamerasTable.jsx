@@ -113,7 +113,7 @@ export class CamerasTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                <InfoEditingModal data={this.createModalInfo()} />
+                {/*<InfoEditingModal data={this.createModalInfo()} />*/}
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

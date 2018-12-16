@@ -39,7 +39,7 @@ export class MLPTable extends React.Component {
     const mlpData = this.state.data;
     const triggerButtonUpdate = 'Update';
     const triggerButtonNew = 'Add new';
-    const triggerButtonStyle = 'ui primary right floated button';
+    const triggerButtonStyle = 'ui right floated button';
 
     return (
       <div className={styles.mlpTable}>

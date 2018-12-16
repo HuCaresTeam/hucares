@@ -53,7 +53,7 @@ export class CamerasTable extends React.Component {
         {
           id: 2,
           label: 'Longitude',
-          placeHoldrText: 'longitude',
+          placeHolderText: 'longitude',
           value: undefined,
         },
       ],

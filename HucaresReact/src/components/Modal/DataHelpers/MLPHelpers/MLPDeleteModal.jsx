@@ -40,7 +40,7 @@ export class MLPDeleteModal extends React.Component {
       >
         <Header icon="archive" content="Delete MLP" />
         <Modal.Content>
-          <h3>Are you sure you want delete this license plate?</h3>
+          <h2 className={styles.h2Style}>Are you sure you want delete this license plate?</h2>
         </Modal.Content>
         <Modal.Actions>
           <Button basic color="red" inverted onClick={this.handleClose}>

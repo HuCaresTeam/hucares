@@ -1,13 +1,28 @@
 import * as React from 'react';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react';
+import axios from 'axios';
 import styles from '../../Modal.scss';
 
 export class MLPDeleteModal extends React.Component {
-  state = { modalOpen: false };
+  constructor(props) {
+    super(props);
+    this.state = { modalOpen: false, callback: props.callback };
+  }
 
   handleOpen = () => this.setState({ modalOpen: true });
 
   handleClose = () => this.setState({ modalOpen: false });
+
+  handleDelete = plateNumber => {
+    axios
+      .delete(`${process.env.HUCARES_API_BASE_URL}/api/mlp/delete/all/${plateNumber}`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(() => {
+        this.handleClose();
+        this.state.callback();
+      });
+  };
 
   render() {
     return (
@@ -31,7 +46,7 @@ export class MLPDeleteModal extends React.Component {
           <Button basic color="red" inverted onClick={this.handleClose}>
             <Icon name="remove" /> No
           </Button>
-          <Button color="green" inverted>
+          <Button color="green" inverted onClick={() => this.handleDelete(this.props.plateNumber)}>
             <Icon name="checkmark" /> Yes
           </Button>
         </Modal.Actions>

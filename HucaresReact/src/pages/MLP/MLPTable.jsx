@@ -17,21 +17,21 @@ export class MLPTable extends React.Component {
     this.downloadData();
   }
 
-  downloadData() {
-      axios
-          .get(`${process.env.HUCARES_API_BASE_URL}/api/mlp/all`, {
-              headers: { 'Access-Control-Allow-Origin': '*' },
-          })
-          .then(res => {
-              const data = chunkArray(res.data, window.innerHeight > 800 ? 10 : 6);
-              this.setState({ data });
-          })
-          .catch(() => {
-              this.setState({ data: [] });
-          });
-  }
-
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
+
+  downloadData() {
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/mlp/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(res => {
+        const data = chunkArray(res.data, window.innerHeight > 800 ? 10 : 6);
+        this.setState({ data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
+  }
 
   editModalInfo(infoToInsert) {
     return {
@@ -132,7 +132,10 @@ export class MLPTable extends React.Component {
                         obj.Status,
                       ])}
                     />
-                    <MLPDeleteModal />
+                    <MLPDeleteModal
+                      plateNumber={obj.PlateNumber}
+                      callback={() => this.downloadData()}
+                    />
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -147,7 +150,10 @@ export class MLPTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                <InfoEditingModal data={this.createModalInfo()} callback={() => this.downloadData()}/>
+                <InfoEditingModal
+                  data={this.createModalInfo()}
+                  callback={() => this.downloadData()}
+                />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

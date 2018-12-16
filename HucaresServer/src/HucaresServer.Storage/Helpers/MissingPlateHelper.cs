@@ -47,7 +47,9 @@ namespace HucaresServer.Storage.Helpers
         {
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                var query = ctx.MissingLicensePlates.Select(c => c);
+                var query = ctx.MissingLicensePlates
+                    .Select(c => c)
+                    .OrderBy(c => c.SearchStartDateTime);
                 
                 return query.ToList();
             }
@@ -60,7 +62,10 @@ namespace HucaresServer.Storage.Helpers
 
             using (var ctx = _dbContextFactory.BuildHucaresContext())
             {
-                return ctx.MissingLicensePlates.Where(c => c.PlateNumber == plateNumber).ToList();
+                return ctx.MissingLicensePlates
+                    .Where(c => c.PlateNumber == plateNumber)
+                    .OrderBy(c => c.SearchStartDateTime)
+                    .ToList();
             }
         }
 

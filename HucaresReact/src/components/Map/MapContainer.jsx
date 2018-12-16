@@ -12,6 +12,7 @@ export class MapContainer extends React.Component {
     selectedPlace: {},
     data: [],
     fromDlp: false,
+    locationName: '',
   };
 
   componentDidMount() {
@@ -24,12 +25,15 @@ export class MapContainer extends React.Component {
     }
   }
 
-  onMarkerClick = (props, marker) =>
+  onMarkerClick = (props, marker) => {
+    this.getNameFromLocation(props.position.lat, props.position.lng);
+
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true,
     });
+  };
 
   onMapClicked = () => {
     if (this.state.showingInfoWindow) {
@@ -39,6 +43,17 @@ export class MapContainer extends React.Component {
       });
     }
   };
+
+  getNameFromLocation(latitude, longitude) {
+    axios
+      .get(
+        `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&pretty=1&key=${
+          process.env.REACT_APP_GEOCODER_API_KEY
+        }`,
+      )
+      .then(res => res.data)
+      .then(data => this.setState({ locationName: `${data.results[0].components.road} ${data.results[0].components.house_number}, ${data.results[0].components.city}` }));
+  }
 
   getMarkersByPlate = plateNumber => {
     axios
@@ -89,7 +104,7 @@ export class MapContainer extends React.Component {
           <Marker
             icon={this.state.fromDlp ? highlightedPin : null}
             key={obj.Id}
-            name="TO CHANGE"
+            name={this.state.locationName}
             url={obj.HostUrl}
             position={{ lat: obj.Latitude, lng: obj.Longitude }}
             onClick={this.onMarkerClick}
@@ -102,7 +117,7 @@ export class MapContainer extends React.Component {
             <Icon name="share" size="large" />
             {this.state.selectedPlace.isTrusted ? 'Trusted source' : 'Not a trusted source'} <br />
             <Icon name="compass outline" size="large" />
-            <b>Location name:</b> {this.state.selectedPlace.name}
+            <b>Location name:</b> {this.state.locationName}
           </div>
         </InfoWindow>
       </Map>

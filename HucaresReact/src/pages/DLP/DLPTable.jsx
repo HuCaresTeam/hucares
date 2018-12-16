@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Button } from 'semantic-ui-react';
 import axios from 'axios';
+import { formatDate } from '../../utils/FormatDate';
 import styles from './DLPTable.scss';
 import { chunkArray } from '../../utils/Array';
 import PaginationContainer from '../../components/Pagination/Pagination';
@@ -21,7 +22,7 @@ export class DLPTable extends React.Component {
           dlpData: chunkData,
         });
       })
-      .catch(error => {
+      .catch(() => {
         console.log('Error in getting DLP records.');
 
         this.setState({
@@ -73,7 +74,7 @@ export class DLPTable extends React.Component {
                       }}
                     />
                   </Table.Cell>
-                  <Table.Cell>{obj.DetectedDateTime}</Table.Cell>
+                  <Table.Cell>{formatDate(obj.DetectedDateTime)}</Table.Cell>
                   <Table.Cell>
                     <CameraImageModal imageUrl={obj.ImgUrl} />
                   </Table.Cell>

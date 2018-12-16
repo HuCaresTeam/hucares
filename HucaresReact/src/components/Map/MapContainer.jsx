@@ -52,7 +52,13 @@ export class MapContainer extends React.Component {
         }`,
       )
       .then(res => res.data)
-      .then(data => this.setState({ locationName: `${data.results[0].components.road} ${data.results[0].components.house_number}, ${data.results[0].components.city}` }));
+      .then(data =>
+        this.setState({
+          locationName: `${data.results[0].components.road} ${
+            data.results[0].components.house_number
+          }, ${data.results[0].components.city}`,
+        }),
+      );
   }
 
   getMarkersByPlate = plateNumber => {

@@ -37,6 +37,9 @@ export class MLPTable extends React.Component {
   render() {
     const { activePage } = this.state;
     const mlpData = this.state.data;
+    const triggerButtonUpdate = 'Update';
+    const triggerButtonNew = 'Add new';
+    const triggerButtonStyle = 'ui primary right floated button';
 
     return (
       <div className={styles.mlpTable}>
@@ -67,6 +70,7 @@ export class MLPTable extends React.Component {
                       SearchStartDateTime={obj.SearchStartDateTime}
                       SearchEndDateTime={obj.SearchEndDateTime}
                       Status={obj.Status}
+                      TriggerButtonText={triggerButtonUpdate}
                     />
                     <MLPDeleteModal
                       plateNumber={obj.PlateNumber}
@@ -91,6 +95,8 @@ export class MLPTable extends React.Component {
                   SearchStartDateTime=""
                   SearchEndDateTime=""
                   IsFound=""
+                  TriggerButtonText={triggerButtonNew}
+                  TriggerButtonStyle={triggerButtonStyle}
                   callback={() => this.downloadData()}
                 />
               </Table.HeaderCell>

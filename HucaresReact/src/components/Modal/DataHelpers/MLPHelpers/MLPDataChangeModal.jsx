@@ -54,7 +54,7 @@ export class MLPDataChangeModal extends React.Component {
   render() {
     return (
       <Modal
-        trigger={<Button className="ui primary floated right">Update</Button>}
+        trigger={<Button className={this.props.TriggerButtonStyle}>{this.props.TriggerButtonText}</Button>}
         className={styles.modalPosition}
       >
         <Modal.Content>

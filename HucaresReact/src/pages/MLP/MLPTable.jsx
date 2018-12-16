@@ -18,6 +18,8 @@ export class MLPTable extends React.Component {
     this.downloadData();
   }
 
+  handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
+
   downloadData() {
     axios
       .get(`${process.env.HUCARES_API_BASE_URL}/api/mlp/all`, {
@@ -31,8 +33,6 @@ export class MLPTable extends React.Component {
         this.setState({ data: [] });
       });
   }
-
-  handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
 
   editModalInfo(infoToInsert) {
     return {
@@ -133,7 +133,10 @@ export class MLPTable extends React.Component {
                         obj.Status,
                       ])}
                     />
-                    <MLPDeleteModal />
+                    <MLPDeleteModal
+                      plateNumber={obj.PlateNumber}
+                      callback={() => this.downloadData()}
+                    />
                   </Table.Cell>
                 </Table.Row>
               ))}

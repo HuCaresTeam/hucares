@@ -8,7 +8,7 @@ export class CameraImageModal extends React.Component {
     return (
       <Modal trigger={<Button>See camera</Button>} className={styles.modalPosition}>
         <Modal.Content image>
-          <Image src={this.props.imageUrl} />
+          <Image wrapped src={this.props.imageUrl} />
         </Modal.Content>
       </Modal>
     );

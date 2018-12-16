@@ -63,5 +63,11 @@ namespace HucaresServer.Utils
                 return ConfigurationManager.AppSettings["HostAddress"];
             }
         }
+
+        public static int ItemsPerPage {
+            get {
+                return int.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@ export class LandingLayout extends React.Component {
             Home
           </Menu.Item>
           <Menu.Item as="a" href="/mlp">
-            <Icon name="play" />
+            <Icon name="car" />
             Missing license plates
           </Menu.Item>
           <Menu.Item as="a" href="/dlp">

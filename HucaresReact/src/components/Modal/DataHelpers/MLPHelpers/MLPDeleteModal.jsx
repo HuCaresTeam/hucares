@@ -14,7 +14,7 @@ export class MLPDeleteModal extends React.Component {
       <Modal
         className={styles.modalPosition}
         trigger={
-          <Button negative onClick={this.handleOpen}>
+          <Button className={styles.buttonWidth} negative onClick={this.handleOpen}>
             Delete
           </Button>
         }

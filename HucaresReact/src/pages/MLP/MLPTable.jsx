@@ -3,6 +3,7 @@ import { Table } from 'semantic-ui-react';
 import axios from 'axios';
 import styles from './MLPTable.scss';
 import { chunkArray } from '../../utils/Array';
+import { formatDate } from "../../utils/FormatDate";
 import PaginationContainer from '../../components/Pagination/Pagination';
 import { MLPDeleteModal } from '../../components/Modal/DataHelpers/MLPHelpers/MLPDeleteModal';
 import { InfoEditingModal } from '../../components/Modal/InfoEditingModal';
@@ -18,17 +19,17 @@ export class MLPTable extends React.Component {
   }
 
   downloadData() {
-      axios
-          .get(`${process.env.HUCARES_API_BASE_URL}/api/mlp/all`, {
-              headers: { 'Access-Control-Allow-Origin': '*' },
-          })
-          .then(res => {
-              const data = chunkArray(res.data, window.innerHeight > 800 ? 10 : 6);
-              this.setState({ data });
-          })
-          .catch(() => {
-              this.setState({ data: [] });
-          });
+    axios
+      .get(`${process.env.HUCARES_API_BASE_URL}/api/mlp/all`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      .then(res => {
+        const data = chunkArray(res.data, window.innerHeight > 800 ? 10 : 6);
+        this.setState({ data });
+      })
+      .catch(() => {
+        this.setState({ data: [] });
+      });
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage });
@@ -118,7 +119,7 @@ export class MLPTable extends React.Component {
               mlpData[activePage - 1].map(obj => (
                 <Table.Row key={obj.Id}>
                   <Table.Cell>{obj.PlateNumber}</Table.Cell>
-                  <Table.Cell>{obj.SearchStartDateTime}</Table.Cell>
+                  <Table.Cell>{formatDate(obj.SearchStartDateTime)}</Table.Cell>
                   <Table.Cell>
                     {obj.SearchEndDateTime ? obj.SearchEndDateTime : `Not found`}
                   </Table.Cell>
@@ -147,7 +148,10 @@ export class MLPTable extends React.Component {
                   onPageChange={this.handlePaginationChange}
                 />
 
-                <InfoEditingModal data={this.createModalInfo()} callback={() => this.downloadData()}/>
+                <InfoEditingModal
+                  data={this.createModalInfo()}
+                  callback={() => this.downloadData()}
+                />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

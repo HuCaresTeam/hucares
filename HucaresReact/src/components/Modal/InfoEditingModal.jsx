@@ -25,7 +25,7 @@ export class InfoEditingModal extends React.Component {
         plateNumber: this.state.forms[0].value,
         searchStartDatetime: this.convertDate(this.state.forms[1].value),
       })
-      .then(response => {
+      .then(() => {
         this.forceUpdate();
         if (this.state.callback) this.state.callback();
       });
@@ -111,7 +111,7 @@ export class InfoEditingModal extends React.Component {
                     key={check.id}
                     label={check.label}
                     checked={check.value}
-                    onChange={edit => {
+                    onChange={() => {
                       this.state.checkboxes[check.id].value = !this.state.checkboxes[check.id]
                         .value;
                       this.forceUpdate();

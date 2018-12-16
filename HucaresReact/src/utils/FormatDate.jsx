@@ -5,7 +5,6 @@ export function formatDate(date) {
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
-    second: 'numeric',
   };
   const dateToFormat = new Date(date);
   return dateToFormat.toLocaleDateString('en-GB', DATE_OPTIONS);

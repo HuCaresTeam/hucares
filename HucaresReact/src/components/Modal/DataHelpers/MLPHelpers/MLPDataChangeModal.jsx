@@ -29,6 +29,19 @@ export class MLPDataChangeModal extends React.Component {
       });
   }
 
+  onUpdateAction() {
+    axios
+      .put(`${process.env.HUCARES_API_BASE_URL}/api/mlp/insert`, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        plateNumber: this.state.forms[0].value,
+        searchStartDatetime: this.convertDate(this.state.forms[1].value),
+      })
+      .then(() => {
+        this.forceUpdate();
+        if (this.state.callback) this.state.callback();
+      });
+  }
+
   currentDateIfNull(date) {
     if (date === undefined) {
       return new Date();
@@ -54,7 +67,11 @@ export class MLPDataChangeModal extends React.Component {
   render() {
     return (
       <Modal
-        trigger={<Button primary className={this.props.TriggerButtonStyle}>{this.props.TriggerButtonText}</Button>}
+        trigger={
+          <Button primary className={this.props.TriggerButtonStyle}>
+            {this.props.TriggerButtonText}
+          </Button>
+        }
         className={styles.modalPosition}
       >
         <Modal.Content>
@@ -90,7 +107,10 @@ export class MLPDataChangeModal extends React.Component {
                 onChange={e => this.setState({ Status: e.target.value })}
               />
             </Form.Field>
-            <Button type="submit" onClick={() => this.onSubmitAction()}>
+            <Button
+              type="submit"
+              onClick={() => (this.props.ForUpdate ? this.onSubmitAction() : this.onUpdateAction())}
+            >
               Submit
             </Button>
           </Form>

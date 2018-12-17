@@ -40,6 +40,7 @@ export class MLPTable extends React.Component {
     const triggerButtonUpdate = 'Update';
     const triggerButtonNew = 'Add new';
     const triggerButtonStyle = 'ui right floated button';
+    const forUpdate = false;
 
     return (
       <div className={styles.mlpTable}>
@@ -70,6 +71,7 @@ export class MLPTable extends React.Component {
                       SearchStartDateTime={obj.SearchStartDateTime}
                       SearchEndDateTime={obj.SearchEndDateTime}
                       Status={obj.Status}
+                      FromUpdate={forUpdate}
                       TriggerButtonText={triggerButtonUpdate}
                     />
                     <MLPDeleteModal
